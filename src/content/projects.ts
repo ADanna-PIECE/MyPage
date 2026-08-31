@@ -5,9 +5,10 @@ export type Project = {
   title: string;
   /** Año o rango. "" = no mostrar. */
   year: string;
-  youtubeId: string | null;
-  /** loop mudo corto en public/preview/ — se muestra en el panel del proyecto */
+  /** loop mudo corto en public/preview/ — se muestra en el panel */
   previewVideo: string | null;
+  /** demo narrada completa con audio en public/demo/ — se abre al tocar "Ver demo" */
+  demoVideo: string | null;
   liveUrl: string | null;
   repoUrl: string | null;
   tagline: Record<Locale, string>;
@@ -22,8 +23,8 @@ export type Project = {
   - Años de cada proyecto (ahora van sin año salvo Brocolix).
   - Growth Content Factory está deployada pero con login: pasá la URL si querés
     linkearla con nota "(acceso privado)".
-  - Previews: loops mudos de ~25s cortados de tus grabaciones. Si algún segmento
-    no te gusta, decime el minuto y lo recorto de nuevo.
+  - Las demos completas están self-hosteadas en public/demo/ (comprimidas de tus
+    grabaciones de OBS, con audio). Si re-grabás algo, reemplazá el archivo.
 */
 export const projects: Project[] = [
   {
@@ -31,8 +32,8 @@ export const projects: Project[] = [
     title: "Brocolix",
     year: "2025",
     featured: true,
-    youtubeId: null,
     previewVideo: "/preview/brocolix.mp4",
+    demoVideo: "/demo/brocolix.mp4",
     liveUrl: "https://brocolix.vercel.app",
     repoUrl: null,
     tagline: {
@@ -50,8 +51,8 @@ export const projects: Project[] = [
     title: "Growth Content Factory",
     year: "",
     featured: true,
-    youtubeId: null,
     previewVideo: "/preview/growth-content-factory.mp4",
+    demoVideo: "/demo/growth-content-factory.mp4",
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -69,8 +70,8 @@ export const projects: Project[] = [
     title: "ALGOCODE",
     year: "",
     featured: true,
-    youtubeId: null,
     previewVideo: null,
+    demoVideo: "/demo/algocode.mp4",
     liveUrl: null,
     repoUrl: "https://github.com/ADanna-PIECE/ALGOCODE",
     tagline: {
@@ -85,8 +86,8 @@ export const projects: Project[] = [
     title: "Trading Performance Tracker",
     year: "",
     featured: true,
-    youtubeId: null,
     previewVideo: "/preview/trading-performance-tracker.mp4",
+    demoVideo: "/demo/trading-performance-tracker.mp4",
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -101,8 +102,8 @@ export const projects: Project[] = [
     title: "Visual Analyzer",
     year: "",
     featured: true,
-    youtubeId: null,
     previewVideo: "/preview/visual-analyzer.mp4",
+    demoVideo: "/demo/visual-analyzer.mp4",
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -116,8 +117,8 @@ export const projects: Project[] = [
     slug: "bank-reconciliation",
     title: "Automated Bank Reconciliation",
     year: "",
-    youtubeId: null,
     previewVideo: null,
+    demoVideo: null,
     liveUrl: null,
     repoUrl: null,
     tagline: {

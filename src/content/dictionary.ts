@@ -23,7 +23,7 @@ type Dictionary = {
     heading: string;
     span: string;
     watchDemo: string;
-    demoSoon: string;
+    demoWithAudio: string;
     visitSite: string;
     sourceCode: string;
     roleLabel: string;
@@ -80,7 +80,7 @@ const es: Dictionary = {
     heading: "Proyectos",
     span: "2019 — 2025",
     watchDemo: "Ver demo",
-    demoSoon: "Preview sin audio — demo completa en camino",
+    demoWithAudio: "explicada, con audio",
     visitSite: "Ver sitio",
     sourceCode: "Código",
     roleLabel: "Rol",
@@ -134,7 +134,7 @@ const en: Dictionary = {
     heading: "Work",
     span: "2019 — 2025",
     watchDemo: "Watch demo",
-    demoSoon: "Silent preview — full walkthrough coming",
+    demoWithAudio: "narrated, with audio",
     visitSite: "Visit site",
     sourceCode: "Source",
     roleLabel: "Role",

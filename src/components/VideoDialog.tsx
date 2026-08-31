@@ -3,14 +3,14 @@
 import { useEffect, useRef } from "react";
 
 type VideoDialogProps = {
-  youtubeId: string | null;
+  src: string | null;
   title: string;
   onClose: () => void;
 };
 
-export default function VideoDialog({ youtubeId, title, onClose }: VideoDialogProps) {
+export default function VideoDialog({ src, title, onClose }: VideoDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
-  const open = youtubeId !== null;
+  const open = src !== null;
 
   useEffect(() => {
     const dialog = ref.current;
@@ -36,15 +36,16 @@ export default function VideoDialog({ youtubeId, title, onClose }: VideoDialogPr
           >
             Cerrar ✕
           </button>
-          <div className="aspect-video w-full overflow-hidden rounded-lg border border-white/15 bg-black">
-            <iframe
-              className="h-full w-full"
-              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
-              title={title}
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          {/* key forces a fresh element per video so it autoplays from the start */}
+          <video
+            key={src}
+            className="max-h-[85vh] w-full rounded-lg border border-white/15 bg-black"
+            src={src ?? undefined}
+            title={title}
+            controls
+            autoPlay
+            playsInline
+          />
         </div>
       )}
     </dialog>

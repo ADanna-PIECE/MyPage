@@ -80,7 +80,7 @@ export default function Work({ locale }: { locale: Locale }) {
       </div>
 
       <VideoDialog
-        youtubeId={active?.youtubeId ?? null}
+        src={active?.demoVideo ?? null}
         title={active?.title ?? ""}
         onClose={() => setActive(null)}
       />
@@ -151,7 +151,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
     { scope: ref },
   );
 
-  const hasVideo = project.youtubeId !== null;
+  const hasDemo = project.demoVideo !== null;
 
   return (
     <li
@@ -185,7 +185,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
         </dl>
 
         <div className="row-line mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide">
-          {hasVideo && (
+          {hasDemo && (
             <button onClick={onWatch} className="text-accent hover:underline">
               ▶ {t.work.watchDemo}
             </button>
@@ -232,22 +232,22 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
             </div>
           )}
 
-          {hasVideo && (
+          {hasDemo && (
             <button
               onClick={onWatch}
               aria-label={t.work.watchDemo}
-              className="absolute inset-0 grid place-items-center transition-colors hover:bg-black/30"
+              className="group absolute inset-0 grid place-items-center transition-colors hover:bg-black/40"
             >
-              <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 text-lg backdrop-blur">
+              <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 bg-black/30 text-lg backdrop-blur transition-transform group-hover:scale-110">
                 ▶
               </span>
             </button>
           )}
         </div>
 
-        {project.previewVideo && !hasVideo && (
+        {hasDemo && (
           <p className="mt-3 font-mono text-[11px] uppercase tracking-wide text-muted">
-            {t.work.demoSoon}
+            ▶ {t.work.watchDemo} — {t.work.demoWithAudio}
           </p>
         )}
       </div>
