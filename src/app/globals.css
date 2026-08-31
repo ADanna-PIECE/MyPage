@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/*
+  Direction: Swiss — pure white, visible grid, one accent, left-aligned,
+  numerals as composition. Committed single look (no dark mode by design).
+*/
+
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+  --muted: #6b6b6b;
+  --accent: #ff4f00; /* International Orange */
+  --rule: rgba(17, 17, 17, 0.16);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-rule: var(--rule);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: auto; /* Lenis owns smooth scrolling */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-synthesis-weight: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Grid-hairline utility used across sections */
+.rule-t {
+  border-top: 1px solid var(--rule);
+}
+.rule-b {
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+dialog {
+  border: none;
+  padding: 0;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+}
+dialog::backdrop {
+  background: rgba(17, 17, 17, 0.82);
+}
