@@ -1,10 +1,10 @@
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 
-// TODO(jimena): reemplazá el mail, el /cv.pdf (poné el archivo en public/) y los links.
-const EMAIL = "tu-email@ejemplo.com";
-const LINKEDIN = "https://www.linkedin.com/";
-const GITHUB = "https://github.com/";
+// TODO(augusto): confirmá el mail, pegá tu LinkedIn y poné cv.pdf en public/.
+const EMAIL = "augustomartindanna16@gmail.com";
+const LINKEDIN = "https://www.linkedin.com/in/"; // <- pegá acá tu URL de LinkedIn
+const GITHUB = "https://github.com/ADanna-PIECE";
 
 export default function Contact({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);

@@ -1,10 +1,10 @@
 import type { Locale } from "@/lib/i18n";
 
 /*
-  TODO(jimena): todo lo de abajo es texto de ejemplo. Reemplazá:
-  - name / role / heroIntro
-  - about.body (tu bio real, 2-3 frases por idioma)
-  - contact.email y los links en src/components/SiteFooter.tsx
+  Contenido real de Augusto Danna (de los dos CVs).
+  TODO(augusto): confirmá el mail y ajustá la bio si querés otro tono.
+  El posicionamiento del hero es "AI Solutions & Full-Stack Developer";
+  si preferís liderar como Quant, cambiá hero.role e intro.
 */
 
 type Dictionary = {
@@ -35,19 +35,19 @@ type Dictionary = {
 };
 
 const es: Dictionary = {
-  name: "Jimena Díaz Carrizo",
-  monogram: "JDC",
-  nav: { work: "Trabajos", about: "Sobre mí", contact: "Contacto" },
+  name: "Augusto Danna",
+  monogram: "AD",
+  nav: { work: "Proyectos", about: "Sobre mí", contact: "Contacto" },
   hero: {
-    role: "Desarrolladora full-stack",
+    role: "AI Solutions & Full-Stack Developer",
     intro:
-      "Diseño y construyo productos web de punta a punta — de la idea al deploy.",
+      "Construyo soluciones B2B de punta a punta: automatización con IA, arquitectura de datos y orquestación de múltiples agentes LLM. Python, Flask y Next.js.",
     scrollCue: "Scrolleá",
   },
   work: {
     kicker: "Selección",
-    heading: "Trabajos",
-    span: "2023 — 2025",
+    heading: "Proyectos",
+    span: "2019 — 2025",
     watchDemo: "Ver demo",
     visitSite: "Ver sitio",
     sourceCode: "Código",
@@ -57,17 +57,17 @@ const es: Dictionary = {
   },
   about: {
     kicker: "Sobre mí",
-    heading: "Quién está detrás",
+    heading: "Diseño y llevo productos de punta a punta",
     body: [
-      "Soy Jimena, desarrolladora enfocada en llevar ideas de producto hasta algo que la gente pueda usar.",
-      "Trabajo cómoda en toda la pila: interfaz, lógica de negocio, base de datos y deploy.",
-      "Este es un texto de ejemplo — reemplazalo con tu historia real.",
+      "Ingeniero de software enfocado en construcción rápida de soluciones B2B, workflows de automatización con IA y arquitectura de datos.",
+      "Vengo de siete años en mercados de capitales (forex y cripto), donde validé cada estrategia con separación in-sample/out-of-sample, análisis de sensibilidad y costos de transacción reales. Sumo tres años como analista contable y financiero.",
+      "Trabajo con desarrollo asistido por IA: orquesto agentes (Claude, Gemini), aplico MCP y skills propias para mantener el código lean y listo para producción. Estudiante avanzado de Sistemas de Información en la UBA.",
     ],
   },
   contact: {
     kicker: "Contacto",
     heading: "Trabajemos juntos",
-    body: "¿Tenés un proyecto en mente o una vacante abierta? Escribime.",
+    body: "¿Tenés un proyecto B2B, una automatización o una vacante? Escribime.",
     emailLabel: "Escribir un mail",
     resumeLabel: "Descargar CV",
   },
@@ -78,18 +78,19 @@ const es: Dictionary = {
 };
 
 const en: Dictionary = {
-  name: "Jimena Díaz Carrizo",
-  monogram: "JDC",
+  name: "Augusto Danna",
+  monogram: "AD",
   nav: { work: "Work", about: "About", contact: "Contact" },
   hero: {
-    role: "Full-stack developer",
-    intro: "I design and build web products end to end — from idea to deploy.",
+    role: "AI Solutions & Full-Stack Developer",
+    intro:
+      "I build B2B solutions end to end: AI automation workflows, data architecture, and multi-LLM-agent orchestration. Python, Flask and Next.js.",
     scrollCue: "Scroll",
   },
   work: {
     kicker: "Selected",
     heading: "Work",
-    span: "2023 — 2025",
+    span: "2019 — 2025",
     watchDemo: "Watch demo",
     visitSite: "Visit site",
     sourceCode: "Source",
@@ -99,17 +100,17 @@ const en: Dictionary = {
   },
   about: {
     kicker: "About",
-    heading: "Who is behind this",
+    heading: "I design and ship products end to end",
     body: [
-      "I'm Jimena, a developer focused on taking product ideas all the way to something people can actually use.",
-      "I'm comfortable across the stack: interface, business logic, database and deployment.",
-      "This is placeholder copy — swap it for your real story.",
+      "Software engineer focused on rapid B2B solution building, AI automation workflows, and data architecture.",
+      "I come from seven years in capital markets (forex and crypto), where I validated every strategy with in-sample/out-of-sample separation, parameter sensitivity analysis, and real transaction costs. Plus three years as an accounting and financial analyst.",
+      "I work with AI-assisted development: orchestrating agents (Claude, Gemini), applying MCP and custom skills to keep code lean and production-ready. Advanced Information Systems student at UBA.",
     ],
   },
   contact: {
     kicker: "Contact",
     heading: "Let's work together",
-    body: "Have a project in mind or a role open? Send me a message.",
+    body: "Have a B2B project, an automation, or a role open? Send me a message.",
     emailLabel: "Send an email",
     resumeLabel: "Download CV",
   },

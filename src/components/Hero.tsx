@@ -32,7 +32,7 @@ export default function Hero({ locale }: { locale: Locale }) {
       id="top"
       className="flex min-h-[100svh] flex-col justify-between px-6 pb-8 pt-32 md:px-10 md:pb-10"
     >
-      <div className="hero-meta flex justify-between font-mono text-xs uppercase tracking-wide text-muted">
+      <div className="hero-meta flex flex-col gap-1 font-mono text-xs uppercase tracking-wide text-muted md:flex-row md:justify-between">
         <span>{t.hero.role}</span>
         <span>Buenos Aires, AR</span>
       </div>

@@ -1,4 +1,4 @@
-# Portfolio — Jimena Díaz Carrizo
+# Portfolio — Augusto Danna
 
 Sitio personal para mostrar proyectos (videos + descripción) para LinkedIn.
 
@@ -14,7 +14,7 @@ npm run dev
 # abrir http://localhost:3000  (redirige a /es)
 ```
 
-## Qué editar (todo marcado con `TODO(jimena)`)
+## Qué editar (todo marcado con `TODO(augusto)`)
 
 | Qué | Archivo |
 |---|---|

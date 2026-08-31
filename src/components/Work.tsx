@@ -186,7 +186,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
           ))}
           <div className="pointer-events-none absolute inset-0 flex items-end justify-between p-4 font-mono text-xs uppercase tracking-wide">
             <span>{project.title}</span>
-            <span>{project.year}</span>
+            {project.year && <span>{project.year}</span>}
           </div>
         </div>
       </div>
