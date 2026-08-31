@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Jimena Díaz Carrizo
 
-## Getting Started
+Sitio personal para mostrar proyectos (videos + descripción) para LinkedIn.
 
-First, run the development server:
+- **Stack:** Next.js 16 · Tailwind v4 · Lenis (scroll suave) · GSAP ScrollTrigger · Framer Motion
+- **Idiomas:** `/es` (default) y `/en` — diccionarios en `src/content/dictionary.ts`
+- **Dirección visual:** Swiss (blanco, grilla, un acento naranja, números como composición)
+
+## Correr en local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# abrir http://localhost:3000  (redirige a /es)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Qué editar (todo marcado con `TODO(jimena)`)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Qué | Archivo |
+|---|---|
+| Nombre, rol, bio, textos de secciones (ES + EN) | `src/content/dictionary.ts` |
+| Proyectos: título, línea, rol, stack, links, id de YouTube | `src/content/projects.ts` |
+| Mail, LinkedIn, GitHub, link al CV | `src/components/Contact.tsx` y `src/components/SiteFooter.tsx` |
+| Foto (poné el archivo) | `public/` y usala en `src/components/About.tsx` |
+| CV en PDF | poné `cv.pdf` en `public/` |
+| Color de acento / tipografía | `src/app/globals.css` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Agregar el video de un proyecto
 
-## Learn More
+1. Subí el `.mp4` de OBS a YouTube como **"No listado"**.
+2. Copiá el id del video (lo que va después de `watch?v=`).
+3. Pegalo en `youtubeId` del proyecto en `src/content/projects.ts`.
+4. El botón "Ver demo" y el modal aparecen solos.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy gratis (Vercel)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Subí el repo a GitHub (repo nuevo, privado o público).
+2. En [vercel.com](https://vercel.com) → **Add New → Project** → importá el repo.
+3. Deploy. Queda en `https://<nombre>.vercel.app`.
+4. Cada `git push` a `main` redeploya solo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Estructura
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/
+    layout.tsx            passthrough (sin <html>)
+    [locale]/layout.tsx   <html lang>, header, footer, smooth scroll
+    [locale]/page.tsx     arma las secciones
+    globals.css           tokens del tema Swiss
+  proxy.ts                redirige / -> /es | /en según el navegador
+  components/             Hero, Work (assembly al scroll), About, Contact, ...
+  content/                dictionary.ts (textos), projects.ts (proyectos)
+  lib/i18n.ts             locales
+```
