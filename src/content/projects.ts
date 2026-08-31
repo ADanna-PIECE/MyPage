@@ -19,10 +19,11 @@ export type Project = {
 
 /*
   TODO(augusto):
-  - Confirmá años, sitios en vivo / repos públicos.
-  - Los previews (loops mudos ~24s) los genero yo desde tus grabaciones.
-    Mapa inferido: v1=Growth Content Factory, v2/v6=Brocolix, v3=Trading Tracker,
-    v4=? (dashboard Flask de fondeo), v5=ALGOCODE.
+  - Años de cada proyecto (ahora van sin año salvo Brocolix).
+  - Growth Content Factory está deployada pero con login: pasá la URL si querés
+    linkearla con nota "(acceso privado)".
+  - Previews: loops mudos de ~25s cortados de tus grabaciones. Si algún segmento
+    no te gusta, decime el minuto y lo recorto de nuevo.
 */
 export const projects: Project[] = [
   {
@@ -50,7 +51,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     youtubeId: null,
-    previewVideo: null,
+    previewVideo: "/preview/growth-content-factory.mp4",
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -69,7 +70,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     youtubeId: null,
-    previewVideo: null,
+    previewVideo: "/preview/algocode.mp4",
     liveUrl: null,
     repoUrl: "https://github.com/ADanna-PIECE/ALGOCODE",
     tagline: {
@@ -85,7 +86,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     youtubeId: null,
-    previewVideo: null,
+    previewVideo: "/preview/trading-performance-tracker.mp4",
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -99,13 +100,14 @@ export const projects: Project[] = [
     slug: "visual-analyzer",
     title: "Visual Analyzer",
     year: "",
+    featured: true,
     youtubeId: null,
-    previewVideo: null,
+    previewVideo: "/preview/visual-analyzer.mp4",
     liveUrl: null,
     repoUrl: null,
     tagline: {
-      es: "Herramienta activada por hotkey (F9): captura la pantalla y usa un modelo de visión (Gemini) para extraer automáticamente los datos de los trades marcados en el gráfico hacia un dashboard local en Flask, con métricas por sesión horaria.",
-      en: "Hotkey-triggered tool (F9): captures the screen and uses a vision model (Gemini) to automatically extract data from chart-annotated trades into a local Flask dashboard, with hourly-session metrics.",
+      es: "Bitácora de backtesting con captura automática. Una hotkey toma una screenshot del gráfico y un modelo de visión (Gemini) extrae los datos de cada trade marcado hacia un dashboard local en Flask, con RR óptimo por símbolo y métricas por sesión horaria.",
+      en: "Backtesting journal with automatic capture. A hotkey screenshots the chart and a vision model (Gemini) extracts each annotated trade into a local Flask dashboard, with optimal RR per symbol and hourly-session metrics.",
     },
     role: { es: "Desarrollo individual", en: "Solo build" },
     stack: ["Python", "Gemini Vision", "Flask"],
