@@ -8,6 +8,7 @@ import { getDictionary } from "@/content/dictionary";
 import SmoothScroll from "@/components/SmoothScroll";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import Grain from "@/components/Grain";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -45,6 +46,7 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
+        <Grain />
         <SmoothScroll>
           <SiteHeader locale={locale} />
           <main>{children}</main>

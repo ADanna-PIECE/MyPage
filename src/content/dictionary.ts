@@ -2,21 +2,28 @@ import type { Locale } from "@/lib/i18n";
 
 /*
   Contenido real de Augusto Danna (de los dos CVs).
-  TODO(augusto): confirmá el mail y ajustá la bio si querés otro tono.
-  El posicionamiento del hero es "AI Solutions & Full-Stack Developer";
-  si preferís liderar como Quant, cambiá hero.role e intro.
+  TODO(augusto): ajustá la bio si querés otro tono. El posicionamiento del hero
+  es "AI Solutions & Full-Stack Developer"; si preferís liderar como Quant,
+  cambiá hero.role e intro.
 */
 
 type Dictionary = {
   name: string;
   monogram: string;
-  nav: { work: string; about: string; contact: string };
-  hero: { role: string; intro: string; scrollCue: string };
+  nav: { work: string; about: string; contact: string; menu: string; close: string };
+  hero: {
+    role: string;
+    intro: string;
+    scrollCue: string;
+    status: string;
+    tech: string[];
+  };
   work: {
     kicker: string;
     heading: string;
     span: string;
     watchDemo: string;
+    demoSoon: string;
     visitSite: string;
     sourceCode: string;
     roleLabel: string;
@@ -34,21 +41,45 @@ type Dictionary = {
   footer: { note: string; backToTop: string };
 };
 
+const TECH = [
+  "Python",
+  "Next.js",
+  "Flask",
+  "TypeScript",
+  "GSAP",
+  "Firebase",
+  "MongoDB",
+  "Google Cloud",
+  "Claude",
+  "Gemini Vision",
+  "Apify",
+  "MCP",
+];
+
 const es: Dictionary = {
   name: "Augusto Danna",
   monogram: "AD",
-  nav: { work: "Proyectos", about: "Sobre mí", contact: "Contacto" },
+  nav: {
+    work: "Proyectos",
+    about: "Sobre mí",
+    contact: "Contacto",
+    menu: "Menú",
+    close: "Cerrar",
+  },
   hero: {
     role: "AI Solutions & Full-Stack Developer",
     intro:
-      "Construyo soluciones B2B de punta a punta: automatización con IA, arquitectura de datos y orquestación de múltiples agentes LLM. Python, Flask y Next.js.",
+      "Construyo soluciones B2B de punta a punta: automatización con IA, arquitectura de datos y orquestación de múltiples agentes LLM.",
     scrollCue: "Scrolleá",
+    status: "Disponible para proyectos",
+    tech: TECH,
   },
   work: {
     kicker: "Selección",
     heading: "Proyectos",
     span: "2019 — 2025",
     watchDemo: "Ver demo",
+    demoSoon: "Preview sin audio — demo completa en camino",
     visitSite: "Ver sitio",
     sourceCode: "Código",
     roleLabel: "Rol",
@@ -80,18 +111,27 @@ const es: Dictionary = {
 const en: Dictionary = {
   name: "Augusto Danna",
   monogram: "AD",
-  nav: { work: "Work", about: "About", contact: "Contact" },
+  nav: {
+    work: "Work",
+    about: "About",
+    contact: "Contact",
+    menu: "Menu",
+    close: "Close",
+  },
   hero: {
     role: "AI Solutions & Full-Stack Developer",
     intro:
-      "I build B2B solutions end to end: AI automation workflows, data architecture, and multi-LLM-agent orchestration. Python, Flask and Next.js.",
+      "I build B2B solutions end to end: AI automation workflows, data architecture, and multi-LLM-agent orchestration.",
     scrollCue: "Scroll",
+    status: "Available for projects",
+    tech: TECH,
   },
   work: {
     kicker: "Selected",
     heading: "Work",
     span: "2019 — 2025",
     watchDemo: "Watch demo",
+    demoSoon: "Silent preview — full walkthrough coming",
     visitSite: "Visit site",
     sourceCode: "Source",
     roleLabel: "Role",

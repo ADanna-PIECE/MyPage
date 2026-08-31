@@ -1,24 +1,27 @@
 @import "tailwindcss";
 
 /*
-  Direction: Swiss — pure white, visible grid, one accent, left-aligned,
-  numerals as composition. Committed single look (no dark mode by design).
+  Direction: dark cinematic. Near-black ground, near-white type, one electric
+  accent with glow, film grain, oversized display type, heavy scroll motion.
 */
 
 :root {
-  --background: #ffffff;
-  --foreground: #111111;
-  --muted: #6b6b6b;
-  --accent: #ff4f00; /* International Orange */
-  --rule: rgba(17, 17, 17, 0.16);
+  --background: #0a0a0b;
+  --surface: #121214;
+  --foreground: #ededed;
+  --muted: #8a8a92;
+  --accent: #3d5afe;
+  --accent-soft: rgba(61, 90, 254, 0.16);
+  --line: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
-  --color-rule: var(--rule);
+  --color-line: var(--line);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -26,6 +29,7 @@
 html {
   -webkit-font-smoothing: antialiased;
   scroll-behavior: auto; /* Lenis owns smooth scrolling */
+  background: var(--background);
 }
 
 body {
@@ -33,6 +37,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-synthesis-weight: none;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -40,12 +45,25 @@ body {
   color: #fff;
 }
 
-/* Grid-hairline utility used across sections */
-.rule-t {
-  border-top: 1px solid var(--rule);
+/* film grain overlay */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.rule-b {
-  border-bottom: 1px solid var(--rule);
+
+.glow-accent {
+  box-shadow: 0 0 60px -12px var(--accent);
+}
+.text-glow {
+  text-shadow: 0 0 32px var(--accent-soft);
+}
+
+.rule-t {
+  border-top: 1px solid var(--line);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -64,7 +82,21 @@ dialog {
   max-width: none;
   max-height: none;
   background: transparent;
+  color: var(--foreground);
 }
 dialog::backdrop {
-  background: rgba(17, 17, 17, 0.82);
+  background: rgba(5, 5, 6, 0.9);
+  backdrop-filter: blur(4px);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
 }

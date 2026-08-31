@@ -5,13 +5,13 @@ export default function NotFound() {
         style={{
           fontFamily: "system-ui, sans-serif",
           padding: "4rem 1.5rem",
-          background: "#fff",
-          color: "#111",
+          background: "#0a0a0b",
+          color: "#ededed",
         }}
       >
         <h1 style={{ fontSize: "3rem", margin: 0 }}>404</h1>
         <p style={{ marginTop: "1rem" }}>
-          <a href="/es" style={{ color: "#ff4f00" }}>
+          <a href="/es" style={{ color: "#3d5afe" }}>
             Volver al inicio
           </a>
         </p>

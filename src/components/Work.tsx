@@ -22,13 +22,15 @@ export default function Work({ locale }: { locale: Locale }) {
 
   return (
     <section id="work" className="rule-t px-6 md:px-10">
-      <header className="sticky top-0 z-20 flex items-baseline justify-between gap-4 bg-background py-4 font-mono text-xs uppercase tracking-wide text-muted">
-        <span>{t.work.kicker}</span>
-        <span className="text-xl font-medium normal-case tracking-tight text-foreground md:text-3xl">
-          {t.work.heading}
+      <div className="flex items-baseline justify-between gap-4 py-10 font-mono text-xs uppercase tracking-wide text-muted md:py-16">
+        <span>
+          {t.work.kicker} — {String(featured.length).padStart(2, "0")}
         </span>
+        <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-5xl">
+          {t.work.heading}
+        </h2>
         <span>{t.work.span}</span>
-      </header>
+      </div>
 
       <ol>
         {featured.map((project, i) => (
@@ -44,38 +46,26 @@ export default function Work({ locale }: { locale: Locale }) {
       </ol>
 
       {more.length > 0 && (
-        <div className="py-16 md:py-24">
-          <h3 className="font-mono text-xs uppercase tracking-wide text-muted">
-            {t.work.more}
-          </h3>
-          <ul className="mt-6">
+        <div className="rule-t py-16 md:py-24">
+          <h3 className="font-mono text-xs uppercase tracking-wide text-muted">{t.work.more}</h3>
+          <ul className="mt-8">
             {more.map((project) => (
               <li
                 key={project.slug}
-                className="rule-b grid gap-2 py-6 md:grid-cols-12 md:items-baseline md:gap-6"
+                className="grid gap-2 border-t border-line py-6 md:grid-cols-12 md:items-baseline md:gap-6"
               >
-                <span className="font-medium md:col-span-3">{project.title}</span>
+                <span className="text-lg font-medium md:col-span-3">{project.title}</span>
                 <span className="line-clamp-2 text-sm text-muted md:col-span-7">
                   {project.tagline[locale]}
                 </span>
                 <span className="flex gap-4 font-mono text-xs uppercase tracking-wide md:col-span-2 md:justify-end">
                   {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline decoration-accent underline-offset-4"
-                    >
+                    <a href={project.liveUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
                       {t.work.visitSite}
                     </a>
                   )}
                   {project.repoUrl && (
-                    <a
-                      href={project.repoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline decoration-accent underline-offset-4"
-                    >
+                    <a href={project.repoUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
                       {t.work.sourceCode}
                     </a>
                   )}
@@ -110,91 +100,74 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // The panel wipes open as the row scrolls up.
-        gsap.fromTo(
-          ".panel",
-          { clipPath: "inset(0% 0% 100% 0%)" },
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            ease: "none",
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top 80%",
-              end: "top 35%",
-              scrub: true,
+        const panel = ref.current?.querySelector<HTMLElement>(".panel");
+        if (panel) {
+          gsap.fromTo(
+            panel,
+            { clipPath: "inset(6% 6% 6% 6%)", opacity: 0.35 },
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              opacity: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: panel,
+                start: "top 90%",
+                end: "top 45%",
+                scrub: true,
+              },
             },
-          },
-        );
+          );
+        }
 
-        // Placeholder fragments (no preview video) shuffle onto the grid.
-        gsap.from(".frag", {
-          xPercent: (i: number) => (i % 2 ? 45 : -45),
-          yPercent: (i: number) => (i < 2 ? -35 : 35),
-          rotate: (i: number) => (i % 2 ? 4 : -4),
-          opacity: 0,
-          ease: "none",
-          stagger: 0.06,
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top 80%",
-            end: "top 30%",
-            scrub: true,
-          },
-        });
-
-        // Index number counts up to its position.
         const numEl = ref.current?.querySelector<HTMLElement>(".row-num");
         if (numEl) {
           const counter = { value: 0 };
           gsap.to(counter, {
             value: index,
             ease: "none",
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top 85%",
-              end: "top 45%",
-              scrub: true,
-            },
+            scrollTrigger: { trigger: ref.current, start: "top 85%", end: "top 40%", scrub: true },
             onUpdate: () => {
               numEl.textContent = String(Math.round(counter.value)).padStart(2, "0");
             },
           });
         }
 
-        // Text lines rise into place.
-        gsap.from(".row-line", {
-          yPercent: 110,
-          opacity: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.1,
-          scrollTrigger: { trigger: ref.current, start: "top 72%" },
-        });
+        const lines = ref.current?.querySelectorAll(".row-line");
+        if (lines?.length) {
+          gsap.from(lines, {
+            yPercent: 120,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.08,
+            scrollTrigger: { trigger: ref.current, start: "top 70%" },
+          });
+        }
       });
     },
     { scope: ref },
   );
 
+  const hasVideo = project.youtubeId !== null;
+
   return (
     <li
       ref={ref}
-      className="rule-b grid gap-8 py-16 md:grid-cols-12 md:gap-10 md:py-28"
+      className="grid items-center gap-10 border-t border-line py-16 md:grid-cols-12 md:gap-8 md:py-28"
     >
       <div className="flex flex-col justify-center md:col-span-5">
-        <span className="row-num font-mono text-6xl leading-none text-accent md:text-8xl">
+        <span className="row-num font-mono text-7xl leading-none text-accent text-glow md:text-8xl">
           00
         </span>
 
-        <h3 className="mt-5 overflow-hidden">
-          <span className="row-line block text-3xl font-medium tracking-tight md:text-5xl">
+        <h3 className="mt-6 overflow-hidden">
+          <span className="row-line block text-4xl font-medium tracking-tight md:text-6xl">
             {project.title}
           </span>
         </h3>
 
-        <div className="mt-4 overflow-hidden">
-          <p className="row-line block max-w-md text-muted">
-            {project.tagline[locale]}
-          </p>
+        <div className="mt-5 overflow-hidden">
+          <p className="row-line block max-w-md text-muted">{project.tagline[locale]}</p>
         </div>
 
         <dl className="row-line mt-8 grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wide">
@@ -209,37 +182,26 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
         </dl>
 
         <div className="row-line mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide">
-          {project.youtubeId && (
-            <button onClick={onWatch} className="underline decoration-accent underline-offset-4">
-              {t.work.watchDemo}
+          {hasVideo && (
+            <button onClick={onWatch} className="text-accent hover:underline">
+              ▶ {t.work.watchDemo}
             </button>
           )}
           {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="underline decoration-accent underline-offset-4"
-            >
-              {t.work.visitSite}
+            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
+              {t.work.visitSite} ↗
             </a>
           )}
           {project.repoUrl && (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="underline decoration-accent underline-offset-4"
-            >
-              {t.work.sourceCode}
+            <a href={project.repoUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
+              {t.work.sourceCode} ↗
             </a>
           )}
         </div>
-
       </div>
 
-      <div className="md:col-span-7">
-        <div className="panel relative aspect-[4/3] overflow-hidden border border-rule">
+      <div className="md:col-span-6 md:col-start-7">
+        <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface">
           {project.previewVideo ? (
             <video
               className="h-full w-full object-cover"
@@ -251,17 +213,40 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
               preload="metadata"
             />
           ) : (
-            <div className="grid h-full w-full grid-cols-2 grid-rows-2">
-              {[0, 1, 2, 3].map((n) => (
-                <div key={n} className="frag border border-rule bg-[#f4f4f2]" />
-              ))}
+            <div
+              className="grid h-full w-full place-items-center p-8"
+              style={{ background: "var(--accent-soft)" }}
+            >
+              <span className="text-center text-3xl font-medium tracking-tight text-foreground/70 md:text-4xl">
+                {project.title}
+              </span>
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 flex items-end justify-between p-4 font-mono text-xs uppercase tracking-wide mix-blend-difference text-white">
-            <span>{project.title}</span>
-            {project.year && <span>{project.year}</span>}
-          </div>
+
+          {project.year && (
+            <div className="pointer-events-none absolute right-4 top-4 font-mono text-[11px] uppercase tracking-wide text-white mix-blend-difference">
+              {project.year}
+            </div>
+          )}
+
+          {hasVideo && (
+            <button
+              onClick={onWatch}
+              aria-label={t.work.watchDemo}
+              className="absolute inset-0 grid place-items-center transition-colors hover:bg-black/30"
+            >
+              <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 text-lg backdrop-blur">
+                ▶
+              </span>
+            </button>
+          )}
         </div>
+
+        {project.previewVideo && !hasVideo && (
+          <p className="mt-3 font-mono text-[11px] uppercase tracking-wide text-muted">
+            {t.work.demoSoon}
+          </p>
+        )}
       </div>
     </li>
   );

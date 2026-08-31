@@ -70,7 +70,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     youtubeId: null,
-    previewVideo: "/preview/algocode.mp4",
+    previewVideo: null,
     liveUrl: null,
     repoUrl: "https://github.com/ADanna-PIECE/ALGOCODE",
     tagline: {
