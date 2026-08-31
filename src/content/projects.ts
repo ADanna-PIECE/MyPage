@@ -5,8 +5,9 @@ export type Project = {
   title: string;
   /** Año o rango. "" = no mostrar. */
   year: string;
-  /** YouTube video id (lo que va después de `v=`). null = sin demo todavía. */
   youtubeId: string | null;
+  /** loop mudo corto en public/preview/ — se muestra en el panel del proyecto */
+  previewVideo: string | null;
   liveUrl: string | null;
   repoUrl: string | null;
   tagline: Record<Locale, string>;
@@ -18,9 +19,10 @@ export type Project = {
 
 /*
   TODO(augusto):
-  - Confirmá años, y qué proyecto tiene sitio en vivo / repo público.
-  - Subí cada demo a YouTube como "No listado" y pegá el id en `youtubeId`.
-  - Reordená o borrá los que no quieras mostrar.
+  - Confirmá años, sitios en vivo / repos públicos.
+  - Los previews (loops mudos ~24s) los genero yo desde tus grabaciones.
+    Mapa inferido: v1=Growth Content Factory, v2/v6=Brocolix, v3=Trading Tracker,
+    v4=? (dashboard Flask de fondeo), v5=ALGOCODE.
 */
 export const projects: Project[] = [
   {
@@ -29,6 +31,7 @@ export const projects: Project[] = [
     year: "2025",
     featured: true,
     youtubeId: null,
+    previewVideo: "/preview/brocolix.mp4",
     liveUrl: "https://brocolix.vercel.app",
     repoUrl: null,
     tagline: {
@@ -47,6 +50,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     youtubeId: null,
+    previewVideo: null,
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -65,6 +69,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     youtubeId: null,
+    previewVideo: null,
     liveUrl: null,
     repoUrl: "https://github.com/ADanna-PIECE/ALGOCODE",
     tagline: {
@@ -75,25 +80,12 @@ export const projects: Project[] = [
     stack: ["Python", "Flask", "Pandas / NumPy", "Pine Script"],
   },
   {
-    slug: "visual-analyzer",
-    title: "Visual Analyzer",
-    year: "",
-    youtubeId: null,
-    liveUrl: null,
-    repoUrl: null,
-    tagline: {
-      es: "Herramienta activada por hotkey (F9): captura la pantalla y usa un modelo de visión (Gemini) para extraer automáticamente los datos de los trades marcados en el gráfico hacia un dashboard local en Flask, con métricas por sesión horaria.",
-      en: "Hotkey-triggered tool (F9): captures the screen and uses a vision model (Gemini) to automatically extract data from chart-annotated trades into a local Flask dashboard, with hourly-session metrics.",
-    },
-    role: { es: "Desarrollo individual", en: "Solo build" },
-    stack: ["Python", "Gemini Vision", "Flask"],
-  },
-  {
     slug: "trading-performance-tracker",
     title: "Trading Performance Tracker",
     year: "",
     featured: true,
     youtubeId: null,
+    previewVideo: null,
     liveUrl: null,
     repoUrl: null,
     tagline: {
@@ -104,10 +96,26 @@ export const projects: Project[] = [
     stack: ["Next.js", "Python", "Claude API"],
   },
   {
+    slug: "visual-analyzer",
+    title: "Visual Analyzer",
+    year: "",
+    youtubeId: null,
+    previewVideo: null,
+    liveUrl: null,
+    repoUrl: null,
+    tagline: {
+      es: "Herramienta activada por hotkey (F9): captura la pantalla y usa un modelo de visión (Gemini) para extraer automáticamente los datos de los trades marcados en el gráfico hacia un dashboard local en Flask, con métricas por sesión horaria.",
+      en: "Hotkey-triggered tool (F9): captures the screen and uses a vision model (Gemini) to automatically extract data from chart-annotated trades into a local Flask dashboard, with hourly-session metrics.",
+    },
+    role: { es: "Desarrollo individual", en: "Solo build" },
+    stack: ["Python", "Gemini Vision", "Flask"],
+  },
+  {
     slug: "bank-reconciliation",
     title: "Automated Bank Reconciliation",
     year: "",
     youtubeId: null,
+    previewVideo: null,
     liveUrl: null,
     repoUrl: null,
     tagline: {

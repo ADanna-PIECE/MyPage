@@ -110,7 +110,23 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // The panel "assembles" onto the grid as the row scrolls up.
+        // The panel wipes open as the row scrolls up.
+        gsap.fromTo(
+          ".panel",
+          { clipPath: "inset(0% 0% 100% 0%)" },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "none",
+            scrollTrigger: {
+              trigger: ref.current,
+              start: "top 80%",
+              end: "top 35%",
+              scrub: true,
+            },
+          },
+        );
+
+        // Placeholder fragments (no preview video) shuffle onto the grid.
         gsap.from(".frag", {
           xPercent: (i: number) => (i % 2 ? 45 : -45),
           yPercent: (i: number) => (i < 2 ? -35 : 35),
@@ -223,11 +239,25 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
       </div>
 
       <div className="md:col-span-7">
-        <div className="relative grid aspect-[4/3] grid-cols-2 grid-rows-2 overflow-hidden border border-rule">
-          {[0, 1, 2, 3].map((n) => (
-            <div key={n} className="frag border border-rule bg-[#f4f4f2]" />
-          ))}
-          <div className="pointer-events-none absolute inset-0 flex items-end justify-between p-4 font-mono text-xs uppercase tracking-wide">
+        <div className="panel relative aspect-[4/3] overflow-hidden border border-rule">
+          {project.previewVideo ? (
+            <video
+              className="h-full w-full object-cover"
+              src={project.previewVideo}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+          ) : (
+            <div className="grid h-full w-full grid-cols-2 grid-rows-2">
+              {[0, 1, 2, 3].map((n) => (
+                <div key={n} className="frag border border-rule bg-[#f4f4f2]" />
+              ))}
+            </div>
+          )}
+          <div className="pointer-events-none absolute inset-0 flex items-end justify-between p-4 font-mono text-xs uppercase tracking-wide mix-blend-difference text-white">
             <span>{project.title}</span>
             {project.year && <span>{project.year}</span>}
           </div>
