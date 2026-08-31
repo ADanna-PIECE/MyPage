@@ -29,6 +29,7 @@ type Dictionary = {
     roleLabel: string;
     stackLabel: string;
     more: string;
+    moreNote: string;
   };
   about: { kicker: string; heading: string; body: string[] };
   contact: {
@@ -85,6 +86,8 @@ const es: Dictionary = {
     roleLabel: "Rol",
     stackLabel: "Stack",
     more: "Más trabajo",
+    moreNote:
+      "Estos son algunos. Hay varios proyectos más — de automatización, data y producto — que no entran en esta selección. Escribime y te muestro.",
   },
   about: {
     kicker: "Sobre mí",
@@ -137,6 +140,8 @@ const en: Dictionary = {
     roleLabel: "Role",
     stackLabel: "Stack",
     more: "More work",
+    moreNote:
+      "These are a few. There are several more — automation, data and product — that don't fit this selection. Message me and I'll walk you through them.",
   },
   about: {
     kicker: "About",

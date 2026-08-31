@@ -45,10 +45,13 @@ export default function Work({ locale }: { locale: Locale }) {
         ))}
       </ol>
 
-      {more.length > 0 && (
-        <div className="rule-t py-16 md:py-24">
-          <h3 className="font-mono text-xs uppercase tracking-wide text-muted">{t.work.more}</h3>
-          <ul className="mt-8">
+      <div className="rule-t py-16 md:py-24">
+        <h3 className="font-mono text-xs uppercase tracking-wide text-muted">{t.work.more}</h3>
+        <p className="mt-6 max-w-2xl text-xl text-muted md:text-2xl">
+          {t.work.moreNote}
+        </p>
+        {more.length > 0 && (
+          <ul className="mt-10">
             {more.map((project) => (
               <li
                 key={project.slug}
@@ -73,8 +76,8 @@ export default function Work({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+        )}
+      </div>
 
       <VideoDialog
         youtubeId={active?.youtubeId ?? null}
@@ -153,14 +156,14 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
   return (
     <li
       ref={ref}
-      className="grid items-center gap-10 border-t border-line py-16 md:grid-cols-12 md:gap-8 md:py-28"
+      className="grid items-center gap-8 border-t border-line py-14 md:grid-cols-12 md:gap-8 md:py-20"
     >
       <div className="flex flex-col justify-center md:col-span-5">
-        <span className="row-num font-mono text-7xl leading-none text-accent text-glow md:text-8xl">
+        <span className="row-num font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
           00
         </span>
 
-        <h3 className="mt-6 overflow-hidden">
+        <h3 className="mt-4 overflow-hidden">
           <span className="row-line block text-4xl font-medium tracking-tight md:text-6xl">
             {project.title}
           </span>
@@ -201,7 +204,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
       </div>
 
       <div className="md:col-span-6 md:col-start-7">
-        <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface">
+        <div className="panel glow-accent relative aspect-[320/157] overflow-hidden rounded-lg border border-line bg-surface">
           {project.previewVideo ? (
             <video
               className="h-full w-full object-cover"
