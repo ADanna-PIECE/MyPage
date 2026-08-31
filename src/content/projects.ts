@@ -12,7 +12,8 @@ export type Project = {
   tagline: Record<Locale, string>;
   role: Record<Locale, string>;
   stack: string[];
-  placeholder?: boolean;
+  /** true = bloque completo con visual + animación. false = lista compacta "Más trabajo". */
+  featured?: boolean;
 };
 
 /*
@@ -26,6 +27,7 @@ export const projects: Project[] = [
     slug: "brocolix",
     title: "Brocolix",
     year: "2025",
+    featured: true,
     youtubeId: null,
     liveUrl: "https://brocolix.vercel.app",
     repoUrl: null,
@@ -43,6 +45,7 @@ export const projects: Project[] = [
     slug: "growth-content-factory",
     title: "Growth Content Factory",
     year: "",
+    featured: true,
     youtubeId: null,
     liveUrl: null,
     repoUrl: null,
@@ -60,6 +63,7 @@ export const projects: Project[] = [
     slug: "algocode",
     title: "ALGOCODE",
     year: "",
+    featured: true,
     youtubeId: null,
     liveUrl: null,
     repoUrl: "https://github.com/ADanna-PIECE/ALGOCODE",
@@ -88,6 +92,7 @@ export const projects: Project[] = [
     slug: "trading-performance-tracker",
     title: "Trading Performance Tracker",
     year: "",
+    featured: true,
     youtubeId: null,
     liveUrl: null,
     repoUrl: null,

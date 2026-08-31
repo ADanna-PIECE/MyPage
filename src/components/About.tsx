@@ -9,10 +9,18 @@ export default function About({ locale }: { locale: Locale }) {
       id="about"
       className="rule-t grid gap-8 px-6 py-20 md:grid-cols-12 md:px-10 md:py-32"
     >
-      <div className="font-mono text-xs uppercase tracking-wide text-muted md:col-span-3">
-        {t.about.kicker}
+      <div className="md:col-span-4">
+        <div className="font-mono text-xs uppercase tracking-wide text-muted">
+          {t.about.kicker}
+        </div>
+        {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg */}
+        <img
+          src="/photo.jpg"
+          alt={t.name}
+          className="mt-6 aspect-[4/5] w-full max-w-[280px] border border-rule object-cover"
+        />
       </div>
-      <div className="md:col-span-9">
+      <div className="md:col-span-8">
         <h2 className="max-w-3xl text-3xl font-medium tracking-tight md:text-5xl">
           {t.about.heading}
         </h2>

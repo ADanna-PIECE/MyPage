@@ -3,7 +3,7 @@ import { getDictionary } from "@/content/dictionary";
 
 // TODO(augusto): confirmá el mail, pegá tu LinkedIn y poné cv.pdf en public/.
 const EMAIL = "augustomartindanna16@gmail.com";
-const LINKEDIN = "https://www.linkedin.com/in/"; // <- pegá acá tu URL de LinkedIn
+const LINKEDIN = "https://www.linkedin.com/in/augusto-danna-0a0423195/";
 const GITHUB = "https://github.com/ADanna-PIECE";
 
 export default function Contact({ locale }: { locale: Locale }) {

@@ -21,7 +21,7 @@ type Dictionary = {
     sourceCode: string;
     roleLabel: string;
     stackLabel: string;
-    placeholderNote: string;
+    more: string;
   };
   about: { kicker: string; heading: string; body: string[] };
   contact: {
@@ -53,7 +53,7 @@ const es: Dictionary = {
     sourceCode: "Código",
     roleLabel: "Rol",
     stackLabel: "Stack",
-    placeholderNote: "Espacio de ejemplo — reemplazar con un proyecto real.",
+    more: "Más trabajo",
   },
   about: {
     kicker: "Sobre mí",
@@ -96,7 +96,7 @@ const en: Dictionary = {
     sourceCode: "Source",
     roleLabel: "Role",
     stackLabel: "Stack",
-    placeholderNote: "Placeholder slot — replace with a real project.",
+    more: "More work",
   },
   about: {
     kicker: "About",

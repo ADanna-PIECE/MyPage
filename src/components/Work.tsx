@@ -17,6 +17,9 @@ export default function Work({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const [active, setActive] = useState<Project | null>(null);
 
+  const featured = projects.filter((p) => p.featured);
+  const more = projects.filter((p) => !p.featured);
+
   return (
     <section id="work" className="rule-t px-6 md:px-10">
       <header className="sticky top-0 z-20 flex items-baseline justify-between gap-4 bg-background py-4 font-mono text-xs uppercase tracking-wide text-muted">
@@ -28,7 +31,7 @@ export default function Work({ locale }: { locale: Locale }) {
       </header>
 
       <ol>
-        {projects.map((project, i) => (
+        {featured.map((project, i) => (
           <ProjectRow
             key={project.slug}
             index={i + 1}
@@ -39,6 +42,49 @@ export default function Work({ locale }: { locale: Locale }) {
           />
         ))}
       </ol>
+
+      {more.length > 0 && (
+        <div className="py-16 md:py-24">
+          <h3 className="font-mono text-xs uppercase tracking-wide text-muted">
+            {t.work.more}
+          </h3>
+          <ul className="mt-6">
+            {more.map((project) => (
+              <li
+                key={project.slug}
+                className="rule-b grid gap-2 py-6 md:grid-cols-12 md:items-baseline md:gap-6"
+              >
+                <span className="font-medium md:col-span-3">{project.title}</span>
+                <span className="line-clamp-2 text-sm text-muted md:col-span-7">
+                  {project.tagline[locale]}
+                </span>
+                <span className="flex gap-4 font-mono text-xs uppercase tracking-wide md:col-span-2 md:justify-end">
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline decoration-accent underline-offset-4"
+                    >
+                      {t.work.visitSite}
+                    </a>
+                  )}
+                  {project.repoUrl && (
+                    <a
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline decoration-accent underline-offset-4"
+                    >
+                      {t.work.sourceCode}
+                    </a>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <VideoDialog
         youtubeId={active?.youtubeId ?? null}
@@ -174,9 +220,6 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
           )}
         </div>
 
-        {project.placeholder && (
-          <p className="row-line mt-6 text-xs text-accent">{t.work.placeholderNote}</p>
-        )}
       </div>
 
       <div className="md:col-span-7">
