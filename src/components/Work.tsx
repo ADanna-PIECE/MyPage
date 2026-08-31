@@ -80,6 +80,7 @@ export default function Work({ locale }: { locale: Locale }) {
       </div>
 
       <VideoDialog
+        youtubeId={active?.youtubeId ?? null}
         src={active?.demoVideo ?? null}
         title={active?.title ?? ""}
         onClose={() => setActive(null)}
@@ -151,7 +152,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
     { scope: ref },
   );
 
-  const hasDemo = project.demoVideo !== null;
+  const hasDemo = project.youtubeId !== null || project.demoVideo !== null;
 
   return (
     <li
@@ -204,7 +205,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
       </div>
 
       <div className="md:col-span-6 md:col-start-7">
-        <div className="panel glow-accent relative aspect-[320/157] overflow-hidden rounded-lg border border-line bg-surface">
+        <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface">
           {project.previewVideo ? (
             <video
               className="h-full w-full object-cover"

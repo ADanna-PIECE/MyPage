@@ -7,7 +7,9 @@ export type Project = {
   year: string;
   /** loop mudo corto en public/preview/ — se muestra en el panel */
   previewVideo: string | null;
-  /** demo narrada completa con audio en public/demo/ — se abre al tocar "Ver demo" */
+  /** id de YouTube (No listado) de la demo completa — tiene prioridad, trae subtítulos */
+  youtubeId: string | null;
+  /** demo self-hosteada en public/demo/ — fallback si no hay youtubeId */
   demoVideo: string | null;
   liveUrl: string | null;
   repoUrl: string | null;
@@ -33,6 +35,7 @@ export const projects: Project[] = [
     year: "2025",
     featured: true,
     previewVideo: "/preview/brocolix.mp4",
+    youtubeId: null, // TODO(augusto): pegá el id de YouTube (No listado)
     demoVideo: "/demo/brocolix.mp4",
     liveUrl: "https://brocolix.vercel.app",
     repoUrl: null,
@@ -52,6 +55,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     previewVideo: "/preview/growth-content-factory.mp4",
+    youtubeId: null, // TODO(augusto): pegá el id de YouTube (No listado)
     demoVideo: "/demo/growth-content-factory.mp4",
     liveUrl: null,
     repoUrl: null,
@@ -71,6 +75,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     previewVideo: null,
+    youtubeId: null, // TODO(augusto): pegá el id de YouTube (No listado)
     demoVideo: "/demo/algocode.mp4",
     liveUrl: null,
     repoUrl: "https://github.com/ADanna-PIECE/ALGOCODE",
@@ -87,6 +92,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     previewVideo: "/preview/trading-performance-tracker.mp4",
+    youtubeId: null, // TODO(augusto): pegá el id de YouTube (No listado)
     demoVideo: "/demo/trading-performance-tracker.mp4",
     liveUrl: null,
     repoUrl: null,
@@ -103,6 +109,7 @@ export const projects: Project[] = [
     year: "",
     featured: true,
     previewVideo: "/preview/visual-analyzer.mp4",
+    youtubeId: null, // TODO(augusto): pegá el id de YouTube (No listado)
     demoVideo: "/demo/visual-analyzer.mp4",
     liveUrl: null,
     repoUrl: null,
@@ -118,6 +125,7 @@ export const projects: Project[] = [
     title: "Automated Bank Reconciliation",
     year: "",
     previewVideo: null,
+    youtubeId: null, // TODO(augusto): pegá el id de YouTube (No listado)
     demoVideo: null,
     liveUrl: null,
     repoUrl: null,
