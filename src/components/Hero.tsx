@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
+import Rich from "./Rich";
 
 gsap.registerPlugin(useGSAP);
 
@@ -74,7 +75,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         <span className="text-right">
           Buenos Aires
           <br />
-          <span className="text-foreground">{time || "—"}</span>
+          <span className="tnum text-foreground">{time || "—"}</span>
         </span>
       </div>
 
@@ -93,7 +94,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         </h1>
 
         <p className="hero-intro mt-7 max-w-xl text-base text-muted md:text-lg">
-          {t.hero.intro}
+          <Rich text={t.hero.intro} />
         </p>
       </div>
 

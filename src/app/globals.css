@@ -28,8 +28,110 @@
 
 html {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   scroll-behavior: auto; /* Lenis owns smooth scrolling */
   background: var(--background);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+img {
+  outline: 1px solid rgba(255, 255, 255, 0.1);
+  outline-offset: -1px;
+}
+
+/* highlighted keyword inside body copy */
+.kw {
+  color: var(--foreground);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* animated underline for links */
+.link {
+  position: relative;
+  transition: color 0.2s ease-out;
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-out;
+}
+.link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* custom cursor */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  height: 8px;
+  width: 8px;
+  border-radius: 9999px;
+  background: var(--accent);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition-property: width, height, background-color, opacity;
+  transition-duration: 0.22s;
+  transition-timing-function: ease-out;
+}
+.cursor-dot[data-active="true"] {
+  width: 42px;
+  height: 42px;
+  background: #fff;
+}
+@media (pointer: coarse) {
+  .cursor-dot {
+    display: none;
+  }
+}
+.has-cursor,
+.has-cursor a,
+.has-cursor button {
+  cursor: none;
+}
+
+/* scroll progress bar (CSS scroll-driven; degrades to hidden) */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  width: 100%;
+  z-index: 80;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: scroll-progress linear both;
+  animation-timeline: scroll(root);
+}
+@keyframes scroll-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
 }
 
 body {

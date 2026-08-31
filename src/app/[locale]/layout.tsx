@@ -9,6 +9,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Grain from "@/components/Grain";
+import Cursor from "@/components/Cursor";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -26,7 +27,7 @@ export async function generateMetadata({
   const t = getDictionary(isLocale(locale) ? locale : "es");
   return {
     title: `${t.name} — ${t.hero.role}`,
-    description: t.hero.intro,
+    description: t.hero.intro.replace(/\*/g, ""),
   };
 }
 
@@ -46,7 +47,9 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
+        <div className="scroll-progress" aria-hidden="true" />
         <Grain />
+        <Cursor />
         <SmoothScroll>
           <SiteHeader locale={locale} />
           <main>{children}</main>

@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
+import Rich from "./Rich";
 
 // Light section — deliberate palette break from the dark rest of the page.
 export default function About({ locale }: { locale: Locale }) {
@@ -9,6 +10,7 @@ export default function About({ locale }: { locale: Locale }) {
     <section
       id="about"
       className="bg-[#f1efe9] py-24 text-[#14140f] md:py-40"
+      style={{ ["--foreground" as string]: "#14140f" }}
     >
       <div className="grid gap-10 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-4">
@@ -28,7 +30,9 @@ export default function About({ locale }: { locale: Locale }) {
           </h2>
           <div className="mt-10 max-w-xl space-y-5 text-[#4a463c]">
             {t.about.body.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
+              <p key={i}>
+                <Rich text={paragraph} />
+              </p>
             ))}
           </div>
         </div>

@@ -70,7 +70,7 @@ const es: Dictionary = {
   hero: {
     role: "AI Solutions & Full-Stack Developer",
     intro:
-      "Construyo soluciones B2B de punta a punta: automatización con IA, arquitectura de datos y orquestación de múltiples agentes LLM.",
+      "Construyo *soluciones B2B* de punta a punta: *automatización con IA*, arquitectura de datos y *orquestación de agentes LLM*.",
     scrollCue: "Scrolleá",
     status: "Disponible para proyectos",
     tech: TECH,
@@ -87,15 +87,15 @@ const es: Dictionary = {
     stackLabel: "Stack",
     more: "Más trabajo",
     moreNote:
-      "Estos son algunos. Hay varios proyectos más — de automatización, data y producto — que no entran en esta selección. Escribime y te muestro.",
+      "Estos son algunos. Hay varios proyectos más — de *automatización, data y producto* — que no entran en esta selección. Escribime y te muestro.",
   },
   about: {
     kicker: "Sobre mí",
     heading: "Diseño y llevo productos de punta a punta",
     body: [
-      "Ingeniero de software enfocado en construcción rápida de soluciones B2B, workflows de automatización con IA y arquitectura de datos.",
-      "Vengo de siete años en mercados de capitales (forex y cripto), donde validé cada estrategia con separación in-sample/out-of-sample, análisis de sensibilidad y costos de transacción reales. Sumo tres años como analista contable y financiero.",
-      "Trabajo con desarrollo asistido por IA: orquesto agentes (Claude, Gemini), aplico MCP y skills propias para mantener el código lean y listo para producción. Estudiante avanzado de Sistemas de Información en la UBA.",
+      "Ingeniero de software enfocado en *construcción rápida de soluciones B2B*, workflows de automatización con IA y arquitectura de datos.",
+      "Vengo de *siete años en mercados de capitales* (forex y cripto), donde validé cada estrategia con separación in-sample/out-of-sample, análisis de sensibilidad y costos de transacción reales. Sumo tres años como analista contable y financiero.",
+      "Trabajo con *desarrollo asistido por IA*: orquesto agentes (Claude, Gemini), aplico MCP y skills propias para mantener el código lean y listo para producción. Estudiante avanzado de *Sistemas de Información en la UBA*.",
     ],
   },
   contact: {
@@ -124,7 +124,7 @@ const en: Dictionary = {
   hero: {
     role: "AI Solutions & Full-Stack Developer",
     intro:
-      "I build B2B solutions end to end: AI automation workflows, data architecture, and multi-LLM-agent orchestration.",
+      "I build *B2B solutions* end to end: *AI automation workflows*, data architecture, and *multi-LLM-agent orchestration*.",
     scrollCue: "Scroll",
     status: "Available for projects",
     tech: TECH,
@@ -141,15 +141,15 @@ const en: Dictionary = {
     stackLabel: "Stack",
     more: "More work",
     moreNote:
-      "These are a few. There are several more — automation, data and product — that don't fit this selection. Message me and I'll walk you through them.",
+      "These are a few. There are several more — *automation, data and product* — that don't fit this selection. Message me and I'll walk you through them.",
   },
   about: {
     kicker: "About",
     heading: "I design and ship products end to end",
     body: [
-      "Software engineer focused on rapid B2B solution building, AI automation workflows, and data architecture.",
-      "I come from seven years in capital markets (forex and crypto), where I validated every strategy with in-sample/out-of-sample separation, parameter sensitivity analysis, and real transaction costs. Plus three years as an accounting and financial analyst.",
-      "I work with AI-assisted development: orchestrating agents (Claude, Gemini), applying MCP and custom skills to keep code lean and production-ready. Advanced Information Systems student at UBA.",
+      "Software engineer focused on *rapid B2B solution building*, AI automation workflows, and data architecture.",
+      "I come from *seven years in capital markets* (forex and crypto), where I validated every strategy with in-sample/out-of-sample separation, parameter sensitivity analysis, and real transaction costs. Plus three years as an accounting and financial analyst.",
+      "I work with *AI-assisted development*: orchestrating agents (Claude, Gemini), applying MCP and custom skills to keep code lean and production-ready. Advanced *Information Systems student at UBA*.",
     ],
   },
   contact: {

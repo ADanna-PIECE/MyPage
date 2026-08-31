@@ -56,11 +56,15 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
 
         <nav className="hidden items-center gap-6 font-mono text-xs uppercase tracking-wide md:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-muted transition-colors hover:text-foreground">
+            <a
+              key={l.href}
+              href={l.href}
+              className="link text-muted transition-colors hover:text-foreground"
+            >
               {l.label}
             </a>
           ))}
-          <Link href={otherHref} className="text-foreground">
+          <Link href={otherHref} className="link text-foreground">
             {locale} / <span className="text-muted">{other}</span>
           </Link>
         </nav>

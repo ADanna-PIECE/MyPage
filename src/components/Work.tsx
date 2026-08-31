@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import { projects, type Project } from "@/content/projects";
 import VideoDialog from "./VideoDialog";
+import Rich from "./Rich";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -48,7 +49,7 @@ export default function Work({ locale }: { locale: Locale }) {
       <div className="rule-t py-16 md:py-24">
         <h3 className="font-mono text-xs uppercase tracking-wide text-muted">{t.work.more}</h3>
         <p className="mt-6 max-w-2xl text-xl text-muted md:text-2xl">
-          {t.work.moreNote}
+          <Rich text={t.work.moreNote} />
         </p>
         {more.length > 0 && (
           <ul className="mt-10">
@@ -59,16 +60,16 @@ export default function Work({ locale }: { locale: Locale }) {
               >
                 <span className="text-lg font-medium md:col-span-3">{project.title}</span>
                 <span className="line-clamp-2 text-sm text-muted md:col-span-7">
-                  {project.tagline[locale]}
+                  <Rich text={project.tagline[locale]} />
                 </span>
                 <span className="flex gap-4 font-mono text-xs uppercase tracking-wide md:col-span-2 md:justify-end">
                   {project.liveUrl && (
-                    <a href={project.liveUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
+                    <a href={project.liveUrl} target="_blank" rel="noreferrer" className="link transition-colors hover:text-accent">
                       {t.work.visitSite}
                     </a>
                   )}
                   {project.repoUrl && (
-                    <a href={project.repoUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
+                    <a href={project.repoUrl} target="_blank" rel="noreferrer" className="link transition-colors hover:text-accent">
                       {t.work.sourceCode}
                     </a>
                   )}
@@ -160,7 +161,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
       className="grid items-center gap-8 border-t border-line py-14 md:grid-cols-12 md:gap-8 md:py-20"
     >
       <div className="flex flex-col justify-center md:col-span-5">
-        <span className="row-num font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
+        <span className="row-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
           00
         </span>
 
@@ -171,7 +172,9 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
         </h3>
 
         <div className="mt-5 overflow-hidden">
-          <p className="row-line block max-w-md text-muted">{project.tagline[locale]}</p>
+          <p className="row-line block max-w-md text-muted">
+            <Rich text={project.tagline[locale]} />
+          </p>
         </div>
 
         <dl className="row-line mt-8 grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wide">
@@ -187,17 +190,30 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
 
         <div className="row-line mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide">
           {hasDemo && (
-            <button onClick={onWatch} className="text-accent hover:underline">
+            <button
+              onClick={onWatch}
+              className="link text-accent transition-transform active:scale-[0.97]"
+            >
               ▶ {t.work.watchDemo}
             </button>
           )}
           {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="link transition-colors hover:text-accent"
+            >
               {t.work.visitSite} ↗
             </a>
           )}
           {project.repoUrl && (
-            <a href={project.repoUrl} target="_blank" rel="noreferrer" className="hover:text-accent">
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="link transition-colors hover:text-accent"
+            >
               {t.work.sourceCode} ↗
             </a>
           )}
