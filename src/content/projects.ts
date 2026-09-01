@@ -53,7 +53,7 @@ export const projects: Project[] = [
     demoVideo: "/demo/brocolix.mp4",
     demoLabel: { es: "Ver la app", en: "Watch the app" },
     extraDemo: {
-      label: { es: "Ver el sitio", en: "Watch the site" },
+      label: { es: "Recorrido del sitio", en: "Site walkthrough" },
       youtubeId: null, // TODO(augusto): id de YouTube del video del LANDING
       demoVideo: "/demo/brocolix-landing.mp4",
     },
@@ -82,8 +82,8 @@ export const projects: Project[] = [
         en: "Two patient apps (NutriCam for photo food logging, FitCam for training) synced to a practitioner dashboard with adherence alerts.",
       },
       extra: {
-        es: "Modelo de negocio por paciente activo en vez de licencia fija, y generación automática de planes y rutinas.",
-        en: "A per-active-patient pricing model instead of a fixed license, plus automated meal-plan and routine generation.",
+        es: "El modelo de FitCam, recomendación de comidas según lo que hay en la heladera, carrito de compras, planes nutricionales automáticos y personalizados, análisis de datos y un asistente de IA integrado.",
+        en: "The FitCam model, meal suggestions from what's in the fridge, a shopping cart, automatic personalized nutrition plans, data analysis, and a built-in AI assistant.",
       },
     },
   },
@@ -107,20 +107,20 @@ export const projects: Project[] = [
     stack: ["Python", "Apify", "Multi-LLM", "MongoDB"],
     detail: {
       brief: {
-        es: "Una agencia necesitaba producir contenido a escala sin perder lo que funciona en el nicho de cada cliente.",
-        en: "An agency needed to produce content at scale without losing what works in each client's niche.",
+        es: "La agencia necesitaba ideas virales — un pedido bastante ambiguo.",
+        en: "The agency needed viral ideas — a pretty vague brief.",
       },
       approach: {
-        es: "Ingeniería inversa: primero entender qué contenido rinde en cada nicho, después generar variantes a partir de esos patrones.",
-        en: "Reverse-engineering: first understand what content performs in each niche, then generate variants from those patterns.",
+        es: "Ingeniería inversa: ver qué contenido rinde y analizar los patrones y el contenido que lo hicieron funcionar.",
+        en: "Reverse-engineering: find what content performs, then analyze the patterns and the content that made it work.",
       },
       solution: {
-        es: "Extracción masiva con Apify, validación concurrente contra tres APIs para quedarse con lo mejor sin duplicados, y LLMs generando la cascada completa (guion, hilo, carrusel, newsletter).",
-        en: "Mass extraction with Apify, concurrent validation across three APIs to keep the best with no duplicates, and LLMs generating the full cascade (script, thread, carousel, newsletter).",
+        es: "Extracción de datos con Apify, análisis con IA y prompts específicos para aislar qué hizo “ganar” a cada post, y a partir de eso generar ideas nuevas que respetan esa viralidad — miles de ideas más el contenido audiovisual.",
+        en: "Data extraction with Apify, AI analysis with targeted prompts to isolate what made each post win, then generating new ideas that keep that virality — thousands of ideas plus the audiovisual content.",
       },
       extra: {
-        es: "Arquitectura multi-cliente con tests unitarios, e2e e integración.",
-        en: "Multi-client architecture with unit, e2e and integration tests.",
+        es: "Multicliente y multirubro, generación del contenido visual de cada post, integración con APIs de imágenes gratuitas, guiones para reels, una pestaña de salud para ver costos, un feed que previsualiza cómo queda el post en el perfil, y todo editable.",
+        en: "Multi-client and multi-industry, visual content generation per post, free image-API integration, reel scripts, a health tab for costs, a feed that previews how the post looks on the profile, and everything editable.",
       },
     },
   },
@@ -153,8 +153,8 @@ export const projects: Project[] = [
         en: "A Flask framework with a walk-forward engine, ETL pipelines for OHLCV series, and custom Pine Script and Python indicators.",
       },
       extra: {
-        es: "Cálculo automático de métricas de riesgo: Sharpe, Sortino, Calmar, máximo drawdown y períodos underwater.",
-        en: "Automatic risk-metric calculation: Sharpe, Sortino, Calmar, max drawdown and underwater periods.",
+        es: "Un panel de medidores para entender la estrategia de un vistazo — métricas de riesgo (Sharpe, Sortino, Calmar), máximo drawdown, períodos underwater y cómo se comporta en cada régimen de mercado.",
+        en: "A gauges panel to grasp a strategy at a glance — risk metrics (Sharpe, Sortino, Calmar), max drawdown, underwater periods, and how it behaves across market regimes.",
       },
     },
   },
@@ -183,12 +183,12 @@ export const projects: Project[] = [
         en: "Log every trade with its context (setup, day, time) and let the data show where you win and where you lose.",
       },
       solution: {
-        es: "Un dashboard con calendario de P/L, estadísticas por setup / día / hora y curva de equidad.",
-        en: "A dashboard with a P/L calendar, stats by setup / day / time, and an equity curve.",
+        es: "Un dashboard en Next.js con calendario de P/L, estadísticas cruzables por setup, día y hora, curva de equidad y sincronización en tiempo real entre el registro y las vistas.",
+        en: "A Next.js dashboard with a P/L calendar, cross-filterable stats by setup, day and time, an equity curve, and real-time sync between logging and the views.",
       },
       extra: {
-        es: "Un módulo de IA (Claude) que analiza patrones de comportamiento de forma continua.",
-        en: "An AI module (Claude) that continuously analyzes behavioral patterns.",
+        es: "Importación por CSV, filtros combinables y un módulo de IA (Claude) que analiza patrones de comportamiento de forma continua.",
+        en: "CSV import, combinable filters, and an AI module (Claude) that continuously analyzes behavioral patterns.",
       },
     },
   },

@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import { projects, type Project } from "@/content/projects";
 import VideoDialog from "./VideoDialog";
+import DetailDialog from "./DetailDialog";
 import Rich from "./Rich";
 import LazyVideo from "./LazyVideo";
 
@@ -18,89 +19,184 @@ type ActiveVideo = { youtubeId: string | null; src: string | null; title: string
 
 export default function Work({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
-  const [active, setActive] = useState<ActiveVideo | null>(null);
+  const [video, setVideo] = useState<ActiveVideo | null>(null);
+  const [detail, setDetail] = useState<Project | null>(null);
+  const [idx, setIdx] = useState(0);
 
   const featured = projects.filter((p) => p.featured);
-  const more = projects.filter((p) => !p.featured);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLOListElement>(null);
+
+  useGSAP(
+    () => {
+      const track = trackRef.current;
+      if (!track) return;
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          const amount = () => track.scrollWidth - window.innerWidth;
+
+          const horiz = gsap.to(track, {
+            x: () => -amount(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: pinRef.current,
+              pin: true,
+              scrub: 1,
+              start: "top top",
+              end: () => "+=" + amount(),
+              snap:
+                featured.length > 1
+                  ? { snapTo: 1 / (featured.length - 1), duration: 0.4, ease: "power1.inOut" }
+                  : undefined,
+              invalidateOnRefresh: true,
+              onUpdate: (self) =>
+                setIdx(Math.round(self.progress * (featured.length - 1))),
+            },
+          });
+
+          gsap.utils.toArray<HTMLElement>(".pcard").forEach((card) => {
+            gsap.from(card.querySelectorAll(".pc-line"), {
+              y: 44,
+              opacity: 0,
+              filter: "blur(8px)",
+              stagger: 0.06,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: horiz,
+                start: "left 62%",
+              },
+            });
+
+            const num = card.querySelector<HTMLElement>(".pc-num");
+            const target = Number(card.dataset.i || "0");
+            if (num) {
+              const counter = { v: 0 };
+              gsap.to(counter, {
+                v: target,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  containerAnimation: horiz,
+                  start: "left 85%",
+                  end: "left 45%",
+                  scrub: true,
+                  onUpdate: () => {
+                    num.textContent = String(Math.round(counter.v)).padStart(2, "0");
+                  },
+                },
+              });
+            }
+
+            const media = card.querySelector<HTMLElement>(".panel-media");
+            if (media) {
+              gsap.set(media, { scale: 1.12 });
+              gsap.fromTo(
+                media,
+                { xPercent: -8 },
+                {
+                  xPercent: 8,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: card,
+                    containerAnimation: horiz,
+                    start: "left right",
+                    end: "right left",
+                    scrub: true,
+                  },
+                },
+              );
+            }
+          });
+        },
+      );
+    },
+    { scope: pinRef },
+  );
 
   return (
-    <section id="work" className="rule-t px-6 md:px-10">
-      <div className="flex items-baseline justify-between gap-4 py-10 font-mono text-xs uppercase tracking-wide text-muted md:py-16">
-        <span>
+    <section id="work" className="rule-t">
+      <div className="flex items-baseline justify-between gap-4 px-6 py-10 font-mono text-xs uppercase tracking-wide text-muted md:px-10 md:py-16">
+        <span className="hidden sm:block">
           {t.work.kicker} — {String(featured.length).padStart(2, "0")}
         </span>
         <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-5xl">
           {t.work.heading}
         </h2>
-        <span>{t.work.span}</span>
+        <span className="hidden sm:block">{t.work.span}</span>
       </div>
 
-      <ol>
-        {featured.map((project, i) => (
-          <ProjectRow
-            key={project.slug}
-            index={i + 1}
-            project={project}
-            locale={locale}
-            t={t}
-            onWatch={setActive}
-          />
-        ))}
-      </ol>
+      <div ref={pinRef} className="relative md:h-screen md:overflow-hidden">
+        <ol
+          ref={trackRef}
+          className="flex flex-col md:h-screen md:w-max md:flex-row"
+        >
+          {featured.map((project, i) => (
+            <ProjectCard
+              key={project.slug}
+              i={i}
+              project={project}
+              locale={locale}
+              t={t}
+              onWatch={setVideo}
+              onDetail={() => setDetail(project)}
+            />
+          ))}
+        </ol>
 
-      <div className="rule-t py-16 md:py-24">
-        <h3 className="font-mono text-xs uppercase tracking-wide text-muted">{t.work.more}</h3>
+        <div className="pointer-events-none absolute bottom-5 left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-xs uppercase tracking-wide text-muted md:flex">
+          <span className="tnum text-foreground">
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+          <span className="block h-px w-16 bg-line">
+            <span
+              className="block h-full bg-accent transition-[width] duration-300"
+              style={{ width: `${((idx + 1) / featured.length) * 100}%` }}
+            />
+          </span>
+          <span>{String(featured.length).padStart(2, "0")}</span>
+        </div>
+      </div>
+
+      <div className="rule-t px-6 py-16 md:px-10 md:py-24">
+        <h3 className="font-mono text-xs uppercase tracking-wide text-muted">
+          {t.work.more}
+        </h3>
         <p className="mt-6 max-w-2xl text-xl text-muted md:text-2xl">
           <Rich text={t.work.moreNote} />
         </p>
-        {more.length > 0 && (
-          <ul className="mt-10">
-            {more.map((project) => (
-              <li
-                key={project.slug}
-                className="grid gap-2 border-t border-line py-6 md:grid-cols-12 md:items-baseline md:gap-6"
-              >
-                <span className="text-lg font-medium md:col-span-3">{project.title}</span>
-                <span className="line-clamp-2 text-sm text-muted md:col-span-7">
-                  <Rich text={project.tagline[locale]} />
-                </span>
-                <span className="flex gap-4 font-mono text-xs uppercase tracking-wide md:col-span-2 md:justify-end">
-                  {project.liveUrl && (
-                    <a href={project.liveUrl} target="_blank" rel="noreferrer" className="link transition-colors hover:text-accent">
-                      {t.work.visitSite}
-                    </a>
-                  )}
-                  {project.repoUrl && (
-                    <a href={project.repoUrl} target="_blank" rel="noreferrer" className="link transition-colors hover:text-accent">
-                      {t.work.sourceCode}
-                    </a>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       <VideoDialog
-        youtubeId={active?.youtubeId ?? null}
-        src={active?.src ?? null}
-        title={active?.title ?? ""}
-        onClose={() => setActive(null)}
+        youtubeId={video?.youtubeId ?? null}
+        src={video?.src ?? null}
+        title={video?.title ?? ""}
+        onClose={() => setVideo(null)}
+      />
+      <DetailDialog
+        detail={detail?.detail ?? null}
+        title={detail?.title ?? ""}
+        locale={locale}
+        onClose={() => setDetail(null)}
       />
     </section>
   );
 }
 
-type RowProps = {
-  index: number;
+type CardProps = {
+  i: number;
   project: Project;
   locale: Locale;
   t: Dict;
-  onWatch: (video: ActiveVideo) => void;
+  onWatch: (v: ActiveVideo) => void;
+  onDetail: () => void;
 };
 
-function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
+function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
   const primary: ActiveVideo = {
     youtubeId: project.youtubeId,
     src: project.demoVideo,
@@ -123,105 +219,23 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
       },
     });
   }
-  const ref = useRef<HTMLLIElement>(null);
-  const [open, setOpen] = useState(false);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const panel = ref.current?.querySelector<HTMLElement>(".panel");
-        if (panel) {
-          gsap.fromTo(
-            panel,
-            { clipPath: "inset(6% 6% 6% 6%)", opacity: 0.35 },
-            {
-              clipPath: "inset(0% 0% 0% 0%)",
-              opacity: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: panel,
-                start: "top 90%",
-                end: "top 45%",
-                scrub: true,
-              },
-            },
-          );
-        }
-
-        const media = ref.current?.querySelector<HTMLElement>(".panel-media");
-        if (media) {
-          gsap.set(media, { scale: 1.14 });
-          gsap.fromTo(
-            media,
-            { yPercent: -7 },
-            {
-              yPercent: 7,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ref.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
-              },
-            },
-          );
-        }
-
-        const numEl = ref.current?.querySelector<HTMLElement>(".row-num");
-        if (numEl) {
-          const counter = { value: 0 };
-          gsap.to(counter, {
-            value: index,
-            ease: "none",
-            scrollTrigger: { trigger: ref.current, start: "top 92%", end: "top 62%", scrub: true },
-            onUpdate: () => {
-              numEl.textContent = String(Math.round(counter.value)).padStart(2, "0");
-            },
-          });
-        }
-
-        const lines = ref.current?.querySelectorAll(".row-line");
-        if (lines?.length) {
-          gsap.from(lines, {
-            yPercent: 120,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            stagger: 0.08,
-            scrollTrigger: { trigger: ref.current, start: "top 70%" },
-          });
-        }
-      });
-    },
-    { scope: ref },
-  );
-
-  const hasDemo = demos.length > 0;
 
   return (
     <li
-      ref={ref}
-      className="grid items-start gap-8 border-t border-line py-14 md:grid-cols-12 md:gap-8 md:py-16"
+      data-i={i + 1}
+      className="pcard flex w-full shrink-0 flex-col justify-center gap-8 border-t border-line px-6 py-16 md:h-screen md:w-screen md:flex-row md:items-center md:gap-12 md:border-t-0 md:px-10 md:py-0"
     >
-      <div className="flex flex-col md:col-span-5">
-        <span className="row-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
-          00
+      <div className="flex flex-col md:w-[38vw]">
+        <span className="pc-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
+          {String(i + 1).padStart(2, "0")}
         </span>
-
-        <h3 className="mt-4 overflow-hidden">
-          <span className="row-line block text-4xl font-medium tracking-tight md:text-6xl">
-            {project.title}
-          </span>
+        <h3 className="pc-line mt-4 text-4xl font-medium tracking-tight md:text-6xl">
+          {project.title}
         </h3>
-
-        <div className="mt-5 overflow-hidden">
-          <p className="row-line block max-w-md text-muted">
-            <Rich text={project.tagline[locale]} />
-          </p>
-        </div>
-
-        <dl className="row-line mt-8 grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wide">
+        <p className="pc-line mt-5 max-w-md text-muted">
+          <Rich text={project.tagline[locale]} />
+        </p>
+        <dl className="pc-line mt-8 grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wide">
           <div>
             <dt className="text-muted">{t.work.roleLabel}</dt>
             <dd className="mt-1 normal-case">{project.role[locale]}</dd>
@@ -231,8 +245,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
             <dd className="mt-1">{project.stack.join(" · ") || "—"}</dd>
           </div>
         </dl>
-
-        <div className="row-line mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide">
+        <div className="pc-line mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide">
           {demos.map((d) => (
             <button
               key={d.label}
@@ -262,43 +275,20 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
               {t.work.sourceCode} ↗
             </a>
           )}
-        </div>
-
-        {project.detail && (
-          <div className="row-line mt-8">
+          {project.detail && (
             <button
-              onClick={() => setOpen((v) => !v)}
-              className="link font-mono text-xs uppercase tracking-wide text-muted transition-colors hover:text-foreground"
+              onClick={onDetail}
+              className="link text-muted transition-colors hover:text-foreground"
             >
-              {open ? t.work.readLess : t.work.readMore} {open ? "−" : "+"}
+              {t.work.readMore} +
             </button>
-            <div
-              className={`grid transition-[grid-template-rows] duration-300 ease-out ${
-                open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-              }`}
-            >
-              <div className="min-h-0 overflow-hidden">
-                <dl className="mt-6 space-y-5 border-l border-line pl-5">
-                  {(["brief", "approach", "solution", "extra"] as const).map((k) => (
-                    <div key={k}>
-                      <dt className="font-mono text-[11px] uppercase tracking-wide text-accent">
-                        {t.work.detail[k]}
-                      </dt>
-                      <dd className="mt-1 max-w-md text-sm text-muted">
-                        {project.detail![k][locale]}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      <div className="md:col-span-6 md:col-start-7">
+      <div className="md:w-[46vw]">
         <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25">
-          <div className="panel-media absolute inset-0 scale-[1.14]">
+          <div className="panel-media absolute inset-0 scale-[1.12]">
             {project.previewVideo ? (
               <LazyVideo
                 className="h-full w-full object-cover"
@@ -320,7 +310,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
             )}
           </div>
 
-          {hasDemo && (
+          {demos.length > 0 && (
             <button
               onClick={() => onWatch(demos[0].video)}
               aria-label={demos[0].label}
@@ -334,7 +324,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
           )}
         </div>
 
-        {hasDemo && (
+        {demos.length > 0 && (
           <p className="mt-3 font-mono text-[11px] uppercase tracking-wide text-muted">
             ▶ {t.work.watchDemo} — {t.work.demoWithAudio}
           </p>
