@@ -10,6 +10,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Grain from "@/components/Grain";
 import Cursor from "@/components/Cursor";
+import Loader from "@/components/Loader";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -46,6 +47,7 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const t = getDictionary(locale);
 
   return (
     <html
@@ -53,6 +55,7 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
+        <Loader name={t.name} />
         <div className="scroll-progress" aria-hidden="true" />
         <Grain />
         <Cursor />

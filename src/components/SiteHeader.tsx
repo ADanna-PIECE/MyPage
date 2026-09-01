@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
+import { curtainThenGo } from "@/lib/transition";
 
 export default function SiteHeader({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
@@ -83,9 +83,12 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
               {l.label}
             </a>
           ))}
-          <Link href={otherHref} className="link text-foreground">
+          <button
+            onClick={() => curtainThenGo(otherHref)}
+            className="link text-foreground"
+          >
             {locale} / <span className="text-muted">{other}</span>
-          </Link>
+          </button>
         </nav>
 
         <button
@@ -111,13 +114,15 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
             {l.label}
           </a>
         ))}
-        <Link
-          href={otherHref}
-          onClick={() => setOpen(false)}
-          className="mt-4 font-mono text-xs uppercase tracking-wide text-muted"
+        <button
+          onClick={() => {
+            setOpen(false);
+            curtainThenGo(otherHref);
+          }}
+          className="mt-4 text-left font-mono text-xs uppercase tracking-wide text-muted"
         >
           {locale} / {other}
-        </Link>
+        </button>
       </div>
     </>
   );
