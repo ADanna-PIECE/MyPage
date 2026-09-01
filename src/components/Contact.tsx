@@ -14,7 +14,8 @@ const GITHUB = "https://github.com/ADanna-PIECE";
 const EXTERNAL: { label: string; href: string; icon: ReactNode }[] = [
   { label: "LinkedIn", href: LINKEDIN, icon: <LinkedInIcon /> },
   { label: "GitHub", href: GITHUB, icon: <GitHubIcon /> },
-  { label: "CV", href: "/cv.pdf", icon: <DocIcon /> },
+  { label: "CV — AI & Full-Stack", href: "/cv.pdf", icon: <DocIcon /> },
+  { label: "CV — Quant", href: "/cv-quant.pdf", icon: <DocIcon /> },
 ];
 
 function Row({
