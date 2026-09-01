@@ -1,7 +1,7 @@
 import type { Locale } from "@/lib/i18n";
 
 /*
-  Contenido real de Augusto Danna (de los dos CVs).
+  Contenido real de Augusto D'Anna (de los dos CVs).
   TODO(augusto): ajustá la bio si querés otro tono. El posicionamiento del hero
   es "AI Solutions & Full-Stack Developer"; si preferís liderar como Quant,
   cambiá hero.role e intro.
@@ -61,7 +61,7 @@ const TECH = [
 ];
 
 const es: Dictionary = {
-  name: "Augusto Danna",
+  name: "Augusto D'Anna",
   monogram: "AD",
   nav: {
     work: "Proyectos",
@@ -129,7 +129,7 @@ const es: Dictionary = {
 };
 
 const en: Dictionary = {
-  name: "Augusto Danna",
+  name: "Augusto D'Anna",
   monogram: "AD",
   nav: {
     work: "Work",

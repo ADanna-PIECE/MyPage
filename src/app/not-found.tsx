@@ -11,7 +11,7 @@ export default function NotFound() {
       >
         <h1 style={{ fontSize: "3rem", margin: 0 }}>404</h1>
         <p style={{ marginTop: "1rem" }}>
-          <a href="/es" style={{ color: "#3d5afe" }}>
+          <a href="/es" style={{ color: "#ff6a1f" }}>
             Volver al inicio
           </a>
         </p>

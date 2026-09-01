@@ -1,10 +1,10 @@
-# Portfolio — Augusto Danna
+# Portfolio — Augusto D'Anna
 
 Sitio personal para mostrar proyectos (videos + descripción) para LinkedIn.
 
 - **Stack:** Next.js 16 · Tailwind v4 · Lenis (scroll suave) · GSAP ScrollTrigger · Framer Motion
 - **Idiomas:** `/es` (default) y `/en` — diccionarios en `src/content/dictionary.ts`
-- **Dirección visual:** Swiss (blanco, grilla, un acento naranja, números como composición)
+- **Dirección visual:** dark cinematográfico — fondo casi negro, acento ámbar (`--accent` en `globals.css`), grano, tipografía grande, scroll con motion
 
 ## Correr en local
 

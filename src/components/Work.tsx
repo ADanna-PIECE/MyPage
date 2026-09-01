@@ -285,11 +285,15 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
                 preload="metadata"
               />
             ) : (
-              <div
-                className="grid h-full w-full place-items-center p-8"
-                style={{ background: "var(--accent-soft)" }}
-              >
-                <span className="text-center text-3xl font-medium tracking-tight text-foreground/70 md:text-4xl">
+              <div className="relative grid h-full w-full items-end bg-surface p-6">
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(120% 120% at 20% 0%, var(--accent-soft), transparent 60%)",
+                  }}
+                />
+                <span className="relative text-2xl font-medium tracking-tight text-foreground/60 md:text-3xl">
                   {project.title}
                 </span>
               </div>
