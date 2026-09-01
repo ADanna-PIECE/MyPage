@@ -25,6 +25,13 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     gsap.ticker.lagSmoothing(0);
     lenis.on("scroll", ScrollTrigger.update);
 
+    // expose scroll velocity for the marquee skew
+    const root = document.documentElement;
+    const clampSkew = gsap.utils.clamp(-7, 7);
+    lenis.on("scroll", ({ velocity }: { velocity: number }) => {
+      root.style.setProperty("--mskew", `${clampSkew(velocity * 0.35)}deg`);
+    });
+
     return () => {
       lenis.destroy();
       gsap.ticker.remove(raf);

@@ -110,12 +110,17 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
-        {links.map((l) => (
+        {links.map((l, i) => (
           <a
             key={l.href}
             href={l.href}
             onClick={() => setOpen(false)}
-            className="text-4xl font-medium tracking-tight"
+            className="text-4xl font-medium tracking-tight transition-all duration-500"
+            style={{
+              transitionDelay: open ? `${120 + i * 70}ms` : "0ms",
+              opacity: open ? 1 : 0,
+              transform: open ? "translateY(0)" : "translateY(1.5rem)",
+            }}
           >
             {l.label}
           </a>
@@ -125,7 +130,11 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
             setOpen(false);
             curtainThenGo(otherHref);
           }}
-          className="mt-4 text-left font-mono text-xs uppercase tracking-wide text-muted"
+          className="mt-4 text-left font-mono text-xs uppercase tracking-wide text-muted transition-all duration-500"
+          style={{
+            transitionDelay: open ? `${120 + links.length * 70}ms` : "0ms",
+            opacity: open ? 1 : 0,
+          }}
         >
           {locale} / {other}
         </button>

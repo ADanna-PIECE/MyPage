@@ -108,6 +108,36 @@ img {
   background: var(--accent);
   mix-blend-mode: normal;
 }
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 89;
+  height: 30px;
+  width: 30px;
+  border-radius: 9999px;
+  border: 1px solid rgba(237, 237, 237, 0.35);
+  pointer-events: none;
+  transition:
+    width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease-out,
+    border-color 0.3s ease-out;
+}
+.cursor-ring[data-active="link"] {
+  width: 46px;
+  height: 46px;
+  border-color: rgba(237, 237, 237, 0.6);
+}
+.cursor-ring[data-active="label"] {
+  opacity: 0;
+}
+@media (pointer: coarse) {
+  .cursor-ring {
+    display: none;
+  }
+}
+
 .cursor-label {
   font-family: var(--font-mono), monospace;
   font-size: 10px;
@@ -321,6 +351,10 @@ dialog::backdrop {
   to {
     transform: translateX(-50%);
   }
+}
+.marquee-skew {
+  transform: skewX(var(--mskew, 0deg));
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .marquee-track {
   animation: marquee 28s linear infinite;

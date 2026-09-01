@@ -193,7 +193,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           </a>
         </Magnetic>
 
-        <div className="mt-6 flex gap-8 overflow-hidden border-t border-line pt-4 font-mono text-xs uppercase tracking-wide text-muted [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+        <div className="marquee-skew mt-6 flex gap-8 overflow-hidden border-t border-line pt-4 font-mono text-xs uppercase tracking-wide text-muted [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
           <div className="marquee-track flex shrink-0 gap-8 whitespace-nowrap">
             {[...t.hero.tech, ...t.hero.tech].map((item, i) => (
               <span key={i}>{item}</span>
