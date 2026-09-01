@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
+import HeroField from "./HeroField";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -120,29 +121,29 @@ export default function Hero({ locale }: { locale: Locale }) {
     <section
       ref={ref}
       id="top"
-      className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden px-6 pb-6 pt-28 md:px-10 md:pb-10"
+      className="relative isolate flex min-h-[100svh] flex-col justify-between overflow-hidden px-6 pb-6 pt-28 md:px-10 md:pb-10"
     >
-      <div className="hero-mesh" aria-hidden="true" />
-      <div
-        className="hero-halo pointer-events-none absolute right-[-15vw] top-[2vh] -z-10 h-[80vh] w-[80vh] rounded-full blur-[130px] md:right-[4vw]"
-        style={{
-          background:
-            "radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
-      <div
-        className="hero-blob pointer-events-none absolute left-[-10vw] top-[24vh] -z-10 h-[48vh] w-[48vh] rounded-full blur-[90px]"
-        style={{ background: "color-mix(in srgb, var(--accent) 45%, transparent)" }}
-        aria-hidden="true"
-      />
-      <div
-        className="hero-blob pointer-events-none absolute bottom-[2vh] left-[30vw] -z-10 h-[40vh] w-[40vh] rounded-full blur-[85px]"
-        style={{ background: "color-mix(in srgb, var(--accent) 28%, transparent)" }}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <div className="hero-mesh" />
+        <div
+          className="hero-blob absolute left-[-14vw] top-[20vh] h-[46vh] w-[46vh] rounded-full blur-[100px]"
+          style={{ background: "color-mix(in srgb, var(--accent) 34%, transparent)" }}
+        />
+        <div
+          className="hero-blob absolute bottom-[-6vh] right-[6vw] h-[42vh] w-[42vh] rounded-full blur-[100px]"
+          style={{ background: "color-mix(in srgb, var(--accent) 22%, transparent)" }}
+        />
+        <div
+          className="hero-halo absolute right-[-15vw] top-[2vh] h-[80vh] w-[80vh] rounded-full blur-[130px] md:right-[4vw]"
+          style={{
+            background:
+              "radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)",
+          }}
+        />
+        <HeroField />
+      </div>
 
-      <div className="hero-top flex items-start justify-between font-mono text-xs uppercase tracking-wide text-muted">
+      <div className="relative z-10 hero-top flex items-start justify-between font-mono text-xs uppercase tracking-wide text-muted">
         <span>{t.hero.role}</span>
         <span className="text-right">
           Buenos Aires
@@ -151,7 +152,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         </span>
       </div>
 
-      <div className="hero-fade">
+      <div className="hero-fade relative z-10">
         <span className="hero-intro mb-6 inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-wide text-muted">
           <span className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
           {t.hero.status}
@@ -170,11 +171,11 @@ export default function Hero({ locale }: { locale: Locale }) {
         </p>
       </div>
 
-      <span className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rotate-90 font-mono text-[11px] uppercase tracking-[0.35em] text-muted lg:block">
+      <span className="pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rotate-90 font-mono text-[11px] uppercase tracking-[0.35em] text-muted lg:block">
         Portfolio — 2026
       </span>
 
-      <div className="hero-bottom">
+      <div className="hero-bottom relative z-10">
         <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide">
           <span className="inline-block h-8 w-px bg-foreground" />
           {t.hero.scrollCue}

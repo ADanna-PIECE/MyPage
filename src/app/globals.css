@@ -188,7 +188,6 @@ body {
 .hero-mesh {
   position: absolute;
   inset: -30%;
-  z-index: -20;
   pointer-events: none;
   background:
     radial-gradient(42% 52% at 72% 28%, var(--accent-soft), transparent 70%),
