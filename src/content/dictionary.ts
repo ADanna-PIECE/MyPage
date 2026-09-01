@@ -109,6 +109,7 @@ const es: Dictionary = {
       "Ingeniero de software enfocado en *desarrollo de sistemas y soluciones B2B*, workflows de automatización con IA y arquitectura de datos.",
       "Vengo de *siete años en mercados de capitales* (forex y cripto), donde validé cada estrategia con separación in-sample/out-of-sample, análisis de sensibilidad y costos de transacción reales. Sumo tres años como analista contable y financiero.",
       "Trabajo con *desarrollo asistido por IA*: orquesto agentes (Claude, Gemini), aplico MCP y skills propias para mantener el *código lean* y listo para producción. Estudiante avanzado de *Sistemas de Información en la UBA*.",
+      "Del trading me quedó una costumbre: *romper cada supuesto antes de confiar en un resultado*. La aplico igual cuando escribo código.",
     ],
     facts: [
       "7 años operando mercados de capitales (forex y cripto)",
@@ -122,7 +123,7 @@ const es: Dictionary = {
     kicker: "Contacto",
     heading: "Trabajemos juntos",
     body: "¿Tenés un proyecto B2B, una automatización o una vacante? Escribime.",
-    emailLabel: "Escribir un mail",
+    emailLabel: "Mail",
     resumeLabel: "Descargar CV",
     copy: "copiar",
     copied: "Copiado ✓",
@@ -180,6 +181,7 @@ const en: Dictionary = {
       "Software engineer focused on *systems and B2B solution development*, AI automation workflows, and data architecture.",
       "I come from *seven years in capital markets* (forex and crypto), where I validated every strategy with in-sample/out-of-sample separation, parameter sensitivity analysis, and real transaction costs. Plus three years as an accounting and financial analyst.",
       "I work with *AI-assisted development*: orchestrating agents (Claude, Gemini), applying MCP and custom skills to keep *code lean* and production-ready. Advanced *Information Systems student at UBA*.",
+      "Trading left me one habit: *break every assumption before trusting a result*. I apply it the same way when I write code.",
     ],
     facts: [
       "7 years trading capital markets (forex and crypto)",
@@ -193,7 +195,7 @@ const en: Dictionary = {
     kicker: "Contact",
     heading: "Let's work together",
     body: "Have a B2B project, an automation, or a role open? Send me a message.",
-    emailLabel: "Send an email",
+    emailLabel: "Mail",
     resumeLabel: "Download CV",
     copy: "copy",
     copied: "Copied ✓",

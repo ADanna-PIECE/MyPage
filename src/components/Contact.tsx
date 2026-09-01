@@ -1,20 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import SectionKicker from "./SectionKicker";
+import { MailIcon, LinkedInIcon, GitHubIcon, DocIcon } from "./ContactIcons";
 
 // TODO(augusto): confirmá el mail, y poné cv.pdf en public/.
 const EMAIL = "augustomartindanna16@gmail.com";
 const LINKEDIN = "https://www.linkedin.com/in/augusto-danna-0a0423195/";
 const GITHUB = "https://github.com/ADanna-PIECE";
 
-const EXTERNAL = [
-  { label: "LinkedIn", href: LINKEDIN },
-  { label: "GitHub", href: GITHUB },
-  { label: "CV", href: "/cv.pdf" },
+const EXTERNAL: { label: string; href: string; icon: ReactNode }[] = [
+  { label: "LinkedIn", href: LINKEDIN, icon: <LinkedInIcon /> },
+  { label: "GitHub", href: GITHUB, icon: <GitHubIcon /> },
+  { label: "CV", href: "/cv.pdf", icon: <DocIcon /> },
 ];
+
+function Row({
+  children,
+  end,
+}: {
+  children: ReactNode;
+  end: ReactNode;
+}) {
+  return (
+    <>
+      <span
+        className="absolute inset-0 -translate-x-full bg-accent transition-transform duration-300 ease-out group-hover:translate-x-0"
+        aria-hidden="true"
+      />
+      <span className="relative z-10 flex items-center gap-4 transition-transform duration-300 group-hover:translate-x-4 group-hover:text-white">
+        {children}
+      </span>
+      <span className="relative z-10 font-mono text-xs text-muted transition-all duration-300 group-hover:-translate-x-4 group-hover:text-white">
+        {end}
+      </span>
+    </>
+  );
+}
 
 export default function Contact({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
@@ -42,18 +66,13 @@ export default function Contact({ locale }: { locale: Locale }) {
         <li className="border-b border-line">
           <button
             onClick={copyEmail}
+            data-cursor={t.contact.copy}
             className="group relative flex w-full items-center justify-between overflow-hidden py-5 text-left text-xl md:text-2xl"
           >
-            <span
-              className="absolute inset-0 -translate-x-full bg-accent transition-transform duration-300 ease-out group-hover:translate-x-0"
-              aria-hidden="true"
-            />
-            <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-4 group-hover:text-white">
-              {copied ? t.contact.copied : EMAIL}
-            </span>
-            <span className="relative z-10 font-mono text-xs text-muted transition-all duration-300 group-hover:-translate-x-4 group-hover:text-white">
-              {copied ? "" : t.contact.copy}
-            </span>
+            <Row end={copied ? "" : t.contact.copy}>
+              <MailIcon />
+              {copied ? t.contact.copied : t.contact.emailLabel}
+            </Row>
           </button>
         </li>
 
@@ -65,16 +84,10 @@ export default function Contact({ locale }: { locale: Locale }) {
               rel="noreferrer"
               className="group relative flex items-center justify-between overflow-hidden py-5 text-xl md:text-2xl"
             >
-              <span
-                className="absolute inset-0 -translate-x-full bg-accent transition-transform duration-300 ease-out group-hover:translate-x-0"
-                aria-hidden="true"
-              />
-              <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-4 group-hover:text-white">
+              <Row end="↗">
+                {link.icon}
                 {link.label}
-              </span>
-              <span className="relative z-10 font-mono text-xs text-muted transition-all duration-300 group-hover:-translate-x-4 group-hover:text-white">
-                ↗
-              </span>
+              </Row>
             </a>
           </li>
         ))}
