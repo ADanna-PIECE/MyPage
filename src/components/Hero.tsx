@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import HeroField from "./HeroField";
-import HeroBlob from "./HeroBlob";
+import HeroParticles from "./HeroParticles";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -148,7 +148,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           }}
         />
         <HeroField />
-        <HeroBlob />
+        <HeroParticles />
       </div>
 
       <div className="relative z-10 hero-top flex items-start justify-between font-mono text-xs uppercase tracking-wide text-muted">
