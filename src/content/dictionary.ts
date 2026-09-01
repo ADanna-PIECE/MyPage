@@ -75,7 +75,7 @@ const es: Dictionary = {
   hero: {
     role: "AI Solutions & Full-Stack Developer",
     intro:
-      "Construyo *soluciones B2B* de punta a punta: *automatización con IA*, arquitectura de datos y *orquestación de agentes LLM*.",
+      "Construyo *software B2B de punta a punta*: automatización con IA, orquestación de agentes y *análisis cuantitativo riguroso*.",
     scrollCue: "Scrolleá",
     status: "Disponible para proyectos",
     tech: TECH,
@@ -148,7 +148,7 @@ const en: Dictionary = {
   hero: {
     role: "AI Solutions & Full-Stack Developer",
     intro:
-      "I build *B2B solutions* end to end: *AI automation workflows*, data architecture, and *multi-LLM-agent orchestration*.",
+      "I build *B2B software end to end*: AI automation, agent orchestration, and *rigorous quantitative analysis*.",
     scrollCue: "Scroll",
     status: "Available for projects",
     tech: TECH,
