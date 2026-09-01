@@ -121,7 +121,7 @@ export default function HeroField() {
           ctx.strokeStyle =
             glow > 0.04
               ? hexToRgba(accent, 0.12 + glow * 0.6)
-              : `rgba(255,255,255,${0.14 * (1 - dist / LINK)})`;
+              : `rgba(255,255,255,${0.08 * (1 - dist / LINK)})`;
           ctx.lineWidth = glow > 0.4 ? 1.3 : 0.9;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -142,7 +142,7 @@ export default function HeroField() {
         ctx.fillStyle =
           glow > 0.08
             ? hexToRgba(accent, 0.35 + glow * 0.6)
-            : "rgba(255,255,255,0.4)";
+            : "rgba(255,255,255,0.22)";
         ctx.fill();
       }
 
