@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import SectionKicker from "./SectionKicker";
+import TextReveal from "./TextReveal";
 import { MailIcon, LinkedInIcon, GitHubIcon, DocIcon } from "./ContactIcons";
 
 // TODO(augusto): confirmá el mail, y poné cv.pdf en public/.
@@ -58,9 +59,11 @@ export default function Contact({ locale }: { locale: Locale }) {
   return (
     <section id="contact" className="rule-t px-6 py-24 md:px-10 md:py-40">
       <SectionKicker label={t.contact.kicker} className="text-muted" />
-      <h2 className="mt-8 text-[14vw] font-medium leading-[0.9] tracking-[-0.04em] md:text-[9vw]">
-        {t.contact.heading}
-      </h2>
+      <TextReveal
+        as="h2"
+        text={t.contact.heading}
+        className="mt-8 block text-[14vw] font-medium leading-[0.9] tracking-[-0.04em] md:text-[9vw]"
+      />
       <p className="mt-8 max-w-md text-muted">{t.contact.body}</p>
 
       <ul className="mt-14 border-t border-line">

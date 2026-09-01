@@ -49,8 +49,14 @@ export default function Hero({ locale }: { locale: Locale }) {
           .from(".hero-top > *", { y: 16, opacity: 0, stagger: 0.1, duration: 0.7 })
           .fromTo(
             ".hero-word",
-            { yPercent: 120, clipPath: "inset(0 0 100% 0)" },
-            { yPercent: 0, clipPath: "inset(0 0 -20% 0)", duration: 1.1, stagger: 0.1 },
+            { yPercent: 120, filter: "blur(12px)", clipPath: "inset(0 0 100% 0)" },
+            {
+              yPercent: 0,
+              filter: "blur(0px)",
+              clipPath: "inset(0 0 -20% 0)",
+              duration: 1.1,
+              stagger: 0.1,
+            },
             "-=0.3",
           )
           .from(".hero-intro", { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")

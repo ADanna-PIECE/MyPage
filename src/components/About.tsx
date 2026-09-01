@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import SectionKicker from "./SectionKicker";
+import TextReveal from "./TextReveal";
 
 // Light section — deliberate palette break from the dark rest of the page.
 export default function About({ locale }: { locale: Locale }) {
@@ -25,9 +26,11 @@ export default function About({ locale }: { locale: Locale }) {
           />
         </div>
         <div className="md:col-span-8">
-          <h2 className="max-w-3xl text-3xl font-medium tracking-tight md:text-5xl">
-            {t.about.heading}
-          </h2>
+          <TextReveal
+            as="h2"
+            text={t.about.heading}
+            className="block max-w-3xl text-3xl font-medium tracking-tight md:text-5xl"
+          />
           <div className="mt-10 max-w-xl space-y-5 text-[#4a463c]">
             {t.about.body.map((paragraph, i) => (
               <p key={i}>

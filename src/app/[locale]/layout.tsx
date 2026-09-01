@@ -56,8 +56,8 @@ export default async function LocaleLayout({
         <div className="scroll-progress" aria-hidden="true" />
         <Grain />
         <Cursor />
+        <SiteHeader locale={locale} />
         <SmoothScroll>
-          <SiteHeader locale={locale} />
           <main>{children}</main>
           <SiteFooter locale={locale} />
         </SmoothScroll>
