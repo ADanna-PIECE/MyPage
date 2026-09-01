@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import Work from "@/components/Work";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
-import Reveal from "@/components/Reveal";
+import Wipe from "@/components/Wipe";
 
 export default async function Page({
   params,
@@ -18,12 +18,12 @@ export default async function Page({
     <>
       <Hero locale={locale} />
       <Work locale={locale} />
-      <Reveal>
+      <Wipe>
         <About locale={locale} />
-      </Reveal>
-      <Reveal>
+      </Wipe>
+      <Wipe>
         <Contact locale={locale} />
-      </Reveal>
+      </Wipe>
     </>
   );
 }

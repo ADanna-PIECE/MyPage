@@ -9,6 +9,7 @@ import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import HeroField from "./HeroField";
 import HeroParticles from "./HeroParticles";
+import Magnetic from "./Magnetic";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -184,10 +185,12 @@ export default function Hero({ locale }: { locale: Locale }) {
       </span>
 
       <div className="hero-bottom relative z-10">
-        <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide">
-          <span className="scroll-cue" />
-          {t.hero.scrollCue}
-        </div>
+        <Magnetic strength={0.4}>
+          <a href="#work" className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide">
+            <span className="scroll-cue" />
+            {t.hero.scrollCue}
+          </a>
+        </Magnetic>
 
         <div className="mt-6 flex gap-8 overflow-hidden border-t border-line pt-4 font-mono text-xs uppercase tracking-wide text-muted [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
           <div className="marquee-track flex shrink-0 gap-8 whitespace-nowrap">
