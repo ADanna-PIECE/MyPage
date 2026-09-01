@@ -300,6 +300,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
             <button
               onClick={onWatch}
               aria-label={t.work.watchDemo}
+              data-cursor="demo"
               className="absolute inset-0 grid place-items-center transition-colors hover:bg-black/40"
             >
               <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 bg-black/30 text-lg backdrop-blur transition-transform duration-300 hover:scale-110">

@@ -14,6 +14,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
 
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     let last = window.scrollY;
@@ -24,6 +25,22 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) setActive(e.target.id);
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    ["work", "about", "contact"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -59,7 +76,9 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
             <a
               key={l.href}
               href={l.href}
-              className="link text-muted transition-colors hover:text-foreground"
+              className={`link transition-colors hover:text-foreground ${
+                active === l.href.slice(1) ? "text-foreground" : "text-muted"
+              }`}
             >
               {l.label}
             </a>

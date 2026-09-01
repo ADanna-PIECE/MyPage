@@ -41,6 +41,8 @@ type Dictionary = {
     body: string;
     emailLabel: string;
     resumeLabel: string;
+    copy: string;
+    copied: string;
   };
   footer: { note: string; backToTop: string };
 };
@@ -122,6 +124,8 @@ const es: Dictionary = {
     body: "¿Tenés un proyecto B2B, una automatización o una vacante? Escribime.",
     emailLabel: "Escribir un mail",
     resumeLabel: "Descargar CV",
+    copy: "copiar",
+    copied: "Copiado ✓",
   },
   footer: {
     note: "Hecho con Next.js — código abierto en GitHub.",
@@ -191,6 +195,8 @@ const en: Dictionary = {
     body: "Have a B2B project, an automation, or a role open? Send me a message.",
     emailLabel: "Send an email",
     resumeLabel: "Download CV",
+    copy: "copy",
+    copied: "Copied ✓",
   },
   footer: {
     note: "Built with Next.js — source on GitHub.",

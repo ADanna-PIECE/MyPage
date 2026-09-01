@@ -4,11 +4,13 @@ import { useEffect, useRef } from "react";
 
 export default function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
+  const label = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
     const el = dot.current;
-    if (!el) return;
+    const lbl = label.current;
+    if (!el || !lbl) return;
 
     let raf = 0;
     let x = window.innerWidth / 2;
@@ -22,7 +24,17 @@ export default function Cursor() {
     };
     const over = (e: Event) => {
       const target = e.target as HTMLElement | null;
-      el.dataset.active = target?.closest("a, button, [data-cursor]") ? "true" : "false";
+      const labelled = target?.closest<HTMLElement>("[data-cursor]");
+      if (labelled) {
+        el.dataset.active = "label";
+        lbl.textContent = labelled.dataset.cursor || "";
+      } else if (target?.closest("a, button")) {
+        el.dataset.active = "link";
+        lbl.textContent = "";
+      } else {
+        el.dataset.active = "false";
+        lbl.textContent = "";
+      }
     };
     const loop = () => {
       x += (tx - x) * 0.2;
@@ -44,5 +56,9 @@ export default function Cursor() {
     };
   }, []);
 
-  return <div ref={dot} className="cursor-dot" aria-hidden="true" />;
+  return (
+    <div ref={dot} className="cursor-dot" aria-hidden="true">
+      <span ref={label} className="cursor-label" />
+    </div>
+  );
 }

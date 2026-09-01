@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
+import SectionKicker from "./SectionKicker";
 
 // Light section — deliberate palette break from the dark rest of the page.
 export default function About({ locale }: { locale: Locale }) {
@@ -14,9 +15,8 @@ export default function About({ locale }: { locale: Locale }) {
     >
       <div className="grid gap-10 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-4">
-          <div className="font-mono text-xs uppercase tracking-wide text-[#7a766c]">
-            {t.about.kicker}
-          </div>
+          <SectionKicker label={t.about.kicker} className="text-[#7a766c]" />
+
           {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg */}
           <img
             src="/photo.jpg"

@@ -177,7 +177,7 @@ export default function Hero({ locale }: { locale: Locale }) {
 
       <div className="hero-bottom relative z-10">
         <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide">
-          <span className="inline-block h-8 w-px bg-foreground" />
+          <span className="scroll-cue" />
           {t.hero.scrollCue}
         </div>
 

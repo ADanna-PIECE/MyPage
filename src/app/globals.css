@@ -85,20 +85,40 @@ img {
   top: 0;
   left: 0;
   z-index: 90;
+  display: grid;
+  place-items: center;
   height: 8px;
   width: 8px;
   border-radius: 9999px;
   background: var(--accent);
   pointer-events: none;
   mix-blend-mode: difference;
-  transition-property: width, height, background-color, opacity;
-  transition-duration: 0.22s;
-  transition-timing-function: ease-out;
+  transition-property: width, height, background-color;
+  transition-duration: 0.24s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
-.cursor-dot[data-active="true"] {
-  width: 42px;
-  height: 42px;
+.cursor-dot[data-active="link"] {
+  width: 34px;
+  height: 34px;
   background: #fff;
+}
+.cursor-dot[data-active="label"] {
+  width: 68px;
+  height: 68px;
+  background: var(--accent);
+  mix-blend-mode: normal;
+}
+.cursor-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.cursor-dot[data-active="label"] .cursor-label {
+  opacity: 1;
 }
 @media (pointer: coarse) {
   .cursor-dot {
@@ -109,6 +129,31 @@ img {
 .has-cursor a,
 .has-cursor button {
   cursor: none;
+}
+
+/* animated scroll cue */
+.scroll-cue {
+  position: relative;
+  display: inline-block;
+  height: 2rem;
+  width: 1px;
+  overflow: hidden;
+  background: rgba(237, 237, 237, 0.25);
+}
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 50%;
+  background: var(--foreground);
+  animation: scroll-cue 1.9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(210%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue::after { animation: none; }
 }
 
 /* scroll progress bar (CSS scroll-driven; degrades to hidden) */
