@@ -74,26 +74,6 @@ export default function Work({ locale }: { locale: Locale }) {
               },
             });
 
-            const num = card.querySelector<HTMLElement>(".pc-num");
-            const target = Number(card.dataset.i || "0");
-            if (num) {
-              const counter = { v: 0 };
-              gsap.to(counter, {
-                v: target,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: card,
-                  containerAnimation: horiz,
-                  start: "left 85%",
-                  end: "left 45%",
-                  scrub: true,
-                  onUpdate: () => {
-                    num.textContent = String(Math.round(counter.v)).padStart(2, "0");
-                  },
-                },
-              });
-            }
-
             const media = card.querySelector<HTMLElement>(".panel-media");
             if (media) {
               gsap.set(media, { scale: 1.12 });
@@ -231,7 +211,7 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
       className="pcard flex w-full shrink-0 flex-col justify-center gap-8 border-t border-line px-6 py-16 md:h-screen md:w-screen md:flex-row md:items-center md:gap-12 md:border-t-0 md:px-10 md:py-0"
     >
       <div className="flex flex-col md:w-[38vw]">
-        <span className="pc-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
+        <span className="pc-line pc-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
           {String(i + 1).padStart(2, "0")}
         </span>
         <h3 className="pc-line mt-4 text-4xl font-medium tracking-tight md:text-6xl">
