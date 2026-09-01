@@ -3,11 +3,13 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { markIntroReveal } from "@/lib/intro";
 
 gsap.registerPlugin(useGSAP);
 
-// First visit: a counter 000 → 100, then the panel sweeps up to reveal the site.
-// Later navigations (language switch): just the quick sweep-up reveal.
+// First visit: a counter 000 → 100, then the panel sweeps up. The hero reveal
+// (text + particles) is triggered — via markIntroReveal — the instant the
+// sweep begins, so the whole thing reads as one continuous motion.
 export default function Loader({ name }: { name: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -30,6 +32,7 @@ export default function Loader({ name }: { name: string }) {
     } catch {}
 
     if (reduced) {
+      markIntroReveal();
       finish();
       return;
     }
@@ -42,6 +45,7 @@ export default function Loader({ name }: { name: string }) {
         duration: 0.7,
         ease: "power4.inOut",
         delay: 0.05,
+        onStart: markIntroReveal,
         onComplete: finish,
       });
       return;
@@ -61,8 +65,13 @@ export default function Loader({ name }: { name: string }) {
             numEl.textContent = String(Math.round(counter.v)).padStart(3, "0");
         },
       })
-      .to(".loader-inner", { opacity: 0, y: -20, duration: 0.5, ease: "power2.in" }, "-=0.15")
-      .to(el, { yPercent: -100, duration: 0.85, ease: "power4.inOut" }, "-=0.1");
+      .to(".loader-inner", { opacity: 0, y: -20, duration: 0.45, ease: "power2.in" }, "-=0.15")
+      .to(el, {
+        yPercent: -100,
+        duration: 0.9,
+        ease: "power4.inOut",
+        onStart: markIntroReveal,
+      }, "-=0.05");
   }, []);
 
   return (

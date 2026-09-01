@@ -10,6 +10,7 @@ import Rich from "./Rich";
 import HeroField from "./HeroField";
 import HeroParticles from "./HeroParticles";
 import Magnetic from "./Magnetic";
+import { onIntroReveal } from "@/lib/intro";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -46,23 +47,23 @@ export default function Hero({ locale }: { locale: Locale }) {
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap
-          .timeline({ defaults: { ease: "power4.out" } })
-          .from(".hero-top > *", { y: 16, opacity: 0, stagger: 0.1, duration: 0.7 })
-          .fromTo(
-            ".hero-word",
-            { yPercent: 120, filter: "blur(12px)", clipPath: "inset(0 0 100% 0)" },
-            {
-              yPercent: 0,
-              filter: "blur(0px)",
-              clipPath: "inset(0 0 -20% 0)",
-              duration: 1.1,
-              stagger: 0.1,
-            },
-            "-=0.3",
-          )
-          .from(".hero-intro", { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")
-          .from(".hero-bottom", { opacity: 0, duration: 0.8 }, "-=0.3");
+        // hidden until the loader curtain begins to lift
+        gsap.set(".hero-top > *", { y: 16, opacity: 0 });
+        gsap.set(".hero-word", { y: 70, filter: "blur(12px)", opacity: 0 });
+        gsap.set([".hero-intro", ".hero-bottom"], { opacity: 0, y: 20 });
+
+        onIntroReveal(() => {
+          gsap
+            .timeline({ defaults: { ease: "power4.out" } })
+            .to(".hero-top > *", { y: 0, opacity: 1, stagger: 0.1, duration: 0.7 })
+            .to(
+              ".hero-word",
+              { y: 0, filter: "blur(0px)", opacity: 1, duration: 1.1, stagger: 0.12 },
+              "-=0.35",
+            )
+            .to(".hero-intro", { y: 0, opacity: 1, duration: 0.8 }, "-=0.6")
+            .to(".hero-bottom", { y: 0, opacity: 1, duration: 0.8 }, "-=0.4");
+        });
 
         // ambient drifting blobs
         gsap.utils.toArray<HTMLElement>(".hero-blob").forEach((blob, i) => {

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { gsap } from "gsap";
+import { onIntroReveal } from "@/lib/intro";
 
 // A field of particles that settles into the "AD" monogram and scatters,
 // flowing, when the cursor passes through it.
@@ -104,8 +106,24 @@ export default function HeroParticles() {
     const pos = geo.attributes.position.array as Float32Array;
     const clock = new THREE.Clock();
     let raf = 0;
+    let pull = reduced ? 0.11 : 0.006; // barely drifts until the intro fires
+
+    onIntroReveal(() => {
+      gsap.to(
+        { p: pull },
+        {
+          p: 0.11,
+          duration: 1.6,
+          ease: "power2.out",
+          onUpdate() {
+            pull = (this.targets()[0] as { p: number }).p;
+          },
+        },
+      );
+    });
+
     const loop = () => {
-      const dt = Math.min(clock.getDelta(), 0.05);
+      clock.getDelta();
       const t = clock.elapsedTime;
 
       if (ndc.x < 2) {
@@ -119,9 +137,9 @@ export default function HeroParticles() {
         const j = i * 3;
         const hx = home[j] + (reduced ? 0 : Math.sin(t + i) * 0.015);
         const hy = home[j + 1] + (reduced ? 0 : Math.cos(t * 0.8 + i) * 0.015);
-        let px = pos[j] + (hx - pos[j]) * 0.11;
-        let py = pos[j + 1] + (hy - pos[j + 1]) * 0.11;
-        let pz = pos[j + 2] + (home[j + 2] - pos[j + 2]) * 0.11;
+        let px = pos[j] + (hx - pos[j]) * pull;
+        let py = pos[j + 1] + (hy - pos[j + 1]) * pull;
+        let pz = pos[j + 2] + (home[j + 2] - pos[j + 2]) * pull;
 
         const dx = px - mouse.x;
         const dy = py - mouse.y;
