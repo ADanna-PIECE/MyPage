@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 function useBuenosAiresClock() {
   const [time, setTime] = useState("");
@@ -36,24 +37,77 @@ export default function Hero({ locale }: { locale: Locale }) {
 
   useGSAP(
     () => {
+      const root = ref.current;
+      if (!root) return;
+      const wordEls = gsap.utils.toArray<HTMLElement>(".hero-word");
+
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap
           .timeline({ defaults: { ease: "power4.out" } })
           .from(".hero-top > *", { y: 16, opacity: 0, stagger: 0.1, duration: 0.7 })
-          .from(".hero-word", { yPercent: 115, duration: 1.1, stagger: 0.1 }, "-=0.3")
+          .fromTo(
+            ".hero-word",
+            { yPercent: 120, clipPath: "inset(0 0 100% 0)" },
+            { yPercent: 0, clipPath: "inset(0 0 -20% 0)", duration: 1.1, stagger: 0.1 },
+            "-=0.3",
+          )
           .from(".hero-intro", { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")
           .from(".hero-bottom", { opacity: 0, duration: 0.8 }, "-=0.3");
+
+        // ambient drifting blobs
+        gsap.utils.toArray<HTMLElement>(".hero-blob").forEach((blob, i) => {
+          gsap.to(blob, {
+            xPercent: i % 2 ? -32 : 30,
+            yPercent: i % 2 ? 24 : -22,
+            scale: 1.25,
+            duration: 10 + i * 4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        });
+
+        // hero drifts up and fades as you scroll past it
+        gsap.to(".hero-fade", {
+          yPercent: -20,
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: { trigger: root, start: "top top", end: "bottom top", scrub: true },
+        });
       });
 
-      const halo = ref.current?.querySelector<HTMLElement>(".hero-halo");
-      if (halo && window.matchMedia("(pointer: fine)").matches) {
-        const xTo = gsap.quickTo(halo, "x", { duration: 0.9, ease: "power3" });
-        const yTo = gsap.quickTo(halo, "y", { duration: 0.9, ease: "power3" });
+      // cursor: halo follows, name repels
+      if (window.matchMedia("(pointer: fine)").matches) {
+        const halo = root.querySelector<HTMLElement>(".hero-halo");
+        const xTo = halo && gsap.quickTo(halo, "x", { duration: 0.9, ease: "power3" });
+        const yTo = halo && gsap.quickTo(halo, "y", { duration: 0.9, ease: "power3" });
+
         const onMove = (e: PointerEvent) => {
-          const r = ref.current!.getBoundingClientRect();
-          xTo((e.clientX - r.left - r.width / 2) * 0.12);
-          yTo((e.clientY - r.top - r.height / 2) * 0.12);
+          const rect = root.getBoundingClientRect();
+          if (xTo && yTo) {
+            xTo((e.clientX - rect.left - rect.width / 2) * 0.12);
+            yTo((e.clientY - rect.top - rect.height / 2) * 0.12);
+          }
+          const reach = 380;
+          wordEls.forEach((w) => {
+            const r = w.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2);
+            const dy = e.clientY - (r.top + r.height / 2);
+            const dist = Math.hypot(dx, dy) || 1;
+            if (dist < reach) {
+              const push = (1 - dist / reach) * 22;
+              gsap.to(w, {
+                x: (-dx / dist) * push,
+                y: (-dy / dist) * push,
+                duration: 0.7,
+                ease: "power3",
+                overwrite: "auto",
+              });
+            } else {
+              gsap.to(w, { x: 0, y: 0, duration: 0.7, ease: "power3", overwrite: "auto" });
+            }
+          });
         };
         window.addEventListener("pointermove", onMove);
         return () => window.removeEventListener("pointermove", onMove);
@@ -68,12 +122,23 @@ export default function Hero({ locale }: { locale: Locale }) {
       id="top"
       className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden px-6 pb-6 pt-28 md:px-10 md:pb-10"
     >
+      <div className="hero-mesh" aria-hidden="true" />
       <div
-        className="hero-halo pointer-events-none absolute right-[-15vw] top-[2vh] -z-10 h-[85vh] w-[85vh] rounded-full blur-[140px] md:right-[4vw]"
+        className="hero-halo pointer-events-none absolute right-[-15vw] top-[2vh] -z-10 h-[80vh] w-[80vh] rounded-full blur-[130px] md:right-[4vw]"
         style={{
           background:
             "radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)",
         }}
+        aria-hidden="true"
+      />
+      <div
+        className="hero-blob pointer-events-none absolute left-[-10vw] top-[24vh] -z-10 h-[48vh] w-[48vh] rounded-full blur-[90px]"
+        style={{ background: "color-mix(in srgb, var(--accent) 45%, transparent)" }}
+        aria-hidden="true"
+      />
+      <div
+        className="hero-blob pointer-events-none absolute bottom-[2vh] left-[30vw] -z-10 h-[40vh] w-[40vh] rounded-full blur-[85px]"
+        style={{ background: "color-mix(in srgb, var(--accent) 28%, transparent)" }}
         aria-hidden="true"
       />
 
@@ -86,16 +151,16 @@ export default function Hero({ locale }: { locale: Locale }) {
         </span>
       </div>
 
-      <div>
-        <span className="hero-intro mb-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wide text-muted">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent text-glow" />
+      <div className="hero-fade">
+        <span className="hero-intro mb-6 inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-wide text-muted">
+          <span className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
           {t.hero.status}
         </span>
 
         <h1 className="text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] md:text-[10.5vw]">
           {words.map((word, i) => (
-            <span key={i} className="block overflow-hidden">
-              <span className="hero-word block">{word}</span>
+            <span key={i} className="block">
+              <span className="hero-word inline-block will-change-transform">{word}</span>
             </span>
           ))}
         </h1>
