@@ -212,20 +212,4 @@ export const projects: Project[] = [
       },
     },
   },
-  {
-    slug: "bank-reconciliation",
-    title: "Automated Bank Reconciliation",
-    previewVideo: null,
-    youtubeId: null,
-    demoVideo: null,
-    liveUrl: null,
-    repoUrl: null,
-    tagline: {
-      es: "Cruza facturas en PDF contra el extracto bancario y *concilia automáticamente*, combinando extracción de texto e IA.",
-      en: "Cross-checks PDF invoices against bank statements and *reconciles automatically*, combining text extraction and AI.",
-    },
-    role: { es: "Desarrollo individual", en: "Solo build" },
-    stack: ["Python", "LLM APIs", "PDF parsing"],
-    detail: null,
-  },
 ];

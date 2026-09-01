@@ -109,7 +109,7 @@ const es: Dictionary = {
       "Ingeniero de software enfocado en *desarrollo de sistemas y soluciones B2B*, workflows de automatización con IA y arquitectura de datos.",
       "Vengo de *siete años en mercados de capitales* (forex y cripto), donde validé cada estrategia con separación in-sample/out-of-sample, análisis de sensibilidad y costos de transacción reales. Sumo tres años como analista contable y financiero.",
       "Trabajo con *desarrollo asistido por IA*: orquesto agentes (Claude, Gemini), aplico MCP y skills propias para mantener el *código lean* y listo para producción. Estudiante avanzado de *Sistemas de Información en la UBA*.",
-      "Mi manera de resolver: cuando algo es manual, lento o repetitivo, *le construyo el sistema que lo automatiza* — de cargar trades a mano a la conciliación bancaria. Y rompo cada supuesto antes de confiar en un resultado.",
+      "Mi manera de resolver: cuando algo es manual, lento o repetitivo, *le construyo el sistema que lo automatiza* — de cargar trades a mano a leer un gráfico con visión por computadora. Y rompo cada supuesto antes de confiar en un resultado.",
     ],
     facts: [
       "7 años operando mercados de capitales (forex y cripto)",
@@ -182,7 +182,7 @@ const en: Dictionary = {
       "Software engineer focused on *systems and B2B solution development*, AI automation workflows, and data architecture.",
       "I come from *seven years in capital markets* (forex and crypto), where I validated every strategy with in-sample/out-of-sample separation, parameter sensitivity analysis, and real transaction costs. Plus three years as an accounting and financial analyst.",
       "I work with *AI-assisted development*: orchestrating agents (Claude, Gemini), applying MCP and custom skills to keep *code lean* and production-ready. Advanced *Information Systems student at UBA*.",
-      "How I solve things: when something is manual, slow or repetitive, *I build the system that automates it* — from logging trades by hand to bank reconciliation. And I break every assumption before trusting a result.",
+      "How I solve things: when something is manual, slow or repetitive, *I build the system that automates it* — from logging trades by hand to reading a chart with computer vision. And I break every assumption before trusting a result.",
     ],
     facts: [
       "7 years trading capital markets (forex and crypto)",
