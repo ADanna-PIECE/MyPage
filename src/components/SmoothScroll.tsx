@@ -6,13 +6,19 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.defaults({ ease: "power3.out" });
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return; // native scroll, no smoothing
 
-    const lenis = new Lenis({ duration: 1.1, smoothWheel: true, anchors: true });
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      anchors: true,
+    });
     const raf = (time: number) => lenis.raf(time * 1000);
 
     gsap.ticker.add(raf);

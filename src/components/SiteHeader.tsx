@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import { curtainThenGo } from "@/lib/transition";
+import Magnetic from "./Magnetic";
 
 export default function SiteHeader({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
@@ -63,32 +64,37 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
           hidden ? "-translate-y-full" : "translate-y-0"
         }`}
       >
-        <a
-          href="#top"
-          className="font-mono text-xs font-medium uppercase tracking-[0.25em]"
-          onClick={() => setOpen(false)}
-        >
-          {t.monogram}
-        </a>
-
-        <nav className="hidden items-center gap-6 font-mono text-xs uppercase tracking-wide md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className={`link transition-colors hover:text-foreground ${
-                active === l.href.slice(1) ? "text-foreground" : "text-muted"
-              }`}
-            >
-              {l.label}
-            </a>
-          ))}
-          <button
-            onClick={() => curtainThenGo(otherHref)}
-            className="link text-foreground"
+        <Magnetic strength={0.3}>
+          <a
+            href="#top"
+            className="block font-mono text-xs font-medium uppercase tracking-[0.25em]"
+            onClick={() => setOpen(false)}
           >
-            {locale} / <span className="text-muted">{other}</span>
-          </button>
+            {t.monogram}
+          </a>
+        </Magnetic>
+
+        <nav className="hidden items-center gap-7 font-mono text-xs uppercase tracking-wide md:flex">
+          {links.map((l) => (
+            <Magnetic key={l.href} strength={0.25}>
+              <a
+                href={l.href}
+                className={`link transition-colors hover:text-foreground ${
+                  active === l.href.slice(1) ? "text-foreground" : "text-muted"
+                }`}
+              >
+                {l.label}
+              </a>
+            </Magnetic>
+          ))}
+          <Magnetic strength={0.25}>
+            <button
+              onClick={() => curtainThenGo(otherHref)}
+              className="link text-foreground"
+            >
+              {locale} / <span className="text-muted">{other}</span>
+            </button>
+          </Magnetic>
         </nav>
 
         <button
