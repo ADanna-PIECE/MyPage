@@ -100,6 +100,7 @@ type RowProps = {
 
 function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
   const ref = useRef<HTMLLIElement>(null);
+  const [open, setOpen] = useState(false);
 
   useGSAP(
     () => {
@@ -124,13 +125,32 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
           );
         }
 
+        const media = ref.current?.querySelector<HTMLElement>(".panel-media");
+        if (media) {
+          gsap.set(media, { scale: 1.14 });
+          gsap.fromTo(
+            media,
+            { yPercent: -7 },
+            {
+              yPercent: 7,
+              ease: "none",
+              scrollTrigger: {
+                trigger: ref.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            },
+          );
+        }
+
         const numEl = ref.current?.querySelector<HTMLElement>(".row-num");
         if (numEl) {
           const counter = { value: 0 };
           gsap.to(counter, {
             value: index,
             ease: "none",
-            scrollTrigger: { trigger: ref.current, start: "top 85%", end: "top 40%", scrub: true },
+            scrollTrigger: { trigger: ref.current, start: "top 92%", end: "top 62%", scrub: true },
             onUpdate: () => {
               numEl.textContent = String(Math.round(counter.value)).padStart(2, "0");
             },
@@ -158,9 +178,9 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
   return (
     <li
       ref={ref}
-      className="grid items-center gap-8 border-t border-line py-14 md:grid-cols-12 md:gap-8 md:py-20"
+      className="grid items-start gap-8 border-t border-line py-14 md:grid-cols-12 md:gap-8 md:py-16"
     >
-      <div className="flex flex-col justify-center md:col-span-5">
+      <div className="flex flex-col md:col-span-5">
         <span className="row-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
           00
         </span>
@@ -218,44 +238,71 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
             </a>
           )}
         </div>
+
+        {project.detail && (
+          <div className="row-line mt-8">
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="link font-mono text-xs uppercase tracking-wide text-muted transition-colors hover:text-foreground"
+            >
+              {open ? t.work.readLess : t.work.readMore} {open ? "−" : "+"}
+            </button>
+            <div
+              className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="min-h-0 overflow-hidden">
+                <dl className="mt-6 space-y-5 border-l border-line pl-5">
+                  {(["brief", "approach", "solution", "extra"] as const).map((k) => (
+                    <div key={k}>
+                      <dt className="font-mono text-[11px] uppercase tracking-wide text-accent">
+                        {t.work.detail[k]}
+                      </dt>
+                      <dd className="mt-1 max-w-md text-sm text-muted">
+                        {project.detail![k][locale]}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="md:col-span-6 md:col-start-7">
-        <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface">
-          {project.previewVideo ? (
-            <video
-              className="h-full w-full object-cover"
-              src={project.previewVideo}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
-          ) : (
-            <div
-              className="grid h-full w-full place-items-center p-8"
-              style={{ background: "var(--accent-soft)" }}
-            >
-              <span className="text-center text-3xl font-medium tracking-tight text-foreground/70 md:text-4xl">
-                {project.title}
-              </span>
-            </div>
-          )}
-
-          {project.year && (
-            <div className="pointer-events-none absolute right-4 top-4 font-mono text-[11px] uppercase tracking-wide text-white mix-blend-difference">
-              {project.year}
-            </div>
-          )}
+        <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25">
+          <div className="panel-media absolute inset-0 scale-[1.14]">
+            {project.previewVideo ? (
+              <video
+                className="h-full w-full object-cover"
+                src={project.previewVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <div
+                className="grid h-full w-full place-items-center p-8"
+                style={{ background: "var(--accent-soft)" }}
+              >
+                <span className="text-center text-3xl font-medium tracking-tight text-foreground/70 md:text-4xl">
+                  {project.title}
+                </span>
+              </div>
+            )}
+          </div>
 
           {hasDemo && (
             <button
               onClick={onWatch}
               aria-label={t.work.watchDemo}
-              className="group absolute inset-0 grid place-items-center transition-colors hover:bg-black/40"
+              className="absolute inset-0 grid place-items-center transition-colors hover:bg-black/40"
             >
-              <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 bg-black/30 text-lg backdrop-blur transition-transform group-hover:scale-110">
+              <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 bg-black/30 text-lg backdrop-blur transition-transform duration-300 hover:scale-110">
                 ▶
               </span>
             </button>

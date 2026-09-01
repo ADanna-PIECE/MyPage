@@ -44,16 +44,20 @@ export default function Hero({ locale }: { locale: Locale }) {
           .from(".hero-word", { yPercent: 115, duration: 1.1, stagger: 0.1 }, "-=0.3")
           .from(".hero-intro", { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")
           .from(".hero-bottom", { opacity: 0, duration: 0.8 }, "-=0.3");
-
-        gsap.to(".hero-halo", {
-          xPercent: 8,
-          yPercent: -6,
-          duration: 9,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
       });
+
+      const halo = ref.current?.querySelector<HTMLElement>(".hero-halo");
+      if (halo && window.matchMedia("(pointer: fine)").matches) {
+        const xTo = gsap.quickTo(halo, "x", { duration: 0.9, ease: "power3" });
+        const yTo = gsap.quickTo(halo, "y", { duration: 0.9, ease: "power3" });
+        const onMove = (e: PointerEvent) => {
+          const r = ref.current!.getBoundingClientRect();
+          xTo((e.clientX - r.left - r.width / 2) * 0.12);
+          yTo((e.clientY - r.top - r.height / 2) * 0.12);
+        };
+        window.addEventListener("pointermove", onMove);
+        return () => window.removeEventListener("pointermove", onMove);
+      }
     },
     { scope: ref },
   );
@@ -65,8 +69,11 @@ export default function Hero({ locale }: { locale: Locale }) {
       className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden px-6 pb-6 pt-28 md:px-10 md:pb-10"
     >
       <div
-        className="hero-halo pointer-events-none absolute right-[-10vw] top-[6vh] -z-10 h-[75vh] w-[75vh] rounded-full blur-[130px] md:right-[8vw]"
-        style={{ background: "var(--accent-soft)" }}
+        className="hero-halo pointer-events-none absolute right-[-15vw] top-[2vh] -z-10 h-[85vh] w-[85vh] rounded-full blur-[140px] md:right-[4vw]"
+        style={{
+          background:
+            "radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)",
+        }}
         aria-hidden="true"
       />
 
@@ -97,6 +104,10 @@ export default function Hero({ locale }: { locale: Locale }) {
           <Rich text={t.hero.intro} />
         </p>
       </div>
+
+      <span className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rotate-90 font-mono text-[11px] uppercase tracking-[0.35em] text-muted lg:block">
+        Portfolio — 2026
+      </span>
 
       <div className="hero-bottom">
         <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide">

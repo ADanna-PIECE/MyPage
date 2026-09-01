@@ -30,8 +30,11 @@ type Dictionary = {
     stackLabel: string;
     more: string;
     moreNote: string;
+    detail: { brief: string; approach: string; solution: string; extra: string };
+    readMore: string;
+    readLess: string;
   };
-  about: { kicker: string; heading: string; body: string[] };
+  about: { kicker: string; heading: string; body: string[]; facts: string[] };
   contact: {
     kicker: string;
     heading: string;
@@ -78,7 +81,7 @@ const es: Dictionary = {
   work: {
     kicker: "Selección",
     heading: "Proyectos",
-    span: "2019 — 2025",
+    span: "2019 — 2026",
     watchDemo: "Ver demo",
     demoWithAudio: "explicada, con audio",
     visitSite: "Ver sitio",
@@ -88,6 +91,14 @@ const es: Dictionary = {
     more: "Más trabajo",
     moreNote:
       "Estos son algunos. Hay varios proyectos más — de *automatización, data y producto* — que no entran en esta selección. Escribime y te muestro.",
+    detail: {
+      brief: "El pedido",
+      approach: "Mi enfoque",
+      solution: "La solución",
+      extra: "Qué agregué",
+    },
+    readMore: "Ver detalle",
+    readLess: "Ocultar",
   },
   about: {
     kicker: "Sobre mí",
@@ -96,6 +107,12 @@ const es: Dictionary = {
       "Ingeniero de software enfocado en *construcción rápida de soluciones B2B*, workflows de automatización con IA y arquitectura de datos.",
       "Vengo de *siete años en mercados de capitales* (forex y cripto), donde validé cada estrategia con separación in-sample/out-of-sample, análisis de sensibilidad y costos de transacción reales. Sumo tres años como analista contable y financiero.",
       "Trabajo con *desarrollo asistido por IA*: orquesto agentes (Claude, Gemini), aplico MCP y skills propias para mantener el código lean y listo para producción. Estudiante avanzado de *Sistemas de Información en la UBA*.",
+    ],
+    facts: [
+      "7 años operando mercados de capitales (forex y cripto)",
+      "Superé la evaluación de una prop firm y generé un payout",
+      "Expositor invitado en charlas de trading para BingX (2022–2023)",
+      "Estudiante avanzado — Sistemas de Información, UBA",
     ],
   },
   contact: {
@@ -132,7 +149,7 @@ const en: Dictionary = {
   work: {
     kicker: "Selected",
     heading: "Work",
-    span: "2019 — 2025",
+    span: "2019 — 2026",
     watchDemo: "Watch demo",
     demoWithAudio: "narrated, with audio",
     visitSite: "Visit site",
@@ -142,6 +159,14 @@ const en: Dictionary = {
     more: "More work",
     moreNote:
       "These are a few. There are several more — *automation, data and product* — that don't fit this selection. Message me and I'll walk you through them.",
+    detail: {
+      brief: "The brief",
+      approach: "My approach",
+      solution: "The solution",
+      extra: "What I added",
+    },
+    readMore: "Read detail",
+    readLess: "Hide",
   },
   about: {
     kicker: "About",
@@ -150,6 +175,12 @@ const en: Dictionary = {
       "Software engineer focused on *rapid B2B solution building*, AI automation workflows, and data architecture.",
       "I come from *seven years in capital markets* (forex and crypto), where I validated every strategy with in-sample/out-of-sample separation, parameter sensitivity analysis, and real transaction costs. Plus three years as an accounting and financial analyst.",
       "I work with *AI-assisted development*: orchestrating agents (Claude, Gemini), applying MCP and custom skills to keep code lean and production-ready. Advanced *Information Systems student at UBA*.",
+    ],
+    facts: [
+      "7 years trading capital markets (forex and crypto)",
+      "Passed a prop-firm evaluation and earned a payout",
+      "Guest speaker at BingX trading talks (2022–2023)",
+      "Advanced student — Information Systems, UBA",
     ],
   },
   contact: {

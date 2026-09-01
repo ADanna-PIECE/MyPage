@@ -28,15 +28,21 @@ export default function Contact({ locale }: { locale: Locale }) {
 
       <ul className="mt-14 border-t border-line">
         {LINKS.map((link) => (
-          <li key={link.label}>
+          <li key={link.label} className="border-b border-line">
             <a
               href={link.href}
               target={link.href.startsWith("http") ? "_blank" : undefined}
               rel="noreferrer"
-              className="group flex items-center justify-between border-b border-line py-5 text-xl transition-colors hover:text-accent md:text-2xl"
+              className="group relative flex items-center justify-between overflow-hidden py-5 text-xl md:text-2xl"
             >
-              <span>{link.label}</span>
-              <span className="font-mono text-xs text-muted transition-transform group-hover:translate-x-1 group-hover:text-accent">
+              <span
+                className="absolute inset-0 -z-0 -translate-x-full bg-accent transition-transform duration-300 ease-out group-hover:translate-x-0"
+                aria-hidden="true"
+              />
+              <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-4 group-hover:text-white">
+                {link.label}
+              </span>
+              <span className="relative z-10 font-mono text-xs text-muted transition-all duration-300 group-hover:-translate-x-4 group-hover:text-white">
                 ↗
               </span>
             </a>

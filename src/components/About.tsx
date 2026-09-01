@@ -35,6 +35,20 @@ export default function About({ locale }: { locale: Locale }) {
               </p>
             ))}
           </div>
+
+          <ul className="mt-12 max-w-xl border-t border-black/10 pt-8">
+            {t.about.facts.map((fact, i) => (
+              <li
+                key={i}
+                className="flex gap-4 border-b border-black/10 py-3 text-sm text-[#14140f]"
+              >
+                <span className="tnum font-mono text-xs text-[#9a958a]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{fact}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
