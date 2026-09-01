@@ -22,6 +22,14 @@ export type Project = {
   role: Record<Locale, string>;
   stack: string[];
   detail: ProjectDetail | null;
+  /** etiqueta custom del botón de demo principal (default: "Ver demo") */
+  demoLabel?: Record<Locale, string>;
+  /** segunda demo (ej. Brocolix: app + sitio) */
+  extraDemo?: {
+    label: Record<Locale, string>;
+    youtubeId: string | null;
+    demoVideo: string | null;
+  };
   /** true = bloque completo con visual + animación. false = lista compacta "Más trabajo". */
   featured?: boolean;
 };
@@ -41,8 +49,14 @@ export const projects: Project[] = [
     title: "Brocolix",
     featured: true,
     previewVideo: "/preview/brocolix.mp4",
-    youtubeId: null,
+    youtubeId: null, // TODO(augusto): id de YouTube del video de la APP
     demoVideo: "/demo/brocolix.mp4",
+    demoLabel: { es: "Ver la app", en: "Watch the app" },
+    extraDemo: {
+      label: { es: "Ver el sitio", en: "Watch the site" },
+      youtubeId: null, // TODO(augusto): id de YouTube del video del LANDING
+      demoVideo: "/demo/brocolix-landing.mp4",
+    },
     liveUrl: "https://brocolix.vercel.app",
     repoUrl: null,
     tagline: {

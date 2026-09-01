@@ -14,10 +14,11 @@ import LazyVideo from "./LazyVideo";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Dict = ReturnType<typeof getDictionary>;
+type ActiveVideo = { youtubeId: string | null; src: string | null; title: string };
 
 export default function Work({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
-  const [active, setActive] = useState<Project | null>(null);
+  const [active, setActive] = useState<ActiveVideo | null>(null);
 
   const featured = projects.filter((p) => p.featured);
   const more = projects.filter((p) => !p.featured);
@@ -42,7 +43,7 @@ export default function Work({ locale }: { locale: Locale }) {
             project={project}
             locale={locale}
             t={t}
-            onWatch={() => setActive(project)}
+            onWatch={setActive}
           />
         ))}
       </ol>
@@ -83,7 +84,7 @@ export default function Work({ locale }: { locale: Locale }) {
 
       <VideoDialog
         youtubeId={active?.youtubeId ?? null}
-        src={active?.demoVideo ?? null}
+        src={active?.src ?? null}
         title={active?.title ?? ""}
         onClose={() => setActive(null)}
       />
@@ -96,10 +97,32 @@ type RowProps = {
   project: Project;
   locale: Locale;
   t: Dict;
-  onWatch: () => void;
+  onWatch: (video: ActiveVideo) => void;
 };
 
 function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
+  const primary: ActiveVideo = {
+    youtubeId: project.youtubeId,
+    src: project.demoVideo,
+    title: project.title,
+  };
+  const demos: { label: string; video: ActiveVideo }[] = [];
+  if (project.youtubeId || project.demoVideo) {
+    demos.push({
+      label: project.demoLabel?.[locale] ?? t.work.watchDemo,
+      video: primary,
+    });
+  }
+  if (project.extraDemo) {
+    demos.push({
+      label: project.extraDemo.label[locale],
+      video: {
+        youtubeId: project.extraDemo.youtubeId,
+        src: project.extraDemo.demoVideo,
+        title: project.title,
+      },
+    });
+  }
   const ref = useRef<HTMLLIElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -174,7 +197,7 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
     { scope: ref },
   );
 
-  const hasDemo = project.youtubeId !== null || project.demoVideo !== null;
+  const hasDemo = demos.length > 0;
 
   return (
     <li
@@ -210,14 +233,15 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
         </dl>
 
         <div className="row-line mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide">
-          {hasDemo && (
+          {demos.map((d) => (
             <button
-              onClick={onWatch}
+              key={d.label}
+              onClick={() => onWatch(d.video)}
               className="link text-accent transition-transform active:scale-[0.97]"
             >
-              ▶ {t.work.watchDemo}
+              ▶ {d.label}
             </button>
-          )}
+          ))}
           {project.liveUrl && (
             <a
               href={project.liveUrl}
@@ -298,8 +322,8 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
 
           {hasDemo && (
             <button
-              onClick={onWatch}
-              aria-label={t.work.watchDemo}
+              onClick={() => onWatch(demos[0].video)}
+              aria-label={demos[0].label}
               data-cursor="demo"
               className="absolute inset-0 grid place-items-center transition-colors hover:bg-black/40"
             >
