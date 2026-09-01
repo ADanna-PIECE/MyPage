@@ -76,6 +76,7 @@ export default async function LocaleLayout({
         </svg>
         <Loader name={t.name} />
         <div className="scroll-progress" aria-hidden="true" />
+        <div className="vignette" aria-hidden="true" />
         <Grain />
         <Cursor />
         <SiteHeader locale={locale} />

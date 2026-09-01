@@ -133,6 +133,9 @@ export default function Work({ locale }: { locale: Locale }) {
       </div>
 
       <div ref={pinRef} className="relative md:h-screen md:overflow-hidden">
+        <div className="pointer-events-none absolute left-6 top-24 z-10 hidden font-mono text-xs uppercase tracking-wide text-muted md:block md:left-10">
+          {t.work.heading} — {t.work.span}
+        </div>
         <ol
           ref={trackRef}
           className="flex flex-col md:h-screen md:w-max md:flex-row"

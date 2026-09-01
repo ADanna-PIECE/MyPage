@@ -3,6 +3,7 @@ import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import SectionKicker from "./SectionKicker";
 import TextReveal from "./TextReveal";
+import MediaReveal from "./MediaReveal";
 
 // Light section — deliberate palette break from the dark rest of the page.
 export default function About({ locale }: { locale: Locale }) {
@@ -19,11 +20,13 @@ export default function About({ locale }: { locale: Locale }) {
           <SectionKicker label={t.about.kicker} className="text-[#7a766c]" />
 
           {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg */}
-          <img
-            src="/photo.jpg"
-            alt={t.name}
-            className="mt-6 aspect-[3/4] w-full max-w-[320px] rounded-lg border border-black/10 object-cover object-top grayscale transition-[filter] duration-500 hover:grayscale-0"
-          />
+          <MediaReveal className="mt-6 aspect-[3/4] w-full max-w-[320px] rounded-lg border border-black/10">
+            <img
+              src="/photo.jpg"
+              alt={t.name}
+              className="h-full w-full object-cover object-top grayscale transition-[filter] duration-500 hover:grayscale-0"
+            />
+          </MediaReveal>
         </div>
         <div className="md:col-span-8">
           <TextReveal

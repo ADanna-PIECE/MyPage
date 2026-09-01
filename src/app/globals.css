@@ -156,6 +156,19 @@ img {
   .scroll-cue::after { animation: none; }
 }
 
+/* cinematic vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 100% at 50% 45%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.28) 100%
+  );
+}
+
 /* scroll progress bar (CSS scroll-driven; degrades to hidden) */
 .scroll-progress {
   position: fixed;
@@ -164,10 +177,18 @@ img {
   width: 100%;
   z-index: 80;
   background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
   transform-origin: left;
   transform: scaleX(0);
   animation: scroll-progress linear both;
   animation-timeline: scroll(root);
+}
+
+/* keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 @keyframes scroll-progress {
   to {
