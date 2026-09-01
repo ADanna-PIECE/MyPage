@@ -113,7 +113,7 @@ export default function HeroParticles() {
         { p: pull },
         {
           p: 0.11,
-          duration: 1.6,
+          duration: 1.1,
           ease: "power2.out",
           onUpdate() {
             pull = (this.targets()[0] as { p: number }).p;
