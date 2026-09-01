@@ -12,6 +12,7 @@ import DetailDialog from "./DetailDialog";
 import Rich from "./Rich";
 import LazyVideo from "./LazyVideo";
 import Magnetic from "./Magnetic";
+import { rippleIn, rippleOut } from "@/lib/panelRipple";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -288,7 +289,11 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
       </div>
 
       <div className="md:w-[46vw]">
-        <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25">
+        <div
+          onMouseEnter={(e) => rippleIn(e.currentTarget)}
+          onMouseLeave={(e) => rippleOut(e.currentTarget)}
+          className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25"
+        >
           <div className="panel-media absolute inset-0 scale-[1.12]">
             {project.previewVideo ? (
               <LazyVideo
