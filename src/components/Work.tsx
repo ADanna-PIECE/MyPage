@@ -9,6 +9,7 @@ import { getDictionary } from "@/content/dictionary";
 import { projects, type Project } from "@/content/projects";
 import VideoDialog from "./VideoDialog";
 import Rich from "./Rich";
+import LazyVideo from "./LazyVideo";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -275,14 +276,9 @@ function ProjectRow({ index, project, locale, t, onWatch }: RowProps) {
         <div className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25">
           <div className="panel-media absolute inset-0 scale-[1.14]">
             {project.previewVideo ? (
-              <video
+              <LazyVideo
                 className="h-full w-full object-cover"
                 src={project.previewVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
               />
             ) : (
               <div className="relative grid h-full w-full items-end bg-surface p-6">

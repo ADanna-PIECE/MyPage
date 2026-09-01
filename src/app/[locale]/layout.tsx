@@ -25,9 +25,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = getDictionary(isLocale(locale) ? locale : "es");
+  const title = `${t.name} — ${t.hero.role}`;
+  const description = t.hero.intro.replace(/\*/g, "");
   return {
-    title: `${t.name} — ${t.hero.role}`,
-    description: t.hero.intro.replace(/\*/g, ""),
+    // TODO(augusto): cambiá esto por tu dominio real cuando deployees
+    metadataBase: new URL("https://augustodanna.vercel.app"),
+    title,
+    description,
+    openGraph: { title, description, type: "website", locale },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
