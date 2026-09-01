@@ -1,11 +1,16 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import SectionKicker from "./SectionKicker";
 import TextReveal from "./TextReveal";
 import { MailIcon, LinkedInIcon, GitHubIcon, DocIcon } from "./ContactIcons";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // TODO(augusto): confirmá el mail, y poné cv.pdf en public/.
 const EMAIL = "augustomartindanna16@gmail.com";
@@ -45,6 +50,24 @@ function Row({
 export default function Contact({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const [copied, setCopied] = useState(false);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(listRef.current!.children, {
+          y: 24,
+          opacity: 0,
+          stagger: 0.08,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: listRef.current, start: "top 80%" },
+        });
+      });
+    },
+    { scope: listRef },
+  );
 
   const copyEmail = async () => {
     try {
@@ -66,7 +89,7 @@ export default function Contact({ locale }: { locale: Locale }) {
       />
       <p className="mt-8 max-w-md text-muted">{t.contact.body}</p>
 
-      <ul className="mt-14 border-t border-line">
+      <ul ref={listRef} className="mt-14 border-t border-line">
         <li className="border-b border-line">
           <button
             onClick={copyEmail}

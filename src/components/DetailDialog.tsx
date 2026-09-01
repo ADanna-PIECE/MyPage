@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import type { ProjectDetail } from "@/content/projects";
@@ -14,13 +15,33 @@ type DetailDialogProps = {
 
 export default function DetailDialog({ detail, title, locale, onClose }: DetailDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const t = getDictionary(locale);
   const open = detail !== null;
 
   useEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
+    if (open && !dialog.open) {
+      dialog.showModal();
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduced && cardRef.current) {
+        gsap.from(cardRef.current, {
+          y: 26,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power3.out",
+        });
+        gsap.from(cardRef.current.querySelectorAll("dl > div, h3"), {
+          y: 14,
+          opacity: 0,
+          stagger: 0.06,
+          duration: 0.5,
+          ease: "power3.out",
+          delay: 0.1,
+        });
+      }
+    }
     if (!open && dialog.open) dialog.close();
   }, [open]);
 
@@ -34,7 +55,7 @@ export default function DetailDialog({ detail, title, locale, onClose }: DetailD
       className="fixed inset-0 m-auto w-[min(92vw,640px)] bg-transparent"
     >
       {detail && (
-        <div className="rounded-lg border border-line bg-surface p-8 md:p-10">
+        <div ref={cardRef} className="rounded-lg border border-line bg-surface p-8 md:p-10">
           <div className="flex items-baseline justify-between">
             <h3 className="text-2xl font-medium tracking-tight">{title}</h3>
             <button

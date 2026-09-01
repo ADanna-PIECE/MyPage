@@ -51,6 +51,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         gsap.set(".hero-top > *", { y: 16, opacity: 0 });
         gsap.set(".hero-word", { y: 70, filter: "blur(12px)", opacity: 0 });
         gsap.set([".hero-intro", ".hero-bottom"], { opacity: 0, y: 20 });
+        gsap.set(".hero-folio", { opacity: 0 });
 
         onIntroReveal(() => {
           gsap
@@ -62,7 +63,17 @@ export default function Hero({ locale }: { locale: Locale }) {
               "-=0.35",
             )
             .to(".hero-intro", { y: 0, opacity: 1, duration: 0.8 }, "-=0.6")
-            .to(".hero-bottom", { y: 0, opacity: 1, duration: 0.8 }, "-=0.4");
+            .to(".hero-bottom", { y: 0, opacity: 1, duration: 0.8 }, "-=0.4")
+            .to(".hero-folio", { opacity: 1, duration: 0.8 }, "<")
+            .add(() => {
+              gsap.to(".hero-name", {
+                y: 6,
+                duration: 4,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+              });
+            });
         });
 
         // ambient drifting blobs
@@ -168,7 +179,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           {t.hero.status}
         </span>
 
-        <h1 className="text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] md:text-[10.5vw]">
+        <h1 className="hero-name text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] will-change-transform md:text-[10.5vw]">
           {words.map((word, i) => (
             <span key={i} className="block">
               <span className="hero-word inline-block will-change-transform">{word}</span>
@@ -181,7 +192,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         </p>
       </div>
 
-      <span className="pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rotate-90 font-mono text-[11px] uppercase tracking-[0.35em] text-muted lg:block">
+      <span className="hero-folio pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rotate-90 font-mono text-[11px] uppercase tracking-[0.35em] text-muted lg:block">
         Portfolio — 2026
       </span>
 

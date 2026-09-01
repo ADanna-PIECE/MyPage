@@ -50,10 +50,10 @@ export default function HeroParticles() {
     const home = new Float32Array(targets);
     for (let i = 0; i < count; i++) {
       const a = Math.random() * Math.PI * 2;
-      const rad = 1.6 + Math.random() * 1.8;
+      const rad = 1.3 + Math.random() * 1.3;
       positions[i * 3] = Math.cos(a) * rad;
       positions[i * 3 + 1] = Math.sin(a) * rad;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 1.6;
     }
 
     const geo = new THREE.BufferGeometry();
@@ -106,13 +106,13 @@ export default function HeroParticles() {
     const pos = geo.attributes.position.array as Float32Array;
     const clock = new THREE.Clock();
     let raf = 0;
-    let pull = reduced ? 0.11 : 0.006; // barely drifts until the intro fires
+    let pull = reduced ? 0.13 : 0.006; // barely drifts until the intro fires
 
     onIntroReveal(() => {
       gsap.to(
         { p: pull },
         {
-          p: 0.11,
+          p: 0.13,
           duration: 1.1,
           ease: "power2.out",
           onUpdate() {
