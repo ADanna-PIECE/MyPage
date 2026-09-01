@@ -28,8 +28,8 @@ export async function generateMetadata({
   const title = `${t.name} — ${t.hero.role}`;
   const description = t.hero.intro.replace(/\*/g, "");
   return {
-    // TODO(augusto): cambiá esto por tu dominio real cuando deployees
-    metadataBase: new URL("https://augustodanna.vercel.app"),
+    // Si cambiás el dominio en Vercel (Settings → Domains), actualizá esta línea.
+    metadataBase: new URL("https://my-page-chi-eight.vercel.app"),
     title,
     description,
     openGraph: { title, description, type: "website", locale },
