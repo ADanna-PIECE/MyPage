@@ -112,6 +112,7 @@ export default function HeroParticles() {
     const clock = new THREE.Clock();
     let raf = 0;
     let visible = true;
+    let lastFrame = 0;
     let pull = reduced ? 0.13 : 0.006; // barely drifts until the intro fires
 
     onIntroReveal(() => {
@@ -128,7 +129,12 @@ export default function HeroParticles() {
       );
     });
 
-    const loop = () => {
+    const loop = (now = 0) => {
+      if (visible) raf = requestAnimationFrame(loop);
+      // ponytail: cap the field at ~40fps — it barely moves once settled, and this
+      // frees main-thread budget for Lenis/ScrollTrigger while you scroll past the hero
+      if (now - lastFrame < 24) return;
+      lastFrame = now;
       clock.getDelta();
       const t = clock.elapsedTime;
 
@@ -165,7 +171,6 @@ export default function HeroParticles() {
       points.rotation.y = reduced ? 0 : Math.sin(t * 0.15) * 0.12;
 
       renderer.render(scene, camera);
-      if (visible) raf = requestAnimationFrame(loop);
     };
     loop();
 

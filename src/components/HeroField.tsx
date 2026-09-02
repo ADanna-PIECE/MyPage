@@ -75,8 +75,14 @@ export default function HeroField() {
     let raf = 0;
     let t = 0;
     let visible = true;
+    let last = 0;
 
-    const frame = () => {
+    const frame = (now = 0) => {
+      if (!reduce && visible) raf = requestAnimationFrame(frame);
+      // ponytail: ~40fps cap — the mesh reads the same, but the nested link/node
+      // loops stop stealing frame budget from the scroll while you leave the hero
+      if (now - last < 24) return;
+      last = now;
       t += 0.012;
       ctx.clearRect(0, 0, w, h);
 
@@ -147,7 +153,6 @@ export default function HeroField() {
         ctx.fill();
       }
 
-      if (!reduce && visible) raf = requestAnimationFrame(frame);
     };
 
     frame();

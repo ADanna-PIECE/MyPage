@@ -34,6 +34,11 @@ type Dictionary = {
     readMore: string;
     readLess: string;
   };
+  process: {
+    kicker: string;
+    heading: string;
+    steps: { n: string; title: string; body: string }[];
+  };
   about: { kicker: string; heading: string; body: string[]; facts: string[] };
   contact: {
     kicker: string;
@@ -101,6 +106,27 @@ const es: Dictionary = {
     },
     readMore: "Ver detalle",
     readLess: "Ocultar",
+  },
+  process: {
+    kicker: "Cómo trabajo",
+    heading: "Del problema al sistema",
+    steps: [
+      {
+        n: "01",
+        title: "Entiendo el problema",
+        body: "Me interiorizo, busco ideas y no doy nada por sentado hasta tenerlo claro.",
+      },
+      {
+        n: "02",
+        title: "Elijo la forma",
+        body: "Decido si conviene automatizarlo de punta a punta o sumarle un asistente — lo que resuelva mejor.",
+      },
+      {
+        n: "03",
+        title: "Hablo con los resultados",
+        body: "Valido contra datos reales, no contra supuestos. Si un número no cierra, vuelvo atrás.",
+      },
+    ],
   },
   about: {
     kicker: "Sobre mí",
@@ -174,6 +200,27 @@ const en: Dictionary = {
     },
     readMore: "Read detail",
     readLess: "Hide",
+  },
+  process: {
+    kicker: "How I work",
+    heading: "From problem to system",
+    steps: [
+      {
+        n: "01",
+        title: "I understand the problem",
+        body: "I dig in, look for ideas, and take nothing for granted until it's clear.",
+      },
+      {
+        n: "02",
+        title: "I pick the approach",
+        body: "I decide whether to automate it end to end or add an assistant — whatever solves it better.",
+      },
+      {
+        n: "03",
+        title: "I talk to the results",
+        body: "I validate against real data, not assumptions. If a number doesn't add up, I go back.",
+      },
+    ],
   },
   about: {
     kicker: "About",
