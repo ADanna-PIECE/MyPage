@@ -179,7 +179,7 @@ export default function HeroField() {
     // stop well before the hero is fully gone — decorative once you're scrolling
     const onScroll = () => {
       lastScroll = performance.now();
-      const n = window.scrollY < window.innerHeight * 0.6;
+      const n = window.scrollY < window.innerHeight * 0.4;
       if (n === near) return; // only act when it actually crosses the line
       near = n;
       wake();

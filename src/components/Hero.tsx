@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import HeroField from "./HeroField";
-import HeroParticles from "./HeroParticles";
+import HeroPixelFace from "./HeroPixelFace";
 import Magnetic from "./Magnetic";
 import { onIntroReveal } from "@/lib/intro";
 
@@ -89,31 +89,25 @@ export default function Hero({ locale }: { locale: Locale }) {
           });
         });
 
-        // supporting text drifts up as you scroll past the hero
+        // whole hero block drifts up and fades as you scroll past it
         gsap.to(".hero-fade", {
-          yPercent: -14,
+          yPercent: -16,
+          opacity: 0,
           ease: "none",
           scrollTrigger: { trigger: root, start: "top top", end: "bottom top", scrub: true },
         });
-        gsap.to([".hero-intro", ".hero-bottom", ".hero-top"], {
-          opacity: 0,
-          ease: "none",
-          scrollTrigger: { trigger: root, start: "top top", end: "+=45%", scrub: true },
-        });
 
-        // the name blows apart into flying letters on the way out
-        gsap.to(".hero-char", {
-          yPercent: () => gsap.utils.random(-260, -520),
-          xPercent: () => gsap.utils.random(-170, 170),
-          rotation: () => gsap.utils.random(-95, 95),
-          opacity: 0,
+        // ...and the name breaks apart first — one tween per line
+        gsap.to(".hero-word", {
+          yPercent: (i) => (i % 2 ? -170 : -280),
+          xPercent: (i) => (i % 2 ? 95 : -75),
+          rotation: (i) => (i % 2 ? 13 : -10),
           ease: "power2.in",
-          stagger: { each: 0.006, from: "random" },
           scrollTrigger: {
             trigger: root,
             start: "top top",
-            end: () => "+=" + window.innerHeight * 0.8,
-            scrub: 0.5,
+            end: () => "+=" + window.innerHeight * 0.5,
+            scrub: 0.4,
           },
         });
       });
@@ -181,7 +175,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           }}
         />
         <HeroField />
-        <HeroParticles />
+        <HeroPixelFace />
       </div>
 
       <div className="relative z-10 hero-top flex items-start justify-between font-mono text-xs uppercase tracking-wide text-muted">
@@ -202,17 +196,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         <h1 className="hero-name text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] will-change-transform md:text-[10.5vw]">
           {words.map((word, i) => (
             <span key={i} className="block">
-              <span className="hero-word inline-block will-change-transform">
-                {word.split("").map((ch, j) => (
-                  <span
-                    key={j}
-                    className="hero-char inline-block will-change-transform"
-                    style={{ whiteSpace: "pre" }}
-                  >
-                    {ch}
-                  </span>
-                ))}
-              </span>
+              <span className="hero-word inline-block will-change-transform">{word}</span>
             </span>
           ))}
         </h1>
