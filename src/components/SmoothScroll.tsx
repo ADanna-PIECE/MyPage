@@ -25,11 +25,23 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     gsap.ticker.lagSmoothing(0);
     lenis.on("scroll", ScrollTrigger.update);
 
-    // expose scroll velocity for the marquee skew
+    // expose scroll velocity for the marquee skew — only while the hero marquee
+    // is on screen, so it isn't invalidating styles on every scroll frame lower down
     const root = document.documentElement;
     const clampSkew = gsap.utils.clamp(-7, 7);
+    let lastSkew = 0;
     lenis.on("scroll", ({ velocity }: { velocity: number }) => {
-      root.style.setProperty("--mskew", `${clampSkew(velocity * 0.35)}deg`);
+      if (window.scrollY > window.innerHeight * 1.4) {
+        if (lastSkew !== 0) {
+          root.style.setProperty("--mskew", "0deg");
+          lastSkew = 0;
+        }
+        return;
+      }
+      const next = clampSkew(velocity * 0.35);
+      if (Math.abs(next - lastSkew) < 0.1) return;
+      root.style.setProperty("--mskew", `${next}deg`);
+      lastSkew = next;
     });
 
     return () => {

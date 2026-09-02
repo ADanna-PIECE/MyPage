@@ -47,12 +47,12 @@ export default function Work({ locale }: { locale: Locale }) {
             scrollTrigger: {
               trigger: pinRef.current,
               pin: true,
-              scrub: 1,
+              scrub: 0.5,
               start: "top top",
               end: () => "+=" + amount(),
               snap:
                 featured.length > 1
-                  ? { snapTo: 1 / (featured.length - 1), duration: 0.4, ease: "power1.inOut" }
+                  ? { snapTo: 1 / (featured.length - 1), duration: 0.3, ease: "power1.inOut" }
                   : undefined,
               invalidateOnRefresh: true,
               onUpdate: (self) =>
@@ -62,9 +62,8 @@ export default function Work({ locale }: { locale: Locale }) {
 
           gsap.utils.toArray<HTMLElement>(".pcard").forEach((card) => {
             gsap.from(card.querySelectorAll(".pc-line"), {
-              y: 44,
+              y: 40,
               opacity: 0,
-              filter: "blur(8px)",
               stagger: 0.06,
               duration: 0.7,
               ease: "power3.out",
@@ -72,37 +71,20 @@ export default function Work({ locale }: { locale: Locale }) {
                 trigger: card,
                 containerAnimation: horiz,
                 start: "left 62%",
+                // during a fast flick just snap it done instead of animating
+                fastScrollEnd: true,
               },
             });
 
+            // one parallax layer per card — the panel drifts against the page
             const media = card.querySelector<HTMLElement>(".panel-media");
             if (media) {
-              gsap.set(media, { scale: 1.12 });
+              gsap.set(media, { scale: 1.09 });
               gsap.fromTo(
                 media,
-                { xPercent: -8 },
+                { xPercent: -5 },
                 {
-                  xPercent: 8,
-                  ease: "none",
-                  scrollTrigger: {
-                    trigger: card,
-                    containerAnimation: horiz,
-                    start: "left right",
-                    end: "right left",
-                    scrub: true,
-                  },
-                },
-              );
-            }
-
-            // big number drifts against the panel as the card slides through — depth
-            const num = card.querySelector<HTMLElement>(".pc-num");
-            if (num) {
-              gsap.fromTo(
-                num,
-                { xPercent: 16 },
-                {
-                  xPercent: -16,
+                  xPercent: 5,
                   ease: "none",
                   scrollTrigger: {
                     trigger: card,
