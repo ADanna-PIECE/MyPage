@@ -317,7 +317,35 @@ body {
 }
 
 .rule-t {
+  position: relative;
   border-top: 1px solid var(--line);
+}
+
+/* accent line that draws across each section boundary as it scrolls in.
+   pure CSS scroll-driven animation — Chrome/Edge get it, everyone else keeps
+   the plain border. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rule-t::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent), transparent 78%);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: rule-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 12%;
+    }
+  }
+}
+@keyframes rule-draw {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

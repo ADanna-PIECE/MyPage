@@ -12,6 +12,7 @@ import DetailDialog from "./DetailDialog";
 import Rich from "./Rich";
 import LazyVideo from "./LazyVideo";
 import Magnetic from "./Magnetic";
+import TextReveal from "./TextReveal";
 import { rippleIn, rippleOut } from "@/lib/panelRipple";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -93,6 +94,26 @@ export default function Work({ locale }: { locale: Locale }) {
                 },
               );
             }
+
+            // big number drifts against the panel as the card slides through — depth
+            const num = card.querySelector<HTMLElement>(".pc-num");
+            if (num) {
+              gsap.fromTo(
+                num,
+                { xPercent: 16 },
+                {
+                  xPercent: -16,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: card,
+                    containerAnimation: horiz,
+                    start: "left right",
+                    end: "right left",
+                    scrub: true,
+                  },
+                },
+              );
+            }
           });
         },
       );
@@ -106,9 +127,11 @@ export default function Work({ locale }: { locale: Locale }) {
         <span className="hidden sm:block">
           {t.work.kicker} — {String(featured.length).padStart(2, "0")}
         </span>
-        <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-5xl">
-          {t.work.heading}
-        </h2>
+        <TextReveal
+          as="h2"
+          text={t.work.heading}
+          className="block text-3xl font-medium tracking-tight text-foreground md:text-5xl"
+        />
         <span className="hidden sm:block">{t.work.span}</span>
       </div>
 

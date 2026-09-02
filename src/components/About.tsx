@@ -4,6 +4,7 @@ import Rich from "./Rich";
 import SectionKicker from "./SectionKicker";
 import TextReveal from "./TextReveal";
 import MediaReveal from "./MediaReveal";
+import StaggerReveal from "./StaggerReveal";
 
 // Light section — deliberate palette break from the dark rest of the page.
 export default function About({ locale }: { locale: Locale }) {
@@ -34,15 +35,15 @@ export default function About({ locale }: { locale: Locale }) {
             text={t.about.heading}
             className="block max-w-3xl text-3xl font-medium tracking-tight md:text-5xl"
           />
-          <div className="mt-10 max-w-xl space-y-5 text-[#4a463c]">
+          <StaggerReveal className="mt-10 max-w-xl space-y-5 text-[#4a463c]">
             {t.about.body.map((paragraph, i) => (
               <p key={i}>
                 <Rich text={paragraph} />
               </p>
             ))}
-          </div>
+          </StaggerReveal>
 
-          <ul className="mt-12 max-w-xl border-t border-black/10 pt-8">
+          <StaggerReveal as="ul" className="mt-12 max-w-xl border-t border-black/10 pt-8">
             {t.about.facts.map((fact, i) => (
               <li
                 key={i}
@@ -54,7 +55,7 @@ export default function About({ locale }: { locale: Locale }) {
                 <span>{fact}</span>
               </li>
             ))}
-          </ul>
+          </StaggerReveal>
         </div>
       </div>
     </section>
