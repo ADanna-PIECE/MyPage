@@ -20,16 +20,15 @@ export default function About({ locale }: { locale: Locale }) {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // portrait: clip wipe up + settle from an over-scale, then wash to colour
+        // portrait: clip wipe up + the image settles out of an over-scale
         gsap.from(".about-photo", {
           clipPath: "inset(100% 0 0 0)",
           duration: 1.1,
           ease: "power3.inOut",
           scrollTrigger: { trigger: ".about-photo", start: "top 85%" },
         });
-        gsap.from(".about-photo img", {
-          scale: 1.25,
-          filter: "grayscale(1) brightness(1.1)",
+        gsap.from(".about-photo-img", {
+          scale: 1.18,
           duration: 1.4,
           ease: "power3.out",
           scrollTrigger: { trigger: ".about-photo", start: "top 85%" },
@@ -96,12 +95,34 @@ export default function About({ locale }: { locale: Locale }) {
           <div className="md:sticky md:top-28">
             <SectionKicker label={t.about.kicker} className="text-[#7a766c]" />
 
-            {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg */}
-            <div className="about-photo mt-6 aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg border border-black/10">
+            {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg.
+                grayscale base + a colour copy revealed in a circle that tracks the cursor */}
+            <div
+              className="about-photo group relative mt-6 aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg border border-black/10 shadow-none transition-[border-color,transform,box-shadow] duration-500 hover:scale-[1.03] hover:border-accent/60 hover:shadow-[0_30px_60px_-20px_rgba(139,92,246,0.35)]"
+              style={{ ["--mx" as string]: "50%", ["--my" as string]: "50%" }}
+              onMouseMove={(e) => {
+                const el = e.currentTarget;
+                const r = el.getBoundingClientRect();
+                el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+                el.style.setProperty("--my", `${e.clientY - r.top}px`);
+              }}
+            >
               <img
                 src="/photo.jpg"
                 alt={t.name}
-                className="h-full w-full object-cover object-top grayscale transition-[filter] duration-500 hover:grayscale-0"
+                className="about-photo-img absolute inset-0 h-full w-full object-cover object-top grayscale"
+              />
+              <img
+                src="/photo.jpg"
+                alt=""
+                aria-hidden="true"
+                className="about-photo-img absolute inset-0 h-full w-full object-cover object-top opacity-0 transition-opacity duration-300 [filter:saturate(1.45)_contrast(1.05)] group-hover:opacity-100"
+                style={{
+                  maskImage:
+                    "radial-gradient(circle 150px at var(--mx) var(--my), #000 45%, transparent 70%)",
+                  WebkitMaskImage:
+                    "radial-gradient(circle 150px at var(--mx) var(--my), #000 45%, transparent 70%)",
+                }}
               />
             </div>
           </div>
