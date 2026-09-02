@@ -25,7 +25,7 @@ export default function HeroField() {
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    const GAP = 72;
+    const GAP = 90;
     const LINK = GAP * 1.7;
     const REACH = 220;
     const accent =
@@ -74,14 +74,17 @@ export default function HeroField() {
 
     let raf = 0;
     let t = 0;
-    let visible = true;
+    let onScreen = true; // from the IntersectionObserver
+    let near = true; // still within the first screen-ish of scroll
     let last = 0;
+    let lastScroll = -1e9;
+    const running = () => onScreen && near && !reduce;
 
     const frame = (now = 0) => {
-      if (!reduce && visible) raf = requestAnimationFrame(frame);
-      // ponytail: ~40fps cap — the mesh reads the same, but the nested link/node
-      // loops stop stealing frame budget from the scroll while you leave the hero
-      if (now - last < 24) return;
+      if (running()) raf = requestAnimationFrame(frame);
+      // ~40fps idle, ~22fps while actually scrolling (the motion is invisible then
+      // and the nested link/node loops shouldn't compete with the scroll)
+      if (now - last < (now - lastScroll < 180 ? 44 : 24)) return;
       last = now;
       t += 0.012;
       ctx.clearRect(0, 0, w, h);
@@ -157,19 +160,36 @@ export default function HeroField() {
 
     frame();
 
+    const wake = () => {
+      if (running()) {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
     const io = new IntersectionObserver(
       ([e]) => {
-        const was = visible;
-        visible = e.isIntersecting;
-        if (visible && !was && !reduce) raf = requestAnimationFrame(frame);
+        onScreen = e.isIntersecting;
+        wake();
       },
-      { rootMargin: "120px" },
+      { rootMargin: "80px" },
     );
     io.observe(canvas);
+
+    // stop well before the hero is fully gone — decorative once you're scrolling
+    const onScroll = () => {
+      lastScroll = performance.now();
+      const n = window.scrollY < window.innerHeight * 0.6;
+      if (n === near) return; // only act when it actually crosses the line
+      near = n;
+      wake();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", build);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("mousemove", onMove);

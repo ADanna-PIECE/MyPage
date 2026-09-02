@@ -111,8 +111,11 @@ export default function HeroParticles() {
     const pos = geo.attributes.position.array as Float32Array;
     const clock = new THREE.Clock();
     let raf = 0;
-    let visible = true;
+    let onScreen = true;
+    let near = true;
     let lastFrame = 0;
+    let lastScroll = -1e9;
+    const running = () => onScreen && near;
     let pull = reduced ? 0.13 : 0.006; // barely drifts until the intro fires
 
     onIntroReveal(() => {
@@ -130,10 +133,10 @@ export default function HeroParticles() {
     });
 
     const loop = (now = 0) => {
-      if (visible) raf = requestAnimationFrame(loop);
-      // ponytail: cap the field at ~40fps — it barely moves once settled, and this
-      // frees main-thread budget for Lenis/ScrollTrigger while you scroll past the hero
-      if (now - lastFrame < 24) return;
+      if (running()) raf = requestAnimationFrame(loop);
+      // ~40fps idle, ~22fps while scrolling — it barely moves once settled, so the
+      // drop is invisible and it stops competing with Lenis/ScrollTrigger
+      if (now - lastFrame < (now - lastScroll < 180 ? 44 : 24)) return;
       lastFrame = now;
       clock.getDelta();
       const t = clock.elapsedTime;
@@ -174,23 +177,38 @@ export default function HeroParticles() {
     };
     loop();
 
-    // stop the render loop entirely while the hero is scrolled away
+    const wake = () => {
+      if (running()) {
+        cancelAnimationFrame(raf);
+        clock.getDelta();
+        raf = requestAnimationFrame(loop);
+      }
+    };
+
+    // stop the render loop while the hero is scrolled away...
     const io = new IntersectionObserver(
       ([e]) => {
-        const wasVisible = visible;
-        visible = e.isIntersecting;
-        if (visible && !wasVisible) {
-          clock.getDelta();
-          raf = requestAnimationFrame(loop);
-        }
+        onScreen = e.isIntersecting;
+        wake();
       },
-      { rootMargin: "120px" },
+      { rootMargin: "80px" },
     );
     io.observe(el);
+
+    // ...and already once you've scrolled past the first ~60% of it
+    const onScroll = () => {
+      lastScroll = performance.now();
+      const n = window.scrollY < window.innerHeight * 0.6;
+      if (n === near) return; // only act when it actually crosses the line
+      near = n;
+      wake();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", size);
       window.removeEventListener("mousemove", onMove);
       renderer.dispose();

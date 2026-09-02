@@ -27,7 +27,6 @@ export default function TextReveal({
         gsap.from(ref.current!.querySelectorAll(".tr-word"), {
           yPercent: 115,
           opacity: 0,
-          filter: "blur(10px)",
           duration: 0.8,
           ease: "power3.out",
           stagger: 0.055,

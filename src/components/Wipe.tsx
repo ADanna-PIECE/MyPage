@@ -7,7 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-// Reveals its children with a bottom-up clip wipe as they scroll into view.
+// Lifts its children in as they scroll into view. Transform + opacity only
+// (animating clip-path on a whole section repaints it every frame).
 export default function Wipe({
   children,
   className = "",
@@ -22,10 +23,11 @@ export default function Wipe({
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from(ref.current, {
-          clipPath: "inset(0 0 100% 0)",
-          duration: 1.1,
-          ease: "power3.inOut",
-          scrollTrigger: { trigger: ref.current, start: "top 78%" },
+          y: 64,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ref.current, start: "top 80%" },
         });
       });
     },
@@ -33,7 +35,7 @@ export default function Wipe({
   );
 
   return (
-    <div ref={ref} className={className} style={{ clipPath: "inset(0 0 0% 0)" }}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

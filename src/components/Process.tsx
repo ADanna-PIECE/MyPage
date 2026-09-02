@@ -123,6 +123,7 @@ export default function Process({ locale }: { locale: Locale }) {
           end: "bottom bottom",
           pin: pinRef.current,
           pinSpacing: false,
+          anticipatePin: 1,
           onUpdate: (self) => {
             const p = self.progress;
             // setActive is a no-op re-render when the value doesn't change, so

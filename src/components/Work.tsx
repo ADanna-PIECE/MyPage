@@ -46,6 +46,7 @@ export default function Work({ locale }: { locale: Locale }) {
             scrollTrigger: {
               trigger: pinRef.current,
               pin: true,
+              anticipatePin: 1,
               scrub: 0.5,
               start: "top top",
               end: () => "+=" + amount(),
@@ -332,7 +333,7 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
               className="absolute inset-0 grid place-items-center bg-gradient-to-t from-transparent to-transparent transition-colors duration-300 group-hover:from-black/55"
             >
               <Magnetic strength={0.5}>
-                <span className="grid h-16 w-16 place-items-center rounded-full border border-white/70 bg-black/30 text-lg backdrop-blur transition-transform duration-300 group-hover:scale-110">
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-white/70 bg-black/45 text-lg transition-transform duration-300 group-hover:scale-110">
                   ▶
                 </span>
               </Magnetic>

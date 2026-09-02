@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.defaults({ ease: "power3.out" });
+// don't tear down + rebuild every trigger on mobile URL-bar resize
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -14,7 +16,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     if (reduced) return; // native scroll, no smoothing
 
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.9, // tighter — less glide after you stop, feels more direct
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       anchors: true,
