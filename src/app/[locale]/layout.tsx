@@ -55,25 +55,6 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
-        <svg className="pointer-events-none absolute h-0 w-0" aria-hidden="true">
-          <filter id="panel-ripple" x="-15%" y="-15%" width="130%" height="130%">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.013 0.02"
-              numOctaves="2"
-              seed="4"
-              result="noise"
-            />
-            <feDisplacementMap
-              id="pr-disp"
-              in="SourceGraphic"
-              in2="noise"
-              scale="0"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </svg>
         <Loader name={t.name} />
         <div className="scroll-progress" aria-hidden="true" />
         <div className="vignette" aria-hidden="true" />

@@ -13,7 +13,6 @@ import Rich from "./Rich";
 import LazyVideo from "./LazyVideo";
 import Magnetic from "./Magnetic";
 import TextReveal from "./TextReveal";
-import { rippleIn, rippleOut } from "@/lib/panelRipple";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -210,24 +209,14 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
     });
   }
 
-  // cursor-follow 3D tilt on the panel
+  // soft accent light that follows the cursor across the panel
   const panelRef = useRef<HTMLDivElement>(null);
-  const tilt = (e: MouseEvent<HTMLDivElement>) => {
+  const moveGlow = (e: MouseEvent<HTMLDivElement>) => {
     const el = panelRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    gsap.to(el, {
-      rotateY: ((e.clientX - r.left) / r.width - 0.5) * 6,
-      rotateX: ((e.clientY - r.top) / r.height - 0.5) * -6,
-      transformPerspective: 900,
-      duration: 0.5,
-      ease: "power2.out",
-      overwrite: "auto",
-    });
-  };
-  const untilt = () => {
-    if (panelRef.current)
-      gsap.to(panelRef.current, { rotateX: 0, rotateY: 0, duration: 0.6, ease: "power2.out" });
+    el.style.setProperty("--gx", `${((e.clientX - r.left) / r.width) * 100}%`);
+    el.style.setProperty("--gy", `${((e.clientY - r.top) / r.height) * 100}%`);
   };
 
   return (
@@ -299,15 +288,11 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
       <div className="md:w-[46vw]">
         <div
           ref={panelRef}
-          onMouseEnter={(e) => rippleIn(e.currentTarget)}
-          onMouseMove={tilt}
-          onMouseLeave={(e) => {
-            rippleOut(e.currentTarget);
-            untilt();
-          }}
-          className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25"
+          onMouseMove={moveGlow}
+          style={{ ["--gx" as string]: "50%", ["--gy" as string]: "50%" }}
+          className="panel group glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-accent/40"
         >
-          <div className="panel-media absolute inset-0 scale-[1.12]">
+          <div className="panel-media absolute inset-0 scale-[1.09]">
             {project.previewVideo ? (
               <LazyVideo
                 className="h-full w-full object-cover"
@@ -329,15 +314,25 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
             )}
           </div>
 
+          {/* soft accent light that tracks the cursor across the media */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition-opacity duration-300 group-hover:opacity-100"
+            style={{
+              background:
+                "radial-gradient(circle at var(--gx) var(--gy), color-mix(in srgb, var(--accent) 55%, transparent), transparent 42%)",
+            }}
+          />
+
           {demos.length > 0 && (
             <button
               onClick={() => onWatch(demos[0].video)}
               aria-label={demos[0].label}
               data-cursor="demo"
-              className="absolute inset-0 grid place-items-center transition-colors hover:bg-black/40"
+              className="absolute inset-0 grid place-items-center bg-gradient-to-t from-transparent to-transparent transition-colors duration-300 group-hover:from-black/55"
             >
               <Magnetic strength={0.5}>
-                <span className="grid h-16 w-16 place-items-center rounded-full border border-white/60 bg-black/30 text-lg backdrop-blur">
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-white/70 bg-black/30 text-lg backdrop-blur transition-transform duration-300 group-hover:scale-110">
                   ▶
                 </span>
               </Magnetic>
