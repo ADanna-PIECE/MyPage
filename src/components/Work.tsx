@@ -58,19 +58,34 @@ export default function Work({ locale }: { locale: Locale }) {
           });
 
           gsap.utils.toArray<HTMLElement>(".pcard").forEach((card) => {
+            const enter = {
+              trigger: card,
+              containerAnimation: horiz,
+              start: "left 62%",
+              // during a fast flick just snap it done instead of animating
+              fastScrollEnd: true,
+            };
             gsap.from(card.querySelectorAll(".pc-line"), {
               y: 40,
               opacity: 0,
               stagger: 0.06,
               duration: 0.7,
               ease: "power3.out",
-              scrollTrigger: {
-                trigger: card,
-                containerAnimation: horiz,
-                start: "left 62%",
-                // during a fast flick just snap it done instead of animating
-                fastScrollEnd: true,
-              },
+              scrollTrigger: enter,
+            });
+            // the big index number pops in from an over-scale + masked title
+            gsap.from(card.querySelector(".pc-num"), {
+              scale: 1.4,
+              transformOrigin: "left center",
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: enter,
+            });
+            gsap.from(card.querySelector(".pc-title-inner"), {
+              yPercent: 110,
+              duration: 0.9,
+              ease: "power4.out",
+              scrollTrigger: enter,
             });
 
             // one parallax layer per card — the panel drifts against the page
@@ -223,11 +238,13 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
       className="pcard flex w-full shrink-0 flex-col justify-center gap-8 border-t border-line px-6 py-16 md:h-screen md:w-screen md:flex-row md:items-center md:gap-12 md:border-t-0 md:px-10 md:py-0"
     >
       <div className="flex flex-col md:w-[38vw]">
-        <span className="pc-line pc-num tnum font-mono text-6xl leading-none text-accent text-glow md:text-8xl">
+        <span className="pc-num tnum inline-block font-mono text-6xl leading-none text-accent text-glow will-change-transform md:text-8xl">
           {String(i + 1).padStart(2, "0")}
         </span>
-        <h3 className="pc-line mt-4 text-4xl font-medium tracking-tight md:text-6xl">
-          {project.title}
+        <h3 className="mt-4 overflow-hidden pb-[0.06em] text-4xl font-medium tracking-tight md:text-6xl">
+          <span className="pc-title-inner inline-block will-change-transform">
+            {project.title}
+          </span>
         </h3>
         <p className="pc-line mt-5 max-w-md text-muted">
           <Rich text={project.tagline[locale]} />

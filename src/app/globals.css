@@ -351,6 +351,25 @@ body {
   text-shadow: 0 0 32px var(--accent-soft);
 }
 
+/* footer wordmark drifts sideways as it scrolls through view (CSS-only parallax) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .footer-mark {
+      animation: footer-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+@keyframes footer-drift {
+  from {
+    transform: translateX(-7%);
+  }
+  to {
+    transform: translateX(3%);
+  }
+}
+
 .rule-t {
   position: relative;
   border-top: 1px solid var(--line);
