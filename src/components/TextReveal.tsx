@@ -45,7 +45,7 @@ export default function TextReveal({
           key={i}
           className="mr-[0.28em] inline-block overflow-hidden align-bottom last:mr-0"
         >
-          <span className="tr-word inline-block will-change-transform">{word}</span>
+          <span className="tr-word inline-block">{word}</span>
         </span>
       ))}
     </Tag>

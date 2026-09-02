@@ -13,6 +13,11 @@ export default function HeroParticles() {
   useEffect(() => {
     const el = mount.current;
     if (!el) return;
+    // desktop only, and skip on low-memory devices (node network alone carries mobile)
+    const lowEnd =
+      "deviceMemory" in navigator &&
+      (navigator as Navigator & { deviceMemory?: number }).deviceMemory! < 4;
+    if (window.innerWidth < 768 || lowEnd) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const accentStr =
@@ -32,7 +37,7 @@ export default function HeroParticles() {
     const data = g.getImageData(0, 0, c.width, c.height).data;
 
     const targets: number[] = [];
-    const stride = 2;
+    const stride = 3;
     for (let y = 0; y < c.height; y += stride) {
       for (let x = 0; x < c.width; x += stride) {
         if (data[(y * c.width + x) * 4 + 3] > 128) {
@@ -69,7 +74,7 @@ export default function HeroParticles() {
     const points = new THREE.Points(geo, mat);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(1);
     el.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
     scene.add(points);
@@ -106,6 +111,7 @@ export default function HeroParticles() {
     const pos = geo.attributes.position.array as Float32Array;
     const clock = new THREE.Clock();
     let raf = 0;
+    let visible = true;
     let pull = reduced ? 0.13 : 0.006; // barely drifts until the intro fires
 
     onIntroReveal(() => {
@@ -159,12 +165,27 @@ export default function HeroParticles() {
       points.rotation.y = reduced ? 0 : Math.sin(t * 0.15) * 0.12;
 
       renderer.render(scene, camera);
-      raf = requestAnimationFrame(loop);
+      if (visible) raf = requestAnimationFrame(loop);
     };
     loop();
 
+    // stop the render loop entirely while the hero is scrolled away
+    const io = new IntersectionObserver(
+      ([e]) => {
+        const wasVisible = visible;
+        visible = e.isIntersecting;
+        if (visible && !wasVisible) {
+          clock.getDelta();
+          raf = requestAnimationFrame(loop);
+        }
+      },
+      { rootMargin: "120px" },
+    );
+    io.observe(el);
+
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", size);
       window.removeEventListener("mousemove", onMove);
       renderer.dispose();

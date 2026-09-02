@@ -24,8 +24,8 @@ export default function HeroField() {
     if (!canvas || !ctx) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const GAP = 58;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const GAP = 72;
     const LINK = GAP * 1.7;
     const REACH = 220;
     const accent =
@@ -74,6 +74,7 @@ export default function HeroField() {
 
     let raf = 0;
     let t = 0;
+    let visible = true;
 
     const frame = () => {
       t += 0.012;
@@ -146,13 +147,24 @@ export default function HeroField() {
         ctx.fill();
       }
 
-      if (!reduce) raf = requestAnimationFrame(frame);
+      if (!reduce && visible) raf = requestAnimationFrame(frame);
     };
 
     frame();
 
+    const io = new IntersectionObserver(
+      ([e]) => {
+        const was = visible;
+        visible = e.isIntersecting;
+        if (visible && !was && !reduce) raf = requestAnimationFrame(frame);
+      },
+      { rootMargin: "120px" },
+    );
+    io.observe(canvas);
+
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", build);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("mousemove", onMove);
