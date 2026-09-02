@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type MouseEvent } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -228,6 +228,26 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
     });
   }
 
+  // cursor-follow 3D tilt on the panel
+  const panelRef = useRef<HTMLDivElement>(null);
+  const tilt = (e: MouseEvent<HTMLDivElement>) => {
+    const el = panelRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    gsap.to(el, {
+      rotateY: ((e.clientX - r.left) / r.width - 0.5) * 6,
+      rotateX: ((e.clientY - r.top) / r.height - 0.5) * -6,
+      transformPerspective: 900,
+      duration: 0.5,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  };
+  const untilt = () => {
+    if (panelRef.current)
+      gsap.to(panelRef.current, { rotateX: 0, rotateY: 0, duration: 0.6, ease: "power2.out" });
+  };
+
   return (
     <li
       data-i={i + 1}
@@ -296,8 +316,13 @@ function ProjectCard({ i, project, locale, t, onWatch, onDetail }: CardProps) {
 
       <div className="md:w-[46vw]">
         <div
+          ref={panelRef}
           onMouseEnter={(e) => rippleIn(e.currentTarget)}
-          onMouseLeave={(e) => rippleOut(e.currentTarget)}
+          onMouseMove={tilt}
+          onMouseLeave={(e) => {
+            rippleOut(e.currentTarget);
+            untilt();
+          }}
           className="panel glow-accent relative aspect-video overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-300 hover:border-white/25"
         >
           <div className="panel-media absolute inset-0 scale-[1.12]">

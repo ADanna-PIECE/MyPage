@@ -312,6 +312,21 @@ body {
 .glow-accent {
   box-shadow: 0 0 60px -12px var(--accent);
 }
+
+/* slow idle rotation on the "problem to system" node graph */
+.process-graph-spin {
+  animation: process-graph-spin 90s linear infinite;
+}
+@keyframes process-graph-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .process-graph-spin {
+    animation: none;
+  }
+}
 .text-glow {
   text-shadow: 0 0 32px var(--accent-soft);
 }
