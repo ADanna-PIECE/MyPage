@@ -309,13 +309,28 @@ body {
 .process-graph-spin {
   animation: process-graph-spin 90s linear infinite;
 }
+.process-graph-spin-rev {
+  animation: process-graph-spin 130s linear infinite reverse;
+}
 @keyframes process-graph-spin {
   to {
     transform: rotate(360deg);
   }
 }
+/* ring that pings out when a graph node lights up */
+@keyframes node-ping {
+  from {
+    r: 6px;
+    opacity: 0.7;
+  }
+  to {
+    r: 24px;
+    opacity: 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .process-graph-spin {
+  .process-graph-spin,
+  .process-graph-spin-rev {
     animation: none;
   }
 }

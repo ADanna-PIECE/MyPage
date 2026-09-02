@@ -45,14 +45,19 @@ const POS = Object.fromEntries(NODES.map((n) => [n.id, n])) as Record<
 function ProcessGraph({ active }: { active: number }) {
   return (
     <svg viewBox="0 0 300 300" className="h-auto w-full" aria-hidden="true">
-      {/* the field the scattered points live in */}
-      <circle
-        cx="150"
-        cy="150"
-        r="134"
-        fill="none"
-        style={{ stroke: "var(--line)", strokeDasharray: "2 7", strokeWidth: 1 }}
-      />
+      {/* the field the scattered points live in — drifts opposite the graph */}
+      <g
+        className="process-graph-spin-rev"
+        style={{ transformOrigin: "150px 150px", transformBox: "view-box" }}
+      >
+        <circle
+          cx="150"
+          cy="150"
+          r="134"
+          fill="none"
+          style={{ stroke: "var(--line)", strokeDasharray: "2 7", strokeWidth: 1 }}
+        />
+      </g>
       {/* system glow once it's all connected */}
       <circle
         cx="150"
@@ -94,17 +99,31 @@ function ProcessGraph({ active }: { active: number }) {
         {NODES.map((n) => {
           const on = active >= n.step;
           return (
-            <circle
-              key={n.id}
-              cx={n.x}
-              cy={n.y}
-              r={on ? (n.id === "h" ? 7.5 : 5.5) : 3.5}
-              style={{
-                fill: on ? "var(--accent)" : "var(--muted)",
-                opacity: on ? 1 : 0.55,
-                transition: "r .5s ease, fill .5s ease, opacity .5s ease",
-              }}
-            />
+            <g key={n.id}>
+              {on && (
+                <circle
+                  cx={n.x}
+                  cy={n.y}
+                  r={5}
+                  fill="none"
+                  style={{
+                    stroke: "var(--accent)",
+                    strokeWidth: 1,
+                    animation: "node-ping .9s ease-out forwards",
+                  }}
+                />
+              )}
+              <circle
+                cx={n.x}
+                cy={n.y}
+                r={on ? (n.id === "h" ? 7.5 : 5.5) : 3.5}
+                style={{
+                  fill: on ? "var(--accent)" : "var(--muted)",
+                  opacity: on ? 1 : 0.55,
+                  transition: "r .5s ease, fill .5s ease, opacity .5s ease",
+                }}
+              />
+            </g>
           );
         })}
       </g>
@@ -140,8 +159,9 @@ export default function Process({ locale }: { locale: Locale }) {
             // setActive is a no-op re-render when the value doesn't change
             setActive(Math.min(steps.length - 1, Math.floor(p * steps.length * 0.999)));
             if (barRef.current) barRef.current.style.width = `${p * 100}%`;
+            // the diagram materialises + tilts as you move through the steps
             if (graphRef.current)
-              graphRef.current.style.transform = `rotate(${(p - 0.5) * 6}deg)`;
+              graphRef.current.style.transform = `rotate(${(p - 0.5) * 6}deg) scale(${(0.9 + p * 0.12).toFixed(3)})`;
           },
         });
         return () => {
@@ -173,13 +193,18 @@ export default function Process({ locale }: { locale: Locale }) {
               return (
                 <li
                   key={step.n}
-                  className="border-l py-4 pl-6 transition-all duration-500"
+                  className="relative border-l border-line py-4 pl-6 transition-all duration-500"
                   style={{
-                    borderColor: on ? "var(--accent)" : "var(--line)",
                     opacity: on ? 1 : 0.4,
                     transform: pinned ? `translateX(${on ? 0 : -6}px)` : "none",
                   }}
                 >
+                  {/* accent rail draws down when the step becomes active */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-px top-0 h-full w-px origin-top bg-accent transition-transform duration-500 ease-out"
+                    style={{ transform: `scaleY(${on ? 1 : 0})` }}
+                  />
                   <div className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-wide">
                     <span className="tnum text-accent">{step.n}</span>
                     <span className="text-muted">{step.tag}</span>
@@ -187,7 +212,13 @@ export default function Process({ locale }: { locale: Locale }) {
                   <h3 className="mt-2 text-xl font-medium tracking-tight md:text-2xl">
                     {step.title}
                   </h3>
-                  <p className="mt-2 max-w-md text-sm text-muted md:text-base">{step.body}</p>
+                  <p
+                    key={pinned && on ? `on-${i}` : `off-${i}`}
+                    className="mt-2 max-w-md text-sm text-muted md:text-base"
+                    style={pinned && on ? { animation: "fadeUp .55s ease" } : undefined}
+                  >
+                    {step.body}
+                  </p>
                 </li>
               );
             })}
@@ -195,7 +226,7 @@ export default function Process({ locale }: { locale: Locale }) {
 
           {pinned && (
             <div className="hidden items-center gap-3 font-mono text-xs uppercase tracking-wide text-muted md:flex">
-              <span className="tnum text-foreground">
+              <span key={active} className="tnum inline-block animate-[fadeUp_.4s_ease] text-foreground">
                 {String(active + 1).padStart(2, "0")}
               </span>
               <span className="block h-px w-16 bg-line">
