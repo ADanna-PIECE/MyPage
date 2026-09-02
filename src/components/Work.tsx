@@ -130,12 +130,27 @@ export default function Work({ locale }: { locale: Locale }) {
       </div>
 
       <div ref={pinRef} className="relative md:h-screen md:overflow-hidden">
+        {/* giant index number ghosting behind the whole strip */}
+        <div className="pointer-events-none absolute inset-0 hidden select-none items-center justify-center overflow-hidden text-[42vw] font-medium leading-none tracking-tighter text-foreground/[0.04] md:grid">
+          {featured.map((_, i) => (
+            <span
+              key={i}
+              className="tnum col-start-1 row-start-1 transition-all duration-500 ease-out"
+              style={{
+                opacity: i === idx ? 1 : 0,
+                transform: `translateY(${i === idx ? 0 : i < idx ? -14 : 14}%)`,
+              }}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+          ))}
+        </div>
         <div className="pointer-events-none absolute left-6 top-24 z-10 hidden font-mono text-xs uppercase tracking-wide text-muted md:block md:left-10">
           {t.work.heading} — {t.work.span}
         </div>
         <ol
           ref={trackRef}
-          className="flex flex-col md:h-screen md:w-max md:flex-row"
+          className="relative flex flex-col md:h-screen md:w-max md:flex-row"
         >
           {featured.map((project, i) => (
             <ProjectCard

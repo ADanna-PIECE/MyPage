@@ -89,12 +89,32 @@ export default function Hero({ locale }: { locale: Locale }) {
           });
         });
 
-        // hero drifts up and fades as you scroll past it
+        // supporting text drifts up as you scroll past the hero
         gsap.to(".hero-fade", {
-          yPercent: -20,
-          opacity: 0,
+          yPercent: -14,
           ease: "none",
           scrollTrigger: { trigger: root, start: "top top", end: "bottom top", scrub: true },
+        });
+        gsap.to([".hero-intro", ".hero-bottom", ".hero-top"], {
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: { trigger: root, start: "top top", end: "+=45%", scrub: true },
+        });
+
+        // the name blows apart into flying letters on the way out
+        gsap.to(".hero-char", {
+          yPercent: () => gsap.utils.random(-260, -520),
+          xPercent: () => gsap.utils.random(-170, 170),
+          rotation: () => gsap.utils.random(-95, 95),
+          opacity: 0,
+          ease: "power2.in",
+          stagger: { each: 0.006, from: "random" },
+          scrollTrigger: {
+            trigger: root,
+            start: "top top",
+            end: () => "+=" + window.innerHeight * 0.8,
+            scrub: 0.5,
+          },
         });
       });
 
@@ -182,7 +202,17 @@ export default function Hero({ locale }: { locale: Locale }) {
         <h1 className="hero-name text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] will-change-transform md:text-[10.5vw]">
           {words.map((word, i) => (
             <span key={i} className="block">
-              <span className="hero-word inline-block will-change-transform">{word}</span>
+              <span className="hero-word inline-block will-change-transform">
+                {word.split("").map((ch, j) => (
+                  <span
+                    key={j}
+                    className="hero-char inline-block will-change-transform"
+                    style={{ whiteSpace: "pre" }}
+                  >
+                    {ch}
+                  </span>
+                ))}
+              </span>
             </span>
           ))}
         </h1>
