@@ -28,7 +28,7 @@ export default function HeroPortrait() {
     if (!wrap || !im) return;
     if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
 
-    // rise + clip-reveal on the intro
+    // rise + clip-reveal on the intro, then a permanent slow float
     gsap.set(im, { yPercent: 16, opacity: 0, clipPath: "inset(100% 0 0 0)" });
     onIntroReveal(() => {
       gsap.to(im, {
@@ -38,6 +38,15 @@ export default function HeroPortrait() {
         duration: 1.3,
         ease: "power3.out",
         delay: 0.35,
+        onComplete: () => {
+          gsap.to(im, {
+            yPercent: -2.4,
+            duration: 4.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        },
       });
     });
 
@@ -76,7 +85,7 @@ export default function HeroPortrait() {
       className="pointer-events-none absolute bottom-0 right-0 hidden h-[94vh] w-[38vw] max-w-[540px] will-change-transform md:block"
       aria-hidden="true"
     >
-      <span className="absolute inset-x-0 bottom-0 -z-10 h-3/4 rounded-[45%] bg-[var(--accent-soft)] blur-[90px]" />
+      <span className="hero-portrait-glow absolute inset-x-0 bottom-0 -z-10 h-3/4 rounded-[45%] bg-[var(--accent-soft)] blur-[90px]" />
       <img
         ref={imgRef}
         src="/photo-cutout.png"
@@ -86,6 +95,15 @@ export default function HeroPortrait() {
           outline: "none",
           maskImage: "linear-gradient(to top, transparent 0%, #000 13%)",
           WebkitMaskImage: "linear-gradient(to top, transparent 0%, #000 13%)",
+        }}
+      />
+      {/* accent light sweeping down the figure, occasionally */}
+      <span
+        className="hero-portrait-scan absolute inset-x-0 top-0 h-[12vh]"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 60%, transparent) 48%, transparent)",
+          mixBlendMode: "screen",
         }}
       />
     </div>

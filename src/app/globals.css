@@ -349,6 +349,47 @@ body {
   text-shadow: 0 0 32px var(--accent-soft);
 }
 
+/* hero portrait: light bar sweeps down the figure, then a long pause */
+.hero-portrait-scan {
+  opacity: 0;
+  animation: hero-portrait-scan 9s ease-in-out 2s infinite;
+}
+@keyframes hero-portrait-scan {
+  0% {
+    transform: translateY(-15vh);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.8;
+  }
+  38% {
+    opacity: 0.8;
+  }
+  46%,
+  100% {
+    transform: translateY(88vh);
+    opacity: 0;
+  }
+}
+.hero-portrait-glow {
+  animation: hero-portrait-glow 6s ease-in-out infinite;
+}
+@keyframes hero-portrait-glow {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-portrait-scan,
+  .hero-portrait-glow {
+    animation: none;
+  }
+}
+
 /* footer wordmark drifts sideways as it scrolls through view (CSS-only parallax) */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
