@@ -47,13 +47,10 @@ export default function Work({ locale }: { locale: Locale }) {
               trigger: pinRef.current,
               pin: true,
               anticipatePin: 1,
+              pinType: "transform", // avoids the position:fixed reflow at the pin edges
               scrub: 0.5,
               start: "top top",
               end: () => "+=" + amount(),
-              snap:
-                featured.length > 1
-                  ? { snapTo: 1 / (featured.length - 1), duration: 0.3, ease: "power1.inOut" }
-                  : undefined,
               invalidateOnRefresh: true,
               onUpdate: (self) =>
                 setIdx(Math.round(self.progress * (featured.length - 1))),
