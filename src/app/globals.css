@@ -159,6 +159,22 @@ img {
   cursor: none;
 }
 
+/* an open modal renders above the custom cursor's layer — hand control back to
+   the native cursor while a dialog is open so it stays usable */
+html.has-cursor:has(dialog[open]),
+html.has-cursor:has(dialog[open]) a,
+html.has-cursor:has(dialog[open]) button {
+  cursor: auto;
+}
+html.has-cursor:has(dialog[open]) a,
+html.has-cursor:has(dialog[open]) button {
+  cursor: pointer;
+}
+html:has(dialog[open]) .cursor-dot,
+html:has(dialog[open]) .cursor-ring {
+  opacity: 0;
+}
+
 /* animated scroll cue */
 .scroll-cue {
   position: relative;
