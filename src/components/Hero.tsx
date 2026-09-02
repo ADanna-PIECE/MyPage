@@ -195,7 +195,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           {t.hero.status}
         </span>
 
-        <h1 className="hero-name text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] will-change-transform md:text-[10.5vw]">
+        <h1 className="hero-name text-[15vw] font-medium leading-[0.88] tracking-[-0.04em] will-change-transform md:text-[8.6vw]">
           {words.map((word, i) => (
             <span key={i} className="block">
               <span className="hero-word inline-block will-change-transform">{word}</span>

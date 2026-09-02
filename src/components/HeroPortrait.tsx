@@ -82,7 +82,7 @@ export default function HeroPortrait() {
   return (
     <div
       ref={wrapRef}
-      className="pointer-events-none absolute bottom-0 right-0 hidden h-[94vh] w-[38vw] max-w-[540px] will-change-transform md:block"
+      className="pointer-events-none absolute bottom-0 right-[2vw] hidden h-[92vh] w-[30vw] max-w-[520px] will-change-transform md:block lg:right-[3vw]"
       aria-hidden="true"
     >
       <span className="hero-portrait-glow absolute inset-x-0 bottom-0 -z-10 h-3/4 rounded-[45%] bg-[var(--accent-soft)] blur-[90px]" />
@@ -95,15 +95,6 @@ export default function HeroPortrait() {
           outline: "none",
           maskImage: "linear-gradient(to top, transparent 0%, #000 13%)",
           WebkitMaskImage: "linear-gradient(to top, transparent 0%, #000 13%)",
-        }}
-      />
-      {/* accent light sweeping down the figure, occasionally */}
-      <span
-        className="hero-portrait-scan absolute inset-x-0 top-0 h-[12vh]"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 60%, transparent) 48%, transparent)",
-          mixBlendMode: "screen",
         }}
       />
     </div>
