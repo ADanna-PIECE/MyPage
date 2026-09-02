@@ -9,7 +9,7 @@ import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import HeroField from "./HeroField";
 import HeroParticles from "./HeroParticles";
-import HeroPixelFace from "./HeroPixelFace";
+import HeroPortrait from "./HeroPortrait";
 import Magnetic from "./Magnetic";
 import { onIntroReveal } from "@/lib/intro";
 
@@ -177,7 +177,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         />
         <HeroField />
         <HeroParticles />
-        <HeroPixelFace />
+        <HeroPortrait />
       </div>
 
       <div className="relative z-10 hero-top flex items-start justify-between font-mono text-xs uppercase tracking-wide text-muted">

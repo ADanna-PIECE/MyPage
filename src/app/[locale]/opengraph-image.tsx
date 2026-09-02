@@ -49,7 +49,7 @@ export default async function OpengraphImage({
               display: "flex",
               alignItems: "center",
               fontSize: 24,
-              color: "#8b5cf6",
+              color: "#f97316",
               letterSpacing: 3,
               textTransform: "uppercase",
               marginBottom: 18,

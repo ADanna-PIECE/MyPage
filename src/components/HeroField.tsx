@@ -30,7 +30,7 @@ export default function HeroField() {
     const REACH = 220;
     const accent =
       getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() ||
-      "#8b5cf6";
+      "#f97316";
 
     let w = 0;
     let h = 0;

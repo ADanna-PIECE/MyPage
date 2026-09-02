@@ -137,7 +137,7 @@ export default function About({ locale }: { locale: Locale }) {
             {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg.
                 grayscale base + a colour copy revealed in a circle that tracks the cursor */}
             <div
-              className="about-photo group relative mt-6 aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg border border-black/10 shadow-none transition-[border-color,transform,box-shadow] duration-500 hover:scale-[1.03] hover:border-accent/60 hover:shadow-[0_30px_60px_-20px_rgba(139,92,246,0.35)]"
+              className="about-photo group relative mt-6 aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg border border-black/10 shadow-none transition-[border-color,transform,box-shadow] duration-500 hover:scale-[1.03] hover:border-accent/60 hover:shadow-[0_30px_60px_-20px_rgba(249,115,22,0.32)]"
               style={{ ["--mx" as string]: "50%", ["--my" as string]: "50%" }}
               onMouseMove={(e) => {
                 const el = e.currentTarget;

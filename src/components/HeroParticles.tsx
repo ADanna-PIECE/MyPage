@@ -22,7 +22,7 @@ export default function HeroParticles() {
 
     const accentStr =
       getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() ||
-      "#8b5cf6";
+      "#f97316";
 
     // --- sample target positions from the "AD" glyphs -------------------------
     const c = document.createElement("canvas");
@@ -65,9 +65,9 @@ export default function HeroParticles() {
     geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const mat = new THREE.PointsMaterial({
       color: new THREE.Color(accentStr),
-      size: 0.024,
+      size: 0.026,
       transparent: true,
-      opacity: 0.6, // sits around the portrait, not over it
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -221,7 +221,7 @@ export default function HeroParticles() {
   return (
     <div
       ref={mount}
-      className="pointer-events-none absolute right-[-2vw] top-1/2 hidden h-[86vh] w-[58vw] -translate-y-1/2 md:block lg:right-[0vw] lg:w-[50vw]"
+      className="pointer-events-none absolute right-[22vw] top-1/2 hidden h-[60vh] w-[38vw] -translate-y-1/2 md:block lg:right-[24vw] lg:w-[36vw]"
       aria-hidden="true"
     />
   );
