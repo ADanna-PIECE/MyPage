@@ -27,6 +27,7 @@ export default function Wipe({
           opacity: 0,
           duration: 1,
           ease: "power3.out",
+          clearProps: "transform", // don't leave a containing block over sticky children
           scrollTrigger: { trigger: ref.current, start: "top 80%" },
         });
       });
