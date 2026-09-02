@@ -37,7 +37,8 @@ type Dictionary = {
   process: {
     kicker: string;
     heading: string;
-    steps: { n: string; title: string; body: string }[];
+    steps: { n: string; title: string; tag: string; body: string }[];
+    stageCaption: string[];
   };
   about: { kicker: string; heading: string; body: string[]; facts: string[] };
   contact: {
@@ -110,20 +111,24 @@ const es: Dictionary = {
   process: {
     kicker: "Cómo trabajo",
     heading: "Del problema al sistema",
+    stageCaption: ["Datos sueltos", "Tomando forma", "Sistema validado"],
     steps: [
       {
         n: "01",
         title: "Entiendo el problema",
+        tag: "Contexto",
         body: "Me interiorizo, busco ideas y no doy nada por sentado hasta tenerlo claro.",
       },
       {
         n: "02",
         title: "Elijo la forma",
+        tag: "Diseño",
         body: "Decido si conviene automatizarlo de punta a punta o sumarle un asistente — lo que resuelva mejor.",
       },
       {
         n: "03",
         title: "Hablo con los resultados",
+        tag: "Validación",
         body: "Valido contra datos reales, no contra supuestos. Si un número no cierra, vuelvo atrás.",
       },
     ],
@@ -204,20 +209,24 @@ const en: Dictionary = {
   process: {
     kicker: "How I work",
     heading: "From problem to system",
+    stageCaption: ["Loose data", "Taking shape", "Validated system"],
     steps: [
       {
         n: "01",
         title: "I understand the problem",
+        tag: "Context",
         body: "I dig in, look for ideas, and take nothing for granted until it's clear.",
       },
       {
         n: "02",
         title: "I pick the approach",
+        tag: "Design",
         body: "I decide whether to automate it end to end or add an assistant — whatever solves it better.",
       },
       {
         n: "03",
         title: "I talk to the results",
+        tag: "Validation",
         body: "I validate against real data, not assumptions. If a number doesn't add up, I go back.",
       },
     ],

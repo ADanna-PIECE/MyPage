@@ -11,15 +11,15 @@ import TextReveal from "./TextReveal";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-// radial cluster: scattered points (the problem) that wire into a system as you scroll
+// scattered points (the problem) that wire into a connected system as you scroll
 const NODES = [
   { id: "h", x: 150, y: 150, step: 1 },
-  { id: "n1", x: 150, y: 38, step: 1 },
-  { id: "n2", x: 247, y: 94, step: 2 },
-  { id: "n3", x: 247, y: 206, step: 1 },
-  { id: "n4", x: 150, y: 262, step: 2 },
-  { id: "n5", x: 53, y: 206, step: 1 },
-  { id: "n6", x: 53, y: 94, step: 2 },
+  { id: "n1", x: 150, y: 34, step: 1 },
+  { id: "n2", x: 250, y: 92, step: 2 },
+  { id: "n3", x: 250, y: 208, step: 1 },
+  { id: "n4", x: 150, y: 266, step: 2 },
+  { id: "n5", x: 50, y: 208, step: 1 },
+  { id: "n6", x: 50, y: 92, step: 2 },
 ] as const;
 
 const EDGES: [string, string, number][] = [
@@ -44,14 +44,23 @@ const POS = Object.fromEntries(NODES.map((n) => [n.id, n])) as Record<
 
 function ProcessGraph({ active }: { active: number }) {
   return (
-    <svg viewBox="0 0 300 300" className="mx-auto h-auto w-full max-w-[360px]" aria-hidden="true">
+    <svg viewBox="0 0 300 300" className="h-auto w-full" aria-hidden="true">
+      {/* the field the scattered points live in */}
+      <circle
+        cx="150"
+        cy="150"
+        r="134"
+        fill="none"
+        style={{ stroke: "var(--line)", strokeDasharray: "2 7", strokeWidth: 1 }}
+      />
+      {/* system glow once it's all connected */}
       <circle
         cx="150"
         cy="150"
         r="140"
         style={{
           fill: "var(--accent)",
-          opacity: active >= 2 ? 0.1 : 0,
+          opacity: active >= 2 ? 0.12 : 0,
           transition: "opacity 1s ease",
         }}
       />
@@ -89,10 +98,11 @@ function ProcessGraph({ active }: { active: number }) {
               key={n.id}
               cx={n.x}
               cy={n.y}
-              r={on ? (n.id === "h" ? 7 : 5.5) : 3}
+              r={on ? (n.id === "h" ? 7.5 : 5.5) : 3.5}
               style={{
                 fill: on ? "var(--accent)" : "var(--muted)",
-                transition: "r .5s ease, fill .5s ease",
+                opacity: on ? 1 : 0.55,
+                transition: "r .5s ease, fill .5s ease, opacity .5s ease",
               }}
             />
           );
@@ -127,12 +137,11 @@ export default function Process({ locale }: { locale: Locale }) {
           pinType: "transform",
           onUpdate: (self) => {
             const p = self.progress;
-            // setActive is a no-op re-render when the value doesn't change, so
-            // the component only re-renders on the 3 real step boundaries
+            // setActive is a no-op re-render when the value doesn't change
             setActive(Math.min(steps.length - 1, Math.floor(p * steps.length * 0.999)));
             if (barRef.current) barRef.current.style.width = `${p * 100}%`;
             if (graphRef.current)
-              graphRef.current.style.transform = `rotate(${(p - 0.5) * 5}deg)`;
+              graphRef.current.style.transform = `rotate(${(p - 0.5) * 6}deg)`;
           },
         });
         return () => {
@@ -145,47 +154,40 @@ export default function Process({ locale }: { locale: Locale }) {
   );
 
   return (
-    <section ref={sectionRef} id="process" className="rule-t md:h-[200vh]">
+    <section ref={sectionRef} id="process" className="rule-t md:h-[220vh]">
       <div
         ref={pinRef}
-        className="flex flex-col gap-10 px-6 py-24 md:h-screen md:flex-row md:items-center md:justify-between md:gap-12 md:px-10 md:py-0"
+        className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 py-24 md:h-screen md:flex-row md:items-center md:justify-between md:gap-12 md:px-10 md:py-0"
       >
-        <div className="flex flex-col gap-10 md:w-[52%] md:gap-14">
+        <div className="flex flex-col gap-9 md:w-[50%]">
           <SectionKicker label={t.process.kicker} className="text-muted" />
           <TextReveal
             as="h2"
             text={t.process.heading}
-            className="block max-w-3xl text-3xl font-medium tracking-tight md:text-5xl"
+            className="block max-w-2xl text-3xl font-medium tracking-tight md:text-[2.75rem] md:leading-[1.05]"
           />
 
-          <ol className="max-w-2xl">
+          <ol className="mt-2 flex flex-col">
             {steps.map((step, i) => {
               const on = !pinned || i === active;
               return (
                 <li
                   key={step.n}
-                  className="grid grid-cols-[auto_1fr] gap-x-5 border-t border-line py-6 transition-all duration-500 md:py-8"
+                  className="border-l py-4 pl-6 transition-all duration-500"
                   style={{
-                    opacity: on ? 1 : 0.25,
-                    transform: pinned ? `translateX(${on ? 0 : -8}px)` : "none",
+                    borderColor: on ? "var(--accent)" : "var(--line)",
+                    opacity: on ? 1 : 0.4,
+                    transform: pinned ? `translateX(${on ? 0 : -6}px)` : "none",
                   }}
                 >
-                  <span className="tnum font-mono text-sm text-accent">{step.n}</span>
-                  <div>
-                    <h3 className="text-xl font-medium tracking-tight md:text-2xl">
-                      {step.title}
-                    </h3>
-                    <p
-                      className="mt-2 max-w-md text-muted transition-all duration-500"
-                      style={{
-                        maxHeight: on ? "8rem" : "0",
-                        opacity: on ? 1 : 0,
-                        overflow: "hidden",
-                      }}
-                    >
-                      {step.body}
-                    </p>
+                  <div className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-wide">
+                    <span className="tnum text-accent">{step.n}</span>
+                    <span className="text-muted">{step.tag}</span>
                   </div>
+                  <h3 className="mt-2 text-xl font-medium tracking-tight md:text-2xl">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm text-muted md:text-base">{step.body}</p>
                 </li>
               );
             })}
@@ -204,12 +206,20 @@ export default function Process({ locale }: { locale: Locale }) {
           )}
         </div>
 
-        <div
-          ref={graphRef}
-          className="hidden md:block md:w-[38%]"
-          style={{ transition: "transform .2s linear" }}
-        >
-          <ProcessGraph active={active} />
+        <div className="hidden md:flex md:w-[42%] md:flex-col md:items-center md:gap-6">
+          <div
+            ref={graphRef}
+            className="w-full max-w-[400px]"
+            style={{ transition: "transform .2s linear" }}
+          >
+            <ProcessGraph active={active} />
+          </div>
+          <span
+            key={active}
+            className="animate-[fadeUp_.5s_ease] font-mono text-xs uppercase tracking-[0.2em] text-muted"
+          >
+            {t.process.stageCaption[active]}
+          </span>
         </div>
       </div>
     </section>
