@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import SectionKicker from "./SectionKicker";
+import TextReveal from "./TextReveal";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -51,9 +52,11 @@ export default function Process({ locale }: { locale: Locale }) {
         className="flex flex-col justify-center gap-10 px-6 py-24 md:h-screen md:gap-14 md:px-10 md:py-0"
       >
         <SectionKicker label={t.process.kicker} className="text-muted" />
-        <h2 className="max-w-3xl text-3xl font-medium tracking-tight md:text-5xl">
-          {t.process.heading}
-        </h2>
+        <TextReveal
+          as="h2"
+          text={t.process.heading}
+          className="block max-w-3xl text-3xl font-medium tracking-tight md:text-5xl"
+        />
 
         <ol className="max-w-2xl">
           {steps.map((step, i) => {
@@ -61,8 +64,11 @@ export default function Process({ locale }: { locale: Locale }) {
             return (
               <li
                 key={step.n}
-                className="grid grid-cols-[auto_1fr] gap-x-5 border-t border-line py-6 transition-opacity duration-500 md:py-8"
-                style={{ opacity: on ? 1 : 0.25 }}
+                className="grid grid-cols-[auto_1fr] gap-x-5 border-t border-line py-6 transition-all duration-500 md:py-8"
+                style={{
+                  opacity: on ? 1 : 0.25,
+                  transform: on && pinned ? "translateX(0)" : pinned ? "translateX(-8px)" : "none",
+                }}
               >
                 <span className="tnum font-mono text-sm text-accent">{step.n}</span>
                 <div>
