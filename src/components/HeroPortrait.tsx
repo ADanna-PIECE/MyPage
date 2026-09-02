@@ -57,14 +57,22 @@ export default function HeroPortrait() {
       scrollTrigger: { trigger: "#top", start: "top top", end: "bottom top", scrub: true },
     });
 
-    // drift against the cursor for a bit of depth
+    // 3D tilt toward the cursor + a soft highlight that follows it across him
     let removeMove = () => {};
     if (window.matchMedia("(pointer: fine)").matches) {
-      const xTo = gsap.quickTo(wrap, "x", { duration: 1, ease: "power3" });
-      const yTo = gsap.quickTo(wrap, "y", { duration: 1, ease: "power3" });
+      const ryTo = gsap.quickTo(wrap, "rotationY", { duration: 0.9, ease: "power3" });
+      const rxTo = gsap.quickTo(wrap, "rotationX", { duration: 0.9, ease: "power3" });
+      const xTo = gsap.quickTo(wrap, "x", { duration: 0.9, ease: "power3" });
+      gsap.set(wrap, { transformPerspective: 900, transformOrigin: "70% 60%" });
       const onMove = (e: PointerEvent) => {
-        xTo((e.clientX / window.innerWidth - 0.5) * -22);
-        yTo((e.clientY / window.innerHeight - 0.5) * -14);
+        const cx = e.clientX / window.innerWidth - 0.5;
+        const cy = e.clientY / window.innerHeight - 0.5;
+        ryTo(cx * 7);
+        rxTo(cy * -5);
+        xTo(cx * -14);
+        const r = wrap.getBoundingClientRect();
+        wrap.style.setProperty("--hx", `${((e.clientX - r.left) / r.width) * 100}%`);
+        wrap.style.setProperty("--hy", `${((e.clientY - r.top) / r.height) * 100}%`);
       };
       window.addEventListener("pointermove", onMove);
       removeMove = () => window.removeEventListener("pointermove", onMove);
@@ -83,6 +91,7 @@ export default function HeroPortrait() {
     <div
       ref={wrapRef}
       className="pointer-events-none absolute bottom-0 right-[2vw] hidden h-[92vh] w-[30vw] max-w-[520px] will-change-transform md:block lg:right-[3vw]"
+      style={{ ["--hx" as string]: "50%", ["--hy" as string]: "40%" }}
       aria-hidden="true"
     >
       <span className="hero-portrait-glow absolute inset-x-0 bottom-0 -z-10 h-3/4 rounded-[45%] bg-[var(--accent-soft)] blur-[90px]" />
@@ -95,6 +104,15 @@ export default function HeroPortrait() {
           outline: "none",
           maskImage: "linear-gradient(to top, transparent 0%, #000 13%)",
           WebkitMaskImage: "linear-gradient(to top, transparent 0%, #000 13%)",
+        }}
+      />
+      {/* soft light that catches him where the cursor points */}
+      <span
+        className="absolute bottom-0 right-0 h-[86%] w-full"
+        style={{
+          background:
+            "radial-gradient(38% 34% at var(--hx) var(--hy), rgba(255,236,214,0.16), transparent 70%)",
+          mixBlendMode: "soft-light",
         }}
       />
     </div>
