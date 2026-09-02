@@ -20,63 +20,79 @@ export default function About({ locale }: { locale: Locale }) {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // portrait: clip wipe up + the image settles out of an over-scale
-        gsap.from(".about-photo", {
-          clipPath: "inset(100% 0 0 0)",
-          duration: 1.1,
-          ease: "power3.inOut",
-          scrollTrigger: { trigger: ".about-photo", start: "top 85%" },
-        });
-        gsap.from(".about-photo-img", {
-          scale: 1.18,
-          duration: 1.4,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".about-photo", start: "top 85%" },
+        // everything here is scrubbed — you literally scroll the reveal open
+
+        // portrait: clip wipe up + the image eases out of an over-scale
+        gsap.fromTo(
+          ".about-photo",
+          { clipPath: "inset(100% 0 0 0)" },
+          {
+            clipPath: "inset(0% 0 0 0)",
+            ease: "none",
+            scrollTrigger: { trigger: ".about-photo", start: "top 88%", end: "top 42%", scrub: true },
+          },
+        );
+        gsap.fromTo(
+          ".about-photo-img",
+          { scale: 1.22 },
+          {
+            scale: 1,
+            ease: "none",
+            scrollTrigger: { trigger: ".about-photo", start: "top 88%", end: "top 35%", scrub: true },
+          },
+        );
+
+        // heading wipes open left-to-right as it scrolls up
+        gsap.fromTo(
+          ".about-heading",
+          { clipPath: "inset(0 100% 0 0)" },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            ease: "none",
+            scrollTrigger: { trigger: ".about-heading", start: "top 92%", end: "top 55%", scrub: true },
+          },
+        );
+        gsap.fromTo(
+          ".about-underline",
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            transformOrigin: "left",
+            ease: "none",
+            scrollTrigger: { trigger: ".about-heading", start: "top 78%", end: "top 55%", scrub: true },
+          },
+        );
+
+        // bio paragraphs rise in, staggered along the scroll
+        gsap.utils.toArray<HTMLElement>(".about-p").forEach((p, i) => {
+          gsap.fromTo(
+            p,
+            { y: 40, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: p,
+                start: `top ${88 - i * 2}%`,
+                end: `top ${64 - i * 2}%`,
+                scrub: true,
+              },
+            },
+          );
         });
 
-        // heading wipes in from the left behind a mask
-        gsap.from(".about-heading", {
-          clipPath: "inset(0 100% 0 0)",
-          duration: 1,
-          ease: "power4.inOut",
-          scrollTrigger: { trigger: ".about-heading", start: "top 84%" },
-        });
-        gsap.from(".about-underline", {
-          scaleX: 0,
-          transformOrigin: "left",
-          duration: 0.9,
-          ease: "power3.inOut",
-          delay: 0.25,
-          scrollTrigger: { trigger: ".about-heading", start: "top 84%" },
-        });
-
-        // bio paragraphs rise in
-        gsap.from(".about-p", {
-          y: 34,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.14,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".about-copy", start: "top 80%" },
-        });
-
-        // fact rows snap in from the left, rules draw across
-        const factsSt = { trigger: ".about-facts", start: "top 82%" };
-        gsap.from(".fact-row", {
-          x: -44,
-          opacity: 0,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: "back.out(1.5)",
-          scrollTrigger: factsSt,
-        });
-        gsap.from(".fact-rule", {
-          scaleX: 0,
-          transformOrigin: "left",
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: factsSt,
+        // fact rows slide in from the left and their rule draws across
+        gsap.utils.toArray<HTMLElement>(".fact-row").forEach((row) => {
+          const tl = gsap.timeline({
+            scrollTrigger: { trigger: row, start: "top 92%", end: "top 68%", scrub: true },
+          });
+          tl.fromTo(row, { x: -70, opacity: 0 }, { x: 0, opacity: 1, ease: "power2.out" }).fromTo(
+            row.querySelector(".fact-rule"),
+            { scaleX: 0 },
+            { scaleX: 1, transformOrigin: "left", ease: "none" },
+            0,
+          );
         });
       });
     },
@@ -92,8 +108,31 @@ export default function About({ locale }: { locale: Locale }) {
     >
       <div className="grid gap-10 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-4">
-          <div className="md:sticky md:top-28">
+          <div className="relative md:sticky md:top-28">
             <SectionKicker label={t.about.kicker} className="text-[#7a766c]" />
+
+            {/* rotating "available" badge over the portrait corner */}
+            <div className="pointer-events-none absolute left-[246px] top-[118px] z-10 hidden h-24 w-24 md:block">
+              <svg
+                viewBox="0 0 100 100"
+                className="h-full w-full animate-[spin_16s_linear_infinite]"
+                aria-hidden="true"
+              >
+                <defs>
+                  <path
+                    id="about-badge-arc"
+                    d="M50,50 m-33,0 a33,33 0 1,1 66,0 a33,33 0 1,1 -66,0"
+                    fill="none"
+                  />
+                </defs>
+                <text className="fill-[#14140f] font-mono text-[10.5px] uppercase tracking-[0.22em]">
+                  <textPath href="#about-badge-arc">
+                    Disponible · Para proyectos ·&nbsp;
+                  </textPath>
+                </text>
+              </svg>
+              <span className="absolute inset-0 m-auto h-1.5 w-1.5 rounded-full bg-accent" />
+            </div>
 
             {/* TODO(augusto): guardá tu foto de LinkedIn como public/photo.jpg.
                 grayscale base + a colour copy revealed in a circle that tracks the cursor */}

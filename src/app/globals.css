@@ -351,6 +351,50 @@ body {
   text-shadow: 0 0 32px var(--accent-soft);
 }
 
+/* rings that orbit the hero portrait (the dot is what you see move) */
+.hero-orbit,
+.hero-orbit-rev {
+  animation: hero-orbit 34s linear infinite;
+}
+.hero-orbit-rev {
+  animation-duration: 52s;
+  animation-direction: reverse;
+}
+.hero-orbit::before,
+.hero-orbit-rev::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  height: 6px;
+  width: 6px;
+  margin-left: -3px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent);
+}
+.hero-orbit::before {
+  top: -3px;
+}
+.hero-orbit-rev::before {
+  bottom: -2px;
+  height: 4px;
+  width: 4px;
+  margin-left: -2px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: none;
+}
+@keyframes hero-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-orbit,
+  .hero-orbit-rev {
+    animation: none;
+  }
+}
+
 /* footer wordmark drifts sideways as it scrolls through view (CSS-only parallax) */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {

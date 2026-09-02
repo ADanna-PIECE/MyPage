@@ -65,9 +65,9 @@ export default function HeroParticles() {
     geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const mat = new THREE.PointsMaterial({
       color: new THREE.Color(accentStr),
-      size: 0.026,
+      size: 0.024,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.6, // sits around the portrait, not over it
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -221,7 +221,7 @@ export default function HeroParticles() {
   return (
     <div
       ref={mount}
-      className="pointer-events-none absolute right-[-6vw] top-1/2 hidden h-[68vh] w-[52vw] -translate-y-1/2 md:block lg:right-[2vw] lg:w-[42vw]"
+      className="pointer-events-none absolute right-[-2vw] top-1/2 hidden h-[86vh] w-[58vw] -translate-y-1/2 md:block lg:right-[0vw] lg:w-[50vw]"
       aria-hidden="true"
     />
   );

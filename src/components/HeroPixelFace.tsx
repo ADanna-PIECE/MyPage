@@ -7,8 +7,9 @@ const SRC = "/photo.jpg";
 const BASE_BLOCKS = 26; // resting pixelation (px cols across the image)
 const START_BLOCKS = 5; // how blocky it starts before the intro resolves it
 
-// The portrait rendered as chunky pixels; a sharp, saturated copy is revealed
-// inside a circle that tracks the cursor.
+// The portrait rendered as chunky pixels, masked so the background dissolves
+// into the hero. A sharp copy is revealed in a circle that tracks the cursor,
+// and accent rings orbit the figure.
 export default function HeroPixelFace() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,7 +33,7 @@ export default function HeroPixelFace() {
     let blocks = START_BLOCKS;
 
     const resize = () => {
-      const r = wrap.getBoundingClientRect();
+      const r = canvas.getBoundingClientRect();
       w = r.width;
       h = r.height;
       canvas.width = Math.round(w * dpr);
@@ -43,8 +44,7 @@ export default function HeroPixelFace() {
       if (!img.complete || !img.naturalWidth || !w) return;
       const ir = img.naturalWidth / img.naturalHeight;
       const cr = w / h;
-      // cover-fit
-      let dw: number, dh: number, dx: number, dy: number;
+      let dw: number, dh: number;
       if (ir > cr) {
         dh = h;
         dw = h * ir;
@@ -52,8 +52,8 @@ export default function HeroPixelFace() {
         dw = w;
         dh = w / ir;
       }
-      dx = (w - dw) / 2;
-      dy = (h - dh) / 2;
+      const dx = (w - dw) / 2;
+      const dy = (h - dh) / 2;
 
       const tw = Math.max(2, Math.round(blocks));
       const th = Math.max(2, Math.round(blocks / ir));
@@ -78,7 +78,6 @@ export default function HeroPixelFace() {
     };
     window.addEventListener("resize", onResize);
 
-    // resolve from very blocky to the resting pixelation once the intro fires
     onIntroReveal(() => {
       const t0 = performance.now();
       const dur = 1100;
@@ -92,17 +91,15 @@ export default function HeroPixelFace() {
       requestAnimationFrame(step);
     });
 
-    // sharp copy is only mounted while the cursor is actually over the portrait,
-    // so it never adds a masked-layer composite cost during scroll
     const sharp = sharpRef.current;
     const onMove = (e: PointerEvent) => {
-      const r = wrap.getBoundingClientRect();
+      const r = canvas.getBoundingClientRect();
       const inside =
         e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
       if (sharp) sharp.style.display = inside ? "block" : "none";
       if (inside) {
-        wrap.style.setProperty("--mx", `${e.clientX - r.left}px`);
-        wrap.style.setProperty("--my", `${e.clientY - r.top}px`);
+        canvas.parentElement!.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        canvas.parentElement!.style.setProperty("--my", `${e.clientY - r.top}px`);
       }
     };
     window.addEventListener("pointermove", onMove);
@@ -113,34 +110,43 @@ export default function HeroPixelFace() {
     };
   }, []);
 
+  const CUTOUT =
+    "radial-gradient(ellipse 52% 68% at 52% 38%, #000 40%, rgba(0,0,0,0.3) 72%, transparent 90%)";
+
   return (
     <div
       ref={wrapRef}
-      className="pointer-events-none absolute right-[2vw] top-1/2 hidden aspect-[4/5] h-[70vh] -translate-y-1/2 overflow-hidden rounded-xl md:block"
-      style={{ ["--mx" as string]: "-200px", ["--my" as string]: "-200px" }}
+      className="pointer-events-none absolute right-[1vw] top-1/2 hidden aspect-[4/5] h-[76vh] -translate-y-1/2 md:block lg:right-[3vw]"
       aria-hidden="true"
     >
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-      <img
-        ref={sharpRef}
-        src={SRC}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 hidden h-full w-full object-cover [filter:saturate(1.25)_contrast(1.05)]"
+      {/* rings whose dots orbit the figure */}
+      <span className="hero-orbit absolute -inset-4 rounded-full border border-accent/15" />
+      <span className="hero-orbit-rev absolute -inset-12 rounded-full border border-white/[0.04]" />
+
+      <div
+        className="absolute inset-0 overflow-hidden"
         style={{
-          maskImage:
-            "radial-gradient(circle 150px at var(--mx) var(--my), #000 22%, transparent 68%)",
-          WebkitMaskImage:
-            "radial-gradient(circle 150px at var(--mx) var(--my), #000 22%, transparent 68%)",
+          ["--mx" as string]: "-200px",
+          ["--my" as string]: "-200px",
+          maskImage: CUTOUT,
+          WebkitMaskImage: CUTOUT,
         }}
-      />
-      <span
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(140% 120% at 70% 20%, transparent 32%, rgba(10,10,11,0.9) 100%)",
-        }}
-      />
+      >
+        <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+        <img
+          ref={sharpRef}
+          src={SRC}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 hidden h-full w-full object-cover [filter:saturate(1.3)_contrast(1.05)]"
+          style={{
+            maskImage:
+              "radial-gradient(circle 150px at var(--mx) var(--my), #000 22%, transparent 68%)",
+            WebkitMaskImage:
+              "radial-gradient(circle 150px at var(--mx) var(--my), #000 22%, transparent 68%)",
+          }}
+        />
+      </div>
     </div>
   );
 }

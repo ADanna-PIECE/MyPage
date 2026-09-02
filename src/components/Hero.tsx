@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionary";
 import Rich from "./Rich";
 import HeroField from "./HeroField";
+import HeroParticles from "./HeroParticles";
 import HeroPixelFace from "./HeroPixelFace";
 import Magnetic from "./Magnetic";
 import { onIntroReveal } from "@/lib/intro";
@@ -175,6 +176,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           }}
         />
         <HeroField />
+        <HeroParticles />
         <HeroPixelFace />
       </div>
 
