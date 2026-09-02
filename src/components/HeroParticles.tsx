@@ -221,7 +221,7 @@ export default function HeroParticles() {
   return (
     <div
       ref={mount}
-      className="pointer-events-none absolute right-[22vw] top-1/2 hidden h-[60vh] w-[38vw] -translate-y-1/2 md:block lg:right-[24vw] lg:w-[36vw]"
+      className="pointer-events-none absolute right-[27vw] top-[42%] hidden h-[44vh] w-[30vw] -translate-y-1/2 md:block lg:right-[30vw] lg:w-[27vw]"
       aria-hidden="true"
     />
   );

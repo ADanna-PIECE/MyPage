@@ -18,10 +18,10 @@ export default function HeroPortrait() {
 
   return (
     <div
-      className="pointer-events-none absolute bottom-0 right-[1vw] hidden h-[76vh] w-[27vw] max-w-[400px] md:block lg:right-[2vw]"
+      className="pointer-events-none absolute bottom-0 right-0 hidden h-[94vh] w-[38vw] max-w-[540px] md:block"
       aria-hidden="true"
     >
-      <span className="absolute inset-x-0 bottom-0 -z-10 h-3/4 rounded-[45%] bg-[var(--accent-soft)] blur-[80px]" />
+      <span className="absolute inset-x-0 bottom-0 -z-10 h-3/4 rounded-[45%] bg-[var(--accent-soft)] blur-[90px]" />
       <img
         src="/photo-cutout.png"
         alt=""
